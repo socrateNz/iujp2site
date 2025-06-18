@@ -1,9 +1,9 @@
 "use client"
 
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import React, { useState } from 'react'
-import { Input } from '../ui/input'
-import { Textarea } from '../ui/textarea'
-import { Button } from '../ui/button'
 
 
 
@@ -131,11 +131,11 @@ const DemandeInscription = () => {
                             required
                         />
                         <label htmlFor="consentement" className="text-sm text-gray-600">
-                            {"J'accepte que mes données soient traitées pour recevoir des informations sur cette formation. Consultez notre"} <a href="#" className="text-[#D4AF37] hover:underline">politique de confidentialité</a>.
+                            {"J'accepte que mes données soient traitées pour recevoir des informations sur cette formation. Consultez notre"} <a href="#" className="text-[#34773D] hover:underline">politique de confidentialité</a>.
                         </label>
                     </div>
 
-                    <Button type="submit" className="w-full bg-[#1B2A4A] hover:bg-[#0F1A30] text-white !rounded-button whitespace-nowrap">
+                    <Button type="submit" className="cursor-pointer w-full bg-[#34773D] hover:bg-[#34773D]/80 text-white !rounded-button whitespace-nowrap">
                         {"Envoyer ma demande d'information"}
                         <i className="fas fa-paper-plane ml-2"></i>
                     </Button>

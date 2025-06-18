@@ -1,8 +1,8 @@
 import { Formation, formations } from '@/data/data'
 import React from 'react'
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '../ui/card';
-import { Badge } from '../ui/badge';
-import { Button } from '../ui/button';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 
 interface Props {
     formation: Formation

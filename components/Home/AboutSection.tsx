@@ -14,7 +14,7 @@ const AboutSection = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#1B2A4A] mb-4">À propos de notre institut</h2>
-          <div className="w-20 h-1 bg-[#D4AF37] mx-auto"></div>
+          <div className="w-20 h-1 bg-[#34773D] mx-auto"></div>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="relative">
@@ -23,7 +23,7 @@ const AboutSection = () => {
               alt="Équipe de l'Institut Universitaire Jean-Paul II"
               className="rounded-lg shadow-xl object-cover w-full h-[500px] object-top"
             />
-            <div className="absolute -bottom-6 -right-6 bg-[#D4AF37] text-white p-6 rounded-lg shadow-lg hidden md:block">
+            <div className="absolute -bottom-6 -right-6 bg-[#34773D] text-white p-6 rounded-lg shadow-lg hidden md:block">
               <p className="text-lg font-serif">Fondé en 1985</p>
             </div>
           </div>
@@ -38,7 +38,7 @@ const AboutSection = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
               {features.map((feature, index) => (
                 <div key={index} className="flex items-start">
-                  <div className="mr-4 mt-1 text-[#D4AF37]">
+                  <div className="mr-4 mt-1 text-[#34773D]">
                     <i className={`fas fa-${feature.icon} text-xl`}></i>
                   </div>
                   <div>
@@ -48,10 +48,10 @@ const AboutSection = () => {
                 </div>
               ))}
             </div>
-            <Button className="bg-[#1B2A4A] hover:bg-[#0F1A30] text-white !rounded-button whitespace-nowrap">
+            {/* <Button className="bg-[#1B2A4A] hover:bg-[#0F1A30] text-white !rounded-button whitespace-nowrap">
               Découvrir notre histoire
               <i className="fas fa-arrow-right ml-2"></i>
-            </Button>
+            </Button> */}
           </div>
         </div>
       </div>

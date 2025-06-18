@@ -10,12 +10,13 @@ import { Formation } from '@/data/data';
 import Admission from './Tabs/Admission';
 import Debouches from './Tabs/Debouches';
 import Presentation from './Tabs/Presentation';
+import Link from 'next/link';
 
 interface Props {
     formation: Formation
 }
 
-const Details = ({formation}: Props) => {
+const Details = ({ formation }: Props) => {
     return (
         <div className="min-h-screen bg-white">
             <main className="pt-16">
@@ -32,14 +33,14 @@ const Details = ({formation}: Props) => {
                     <div className="container mx-auto px-4 h-full flex items-center relative z-20">
                         <div className="max-w-3xl text-white">
                             <div className="flex items-center mb-4">
-                                <a href="https://readdy.ai/home/b810b447-bdd3-4c3f-8f2a-b8c2991aa67d/a087413a-f905-43cf-b8f6-3797ade6f8f4" data-readdy="true" className="text-gray-200 hover:text-[#D4AF37] transition-colors cursor-pointer">
+                                <a href="https://readdy.ai/home/b810b447-bdd3-4c3f-8f2a-b8c2991aa67d/a087413a-f905-43cf-b8f6-3797ade6f8f4" data-readdy="true" className="text-gray-200 hover:text-[#34773D] transition-colors cursor-pointer">
                                     <i className="fas fa-arrow-left mr-2"></i>
                                     Retour aux formations
                                 </a>
                             </div>
                             <h1 className="text-4xl md:text-5xl font-serif font-bold mb-4">{formation.title}</h1>
                             <div className="flex flex-wrap gap-3 mb-6">
-                                <Badge className="bg-[#D4AF37] text-white px-3 py-1">Niveau Bac+5</Badge>
+                                <Badge className="bg-[#34773D] text-white px-3 py-1">Niveau Bac+5</Badge>
                                 <Badge className="bg-white text-[#1B2A4A] px-3 py-1">{`${formation.duration}`}</Badge>
                                 <Badge className="bg-[#1B2A4A] text-white border border-white px-3 py-1">Formation initiale</Badge>
                                 <Badge className="bg-[#1B2A4A] text-white border border-white px-3 py-1">Formation continue</Badge>
@@ -47,14 +48,16 @@ const Details = ({formation}: Props) => {
                             {/* description */}
                             <p className="text-xl mb-8 font-light">F{"ormez-vous à l'analyse des enjeux géopolitiques contemporains et préparez-vous à une carrière internationale dans la diplomatie, les organisations internationales ou les entreprises multinationales."}</p>
                             <div className="flex flex-col sm:flex-row gap-4">
-                                <Button className="bg-[#D4AF37] hover:bg-[#B59020] text-white px-6 py-5 text-lg !rounded-button whitespace-nowrap">
+                                <Button className="bg-[#34773D] hover:bg-[#34773D]/80 text-white px-6 py-5 text-lg !rounded-button whitespace-nowrap">
                                     Candidater maintenant
                                     <i className="fas fa-user-edit ml-2"></i>
                                 </Button>
-                                <Button variant="outline" className="border-white text-white hover:bg-white/20 px-6 py-5 text-lg !rounded-button whitespace-nowrap">
-                                    Télécharger la brochure
-                                    <i className="fas fa-download ml-2"></i>
-                                </Button>
+                                <Link href="/catalogue.pdf" target="_blank" rel="noopener noreferrer">
+                                    <Button variant="outline" className="cursor-pointer text-white hover:text-white bg-[#1B2A4A]/80 hover:bg-[#1B2A4A]/30 px-8 text-lg !rounded-button whitespace-nowrap">
+                                        Télécharger la brochure
+                                        <i className="fas fa-download ml-2"></i>
+                                    </Button>
+                                </Link>
                             </div>
                         </div>
                     </div>
@@ -68,19 +71,19 @@ const Details = ({formation}: Props) => {
                                 <TabsList className="bg-transparent border-b w-full justify-start rounded-none h-16">
                                     <TabsTrigger
                                         value="presentation"
-                                        className="data-[state=active]:bg-[#D4AF37] data-[state=active]:border-[#D4AF37] data-[state=active]:text-[#1B2A4A] rounded-none h-16 px-6"
+                                        className="data-[state=active]:bg-[#34773D] data-[state=active]:border-[#34773D] data-[state=active]:text-white rounded-none h-16 px-6"
                                     >
                                         Présentation
                                     </TabsTrigger>
                                     <TabsTrigger
                                         value="debouches"
-                                        className="data-[state=active]:bg-[#D4AF37] data-[state=active]:border-[#D4AF37] data-[state=active]:text-[#1B2A4A] rounded-none h-16 px-6"
+                                        className="data-[state=active]:bg-[#34773D] data-[state=active]:border-[#34773D] data-[state=active]:text-white rounded-none h-16 px-6"
                                     >
                                         Débouchés professionnels
                                     </TabsTrigger>
                                     <TabsTrigger
                                         value="admission"
-                                        className="data-[state=active]:bg-[#D4AF37] data-[state=active]:border-[#D4AF37] data-[state=active]:text-[#1B2A4A] rounded-none h-16 px-6"
+                                        className="data-[state=active]:bg-[#34773D] data-[state=active]:border-[#34773D] data-[state=active]:text-white rounded-none h-16 px-6"
                                     >
                                         Admission et coûts
                                     </TabsTrigger>

@@ -1,4 +1,4 @@
-import Details from '@/components/Detail/Detail';
+import Details from '@/components/Formations/Detail/Detail';
 import { formations } from '@/data/data';
 import { Metadata } from 'next';
 import React from 'react'

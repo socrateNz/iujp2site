@@ -16,7 +16,7 @@ const StudentLifeSection = () => {
             <div className="container mx-auto px-4">
                 <div className="text-center mb-16">
                     <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#1B2A4A] mb-4">{"Vie étudiante"}</h2>
-                    <div className="w-20 h-1 bg-[#D4AF37] mx-auto"></div>
+                    <div className="w-20 h-1 bg-[#34773D] mx-auto"></div>
                     <p className="mt-6 text-gray-600 max-w-2xl mx-auto">{"Découvrez la richesse de la vie sur notre campus, où l'apprentissage se poursuit bien au-delà des salles de cours."}</p>
                 </div>
 
@@ -88,7 +88,7 @@ const StudentLifeSection = () => {
                             <div className="p-8 text-white">
                                 <h3 className="text-2xl font-serif font-bold mb-2">{"Notre campus"}</h3>
                                 <p className="mb-4">{"Un environnement d'apprentissage exceptionnel au cœur de la ville."}</p>
-                                <Button className="bg-[#D4AF37] hover:bg-[#B59020] text-white rounded-md">
+                                <Button className="bg-[#34773D] hover:bg-[#34773D]/80 text-white rounded-md">
                                     {"Visite virtuelle"}
                                     <svg className="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />

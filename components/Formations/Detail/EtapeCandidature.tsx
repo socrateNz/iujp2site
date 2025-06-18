@@ -1,5 +1,6 @@
 import { etapeCand } from '@/data/data'
 import React from 'react'
+import { FaCalendar } from 'react-icons/fa'
 
 const EtapeCandidature = () => {
     return (
@@ -20,8 +21,8 @@ const EtapeCandidature = () => {
                                 <div className="bg-white rounded-lg shadow-md p-6">
                                     <h4 className="font-bold text-[#1B2A4A] mb-2">{step.title}</h4>
                                     <p className="text-gray-600 mb-3">{step.description}</p>
-                                    <div className="flex items-center text-[#D4AF37]">
-                                        <i className="fas fa-calendar-alt mr-2"></i>
+                                    <div className="flex items-center text-[#34773D]">
+                                        <FaCalendar className="mr-2" />
                                         <span className="font-medium">{step.date}</span>
                                     </div>
                                 </div>

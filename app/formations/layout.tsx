@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function ProductsLayout({
+export default function FormationLayout({
     children
 }:{
     children: React.ReactNode;

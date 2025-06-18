@@ -2,6 +2,10 @@
 
 import * as echarts from 'echarts';
 import React, { useEffect } from 'react';
+import { FaUserGraduate } from "react-icons/fa";
+import { FaChalkboardTeacher } from "react-icons/fa";
+import { FaGraduationCap } from "react-icons/fa";
+import { FaGlobeAfrica } from "react-icons/fa";
 
 const KeyFigures = () => {
   useEffect(() => {
@@ -111,10 +115,10 @@ const KeyFigures = () => {
   }, []);
 
   const figures = [
-    { icon: 'user-graduate', value: '3,500+', label: 'Étudiants inscrits' },
-    { icon: 'chalkboard-teacher', value: '180', label: 'Professeurs et chercheurs' },
-    { icon: 'graduation-cap', value: '96%', label: 'Taux de réussite' },
-    { icon: 'globe-europe', value: '45', label: 'Partenariats internationaux' }
+    { icon: <FaUserGraduate className='text-[#34773D] text-4xl' />, value: '3,500+', label: 'Étudiants inscrits' },
+    { icon: <FaChalkboardTeacher className='text-[#34773D] text-4xl' />, value: '180', label: 'Professeurs et chercheurs' },
+    { icon: <FaGraduationCap className='text-[#34773D] text-4xl' />, value: '96%', label: 'Taux de réussite' },
+    { icon: <FaGlobeAfrica className='text-[#34773D] text-4xl' />, value: '45', label: 'Partenariats internationaux' }
   ];
 
   return (
@@ -122,14 +126,14 @@ const KeyFigures = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#1B2A4A] mb-4">{"L'IUJP2 en chiffres"}</h2>
-          <div className="w-20 h-1 bg-[#D4AF37] mx-auto"></div>
+          <div className="w-20 h-1 bg-[#34773D] mx-auto"></div>
           <p className="mt-6 text-gray-600 max-w-2xl mx-auto">{"Découvrez notre institut à travers quelques chiffres qui témoignent de notre engagement envers l'excellence académique et le développement personnel de nos étudiants."}</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {figures.map((figure, index) => (
             <div key={index} className="text-center p-6 rounded-lg hover:shadow-lg transition-shadow duration-300">
               <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[#1B2A4A]/10 flex items-center justify-center">
-                <i className={`fas fa-${figure.icon} text-2xl text-[#D4AF37]`}></i>
+                {figure.icon}
               </div>
               <h3 className="text-4xl font-bold text-[#1B2A4A] mb-2">{figure.value}</h3>
               <p className="text-gray-600">{figure.label}</p>

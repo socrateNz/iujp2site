@@ -30,7 +30,7 @@ const Presentation = () => {
                             "Développer des compétences en négociation internationale et en diplomatie"
                         ].map((item, index) => (
                             <li key={index} className="flex items-start">
-                                <div className="mr-3 mt-1 text-[#D4AF37]">
+                                <div className="mr-3 mt-1 text-[#34773D]">
                                     <i className="fas fa-check-circle"></i>
                                 </div>
                                 <span className="text-gray-700">{item}</span>
@@ -49,7 +49,7 @@ const Presentation = () => {
                     </div>
                     <div className="p-6 space-y-4">
                         <div className="flex items-start">
-                            <div className="mr-3 mt-1 text-[#D4AF37]">
+                            <div className="mr-3 mt-1 text-[#34773D]">
                                 <i className="fas fa-calendar-alt"></i>
                             </div>
                             <div>
@@ -58,7 +58,7 @@ const Presentation = () => {
                             </div>
                         </div>
                         <div className="flex items-start">
-                            <div className="mr-3 mt-1 text-[#D4AF37]">
+                            <div className="mr-3 mt-1 text-[#34773D]">
                                 <i className="fas fa-graduation-cap"></i>
                             </div>
                             <div>
@@ -67,7 +67,7 @@ const Presentation = () => {
                             </div>
                         </div>
                         <div className="flex items-start">
-                            <div className="mr-3 mt-1 text-[#D4AF37]">
+                            <div className="mr-3 mt-1 text-[#34773D]">
                                 <i className="fas fa-map-marker-alt"></i>
                             </div>
                             <div>
@@ -76,7 +76,7 @@ const Presentation = () => {
                             </div>
                         </div>
                         <div className="flex items-start">
-                            <div className="mr-3 mt-1 text-[#D4AF37]">
+                            <div className="mr-3 mt-1 text-[#34773D]">
                                 <i className="fas fa-language"></i>
                             </div>
                             <div>
@@ -85,7 +85,7 @@ const Presentation = () => {
                             </div>
                         </div>
                         <div className="flex items-start">
-                            <div className="mr-3 mt-1 text-[#D4AF37]">
+                            <div className="mr-3 mt-1 text-[#34773D]">
                                 <i className="fas fa-users"></i>
                             </div>
                             <div>
@@ -94,7 +94,7 @@ const Presentation = () => {
                             </div>
                         </div>
                         <div className="flex items-start">
-                            <div className="mr-3 mt-1 text-[#D4AF37]">
+                            <div className="mr-3 mt-1 text-[#34773D]">
                                 <i className="fas fa-clock"></i>
                             </div>
                             <div>
@@ -103,7 +103,7 @@ const Presentation = () => {
                             </div>
                         </div>
                         <div className="flex items-start">
-                            <div className="mr-3 mt-1 text-[#D4AF37]">
+                            <div className="mr-3 mt-1 text-[#34773D]">
                                 <i className="fas fa-euro-sign"></i>
                             </div>
                             <div>
@@ -112,7 +112,7 @@ const Presentation = () => {
                             </div>
                         </div>
                         <div className="flex items-start">
-                            <div className="mr-3 mt-1 text-[#D4AF37]">
+                            <div className="mr-3 mt-1 text-[#34773D]">
                                 <i className="fas fa-calendar-check"></i>
                             </div>
                             <div>
@@ -121,7 +121,7 @@ const Presentation = () => {
                             </div>
                         </div>
                         <div className="flex items-start">
-                            <div className="mr-3 mt-1 text-[#D4AF37]">
+                            <div className="mr-3 mt-1 text-[#34773D]">
                                 <i className="fas fa-file-alt"></i>
                             </div>
                             <div>
@@ -131,7 +131,7 @@ const Presentation = () => {
                         </div>
                     </div>
                     <div className="p-6 bg-gray-50 space-y-4">
-                        <Button className="w-full bg-[#D4AF37] hover:bg-[#B59020] text-white !rounded-button whitespace-nowrap">
+                        <Button className="w-full bg-[#34773D] hover:bg-[#34773D]/80 text-white !rounded-button whitespace-nowrap">
                             Candidater maintenant
                             <i className="fas fa-arrow-right ml-2"></i>
                         </Button>
@@ -141,7 +141,7 @@ const Presentation = () => {
                         </Button>
                         <div className="text-center mt-4">
                             <p className="text-sm text-gray-500">Des questions ?</p>
-                            <a href="#contact" className="text-[#D4AF37] hover:underline font-medium cursor-pointer">Contactez un conseiller</a>
+                            <a href="#contact" className="text-[#34773D] hover:underline font-medium cursor-pointer">Contactez un conseiller</a>
                         </div>
                     </div>
                 </div>

@@ -230,3 +230,47 @@ export const activities = [
             testimonial: "L'approche interculturelle de l'institut et la diversité des étudiants ont enrichi ma perspective sur les enjeux mondiaux de développement durable."
         }
     ];
+
+    export type News = {
+        id: number;
+        title: string;
+        image: string;
+        description: string;
+        content: string;
+        date: string;
+        readTime: string;
+        category: string;
+    }
+
+    export const news: News[] = [
+        {
+            id: 1,
+            title: "Lancement du nouveau programme de Master en Intelligence Artificielle",
+            date: "2025-01-15",
+            readTime: "2 min de lecture",
+            category: "Technologie",
+            image: "https://readdy.ai/api/search-image?query=A%20prestigious%20university%20campus%20with%20modern%20architecture%2C%20beautiful%20gardens%2C%20students%20walking%20between%20buildings%2C%20soft%20natural%20lighting%2C%20elegant%20academic%20atmosphere%2C%20high-quality%20professional%20photography%2C%20wide%20angle%20view%2C%20clear%20blue%20sky%2C%20inspiring%20educational%20environment&width=1440&height=600&seq=1&orientation=landscape",
+            description: "L'Institut Universitaire Jean-Paul II annonce le lancement de son nouveau programme de Master en Intelligence Artificielle, visant à former les leaders de demain dans ce domaine en pleine expansion.",
+            content: "L'Institut Universitaire Jean-Paul II est fier d'annoncer le lancement de son nouveau programme de Master en Intelligence Artificielle. Ce programme innovant vise à former les futurs experts en IA, avec un curriculum axé sur les dernières avancées technologiques et les applications pratiques dans divers secteurs. Les étudiants auront l'opportunité de travailler sur des projets réels et de collaborer avec des entreprises leaders dans le domaine de l'IA. Pour l'occasion de ce lancement, une conférence inaugurale sera organisée le 15 février 2025, avec la participation d'experts internationaux en IA. Les inscriptions sont ouvertes dès maintenant pour les candidats intéressés. Il est recommandé de postuler rapidement, car les places sont limitées. Pour plus d'informations sur le programme et les modalités d'inscription, veuillez consulter notre site web ou contacter le service des admissions. Nous sommes impatients d'accueillir la prochaine génération de leaders en intelligence artificielle à l'IUJP2. "
+        },
+        {
+            id: 2,
+            title: "Conférence internationale sur le développement durable",
+            date: "2025-02-20",
+            readTime: "3 min de lecture",
+            category: "Environnement",
+            image: "https://readdy.ai/api/search-image?query=A%20prestigious%20university%20campus%20with%20modern%20architecture%2C%20beautiful%20gardens%2C%20students%20walking%20between%20buildings%2C%20soft%20natural%20lighting%2C%20elegant%20academic%20atmosphere%2C%20high-quality%20professional%20photography%2C%20wide%20angle%20view%2C%20clear%20blue%20sky%2C%20inspiring%20educational%20environment&width=1440&height=600&seq=1&orientation=landscape",
+            description: "L'IUJP2 organise une conférence internationale réunissant des experts en développement durable pour discuter des enjeux environnementaux actuels.",
+            content: "L'Institut Universitaire Jean-Paul II est ravi d'annoncer l'organisation d'une conférence internationale sur le développement durable, prévue pour le 20 mars 2025. Cet événement réunira des experts, des chercheurs et des praticiens du monde entier pour discuter des défis environnementaux actuels et des solutions innovantes. La conférence comprendra des panels de discussion, des ateliers interactifs et des présentations de recherche. Les participants auront l'occasion de partager leurs expériences et de collaborer sur des projets visant à promouvoir la durabilité. L'événement est ouvert à tous les étudiants, chercheurs et professionnels intéressés par les questions environnementales. Les inscriptions sont gratuites mais obligatoires, et les places sont limitées. Pour vous inscrire et obtenir plus d'informations sur le programme, veuillez visiter notre site web ou contacter le secrétariat de la conférence."
+        },
+        {
+            id: 3,
+            title: "Journée portes ouvertes de l'IUJP2",
+            date: "2025-03-10",
+            readTime: "1 min de lecture",
+            category: "Technologie",
+            image: "https://readdy.ai/api/search-image?query=A%20prestigious%20university%20campus%20with%20modern%20architecture%2C%20beautiful%20gardens%2C%20students%20walking%20between%20buildings%2C%20soft%20natural%20lighting%2C%20elegant%20academic%20atmosphere%2C%20high-quality%20professional%20photography%2C%20wide%20angle%20view%2C%20clear%20blue%20sky%2C%20inspiring%20educational%20environment&width=1440&height=600&seq=1&orientation=landscape",
+            description: "Venez découvrir l'Institut Universitaire Jean-Paul II lors de notre journée portes ouvertes le 10 avril 2025.",
+            content: "L'Institut Universitaire Jean-Paul II invite tous les futurs étudiants à sa journée portes ouvertes le 10 avril 2025. Cet événement est l'occasion idéale pour découvrir nos programmes académiques, rencontrer nos enseignants et visiter nos installations modernes. Des visites guidées du campus seront organisées tout au long de la journée, ainsi que des présentations sur les différents cursus proposés. Les visiteurs pourront également échanger avec des étudiants actuels pour en savoir plus sur la vie à l'IUJP2. L'entrée est gratuite et ouverte à tous, sans inscription préalable. Nous vous attendons nombreux pour partager un moment convivial et informatif sur notre institut."
+        }
+    ]
