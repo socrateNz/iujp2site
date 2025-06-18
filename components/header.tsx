@@ -44,10 +44,10 @@ const Header = () => {
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         <div onClick={() => router.push("/")} className="flex items-center gap-2 cursor-pointer">
           {/* <div className="mr-2 text-[#1B2A4A] text-3xl font-serif font-bold">
-          <span className="text-[#D4AF37]">IUJP</span>II
+          <span className="text-[#D4AF37]">UIJP2</span>II
         </div> */}
           <img src="/Images/logo.png" alt="Logo" className="size-10" />
-          <div className="hidden md:block text-sm text-gray-600 font-serif">Institut Universitaire Jean-Paul II</div>
+          <div className="hidden md:block text-sm text-gray-600 font-serif">Université Internationale Jean Paul II de Bafang</div>
         </div>
         <nav className="hidden md:flex items-center space-x-6">
           {link.map((item, index) => (

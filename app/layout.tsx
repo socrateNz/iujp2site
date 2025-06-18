@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: 'IUJP2',
-  description: "Institut Universitaire Jean-Paul II - Bafang",
+  title: 'UIJP2',
+  description: "Université Internationale Jean Paul II - Bafang",
 }
 
 export default function RootLayout({

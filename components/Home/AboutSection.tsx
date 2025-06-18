@@ -20,7 +20,7 @@ const AboutSection = () => {
           <div className="relative">
             <img
               src="https://readdy.ai/api/search-image?query=A%20diverse%20group%20of%20professors%20and%20academic%20staff%20in%20a%20modern%20university%20meeting%20room%2C%20discussing%20educational%20matters%2C%20professional%20attire%2C%20warm%20lighting%2C%20engaged%20expressions%2C%20collaborative%20atmosphere%2C%20elegant%20interior%20design%20with%20bookshelves&width=600&height=500&seq=2&orientation=landscape"
-              alt="Équipe de l'Institut Universitaire Jean-Paul II"
+              alt="Équipe de l'Université Internationale Jean Paul II de Bafang"
               className="rounded-lg shadow-xl object-cover w-full h-[500px] object-top"
             />
             <div className="absolute -bottom-6 -right-6 bg-[#34773D] text-white p-6 rounded-lg shadow-lg hidden md:block">
@@ -30,7 +30,7 @@ const AboutSection = () => {
           <div>
             <h3 className="text-2xl font-serif font-bold text-[#1B2A4A] mb-4">Notre histoire et notre mission</h3>
             <p className="text-gray-700 mb-6">
-              {"Fondé en 1985, l'Institut Universitaire Jean-Paul II s'est imposé comme un établissement d'excellence dans le paysage de l'enseignement supérieur français. Notre mission est de former des esprits critiques, créatifs et engagés, capables de relever les défis complexes du monde contemporain."}
+              {"Fondé en 1985, l'Université Internationale Jean Paul II de Bafang s'est imposé comme un établissement d'excellence dans le paysage de l'enseignement supérieur français. Notre mission est de former des esprits critiques, créatifs et engagés, capables de relever les défis complexes du monde contemporain."}
             </p>
             <p className="text-gray-700 mb-6">
               {"Nous nous distinguons par notre approche pédagogique innovante qui allie rigueur académique, ouverture internationale et accompagnement personnalisé. Nos programmes sont constamment actualisés pour répondre aux évolutions du marché du travail et aux enjeux sociétaux."}

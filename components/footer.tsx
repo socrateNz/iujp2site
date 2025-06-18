@@ -30,7 +30,7 @@ const Footer = () => {
           <div>
             <div className="flex items-center gap-3">
               <img src="/Images/logo.png" alt="Logo" className="h-20 w-20" />
-              <h3 className="text-xl font-serif font-bold mb-6 max-w-[250px] w-full flex justify-center">Institut Universitaire Jean-Paul II</h3>
+              <h3 className="text-xl font-serif font-bold mb-6 max-w-[250px] w-full flex justify-center">Université Internationale Jean Paul II de Bafang</h3>
             </div>
             <p className="text-gray-300 mb-6">
               Excellence académique, innovation et valeurs humanistes pour former les leaders de demain.
@@ -70,7 +70,7 @@ const Footer = () => {
               </li>
               <li className="flex items-center">
                 <i className="fas fa-envelope mr-3 text-[#34773D]"></i>
-                <span>contact@iujp2.fr</span>
+                <span>contact@uijp2.fr</span>
               </li>
             </ul>
             {/* <div className="mt-6">
@@ -84,7 +84,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="pt-8 border-t border-gray-700 text-center text-gray-400 text-sm">
-          <p>© 2025 Institut Universitaire Jean-Paul II. Tous droits réservés.</p>
+          <p>© 2025 Université Internationale Jean Paul II de Bafang. Tous droits réservés.</p>
           {/* <div className="flex justify-center space-x-6 mt-4">
             {['Mentions légales', 'Politique de confidentialité', 'Accessibilité'].map((item, index) => (
               <a key={index} href="#" className="hover:text-[#34773D] transition-colors cursor-pointer">

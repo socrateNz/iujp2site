@@ -58,7 +58,7 @@ const ContactSection = () => {
                   </div>
                   <div>
                     <h4 className="font-bold text-[#1B2A4A] mb-1">Email</h4>
-                    <p className="text-gray-600">contact@iujp2.fr</p>
+                    <p className="text-gray-600">contact@uijp2.fr</p>
                   </div>
                 </div>
                 <div className="flex items-start">

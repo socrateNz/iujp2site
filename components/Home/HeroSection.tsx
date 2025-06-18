@@ -17,7 +17,7 @@ const router = useRouter();
       ></div>
       <div className="container mx-auto px-4 h-full flex items-center relative z-20">
         <div className="max-w-2xl text-white">
-          <h1 className="text-5xl md:text-6xl font-serif font-bold mb-4">{"Institut Universitaire Jean-Paul II"}</h1>
+          <h1 className="text-5xl md:text-6xl font-serif font-bold mb-4">{"Université Internationale Jean Paul II de Bafang"}</h1>
           <p className="text-xl md:text-2xl mb-8 font-light">{"Excellence académique, innovation et valeurs humanistes pour former les leaders de demain"}</p>
           <div className="flex flex-col sm:flex-row gap-4">
             <Button onClick={() => router.push("/formations")} className="cursor-pointer bg-[#34773D] hover:bg-[#34773D]/80 text-white px-8 py-6 text-lg !rounded-button whitespace-nowrap">

@@ -12,7 +12,7 @@ const Presentation = () => {
             <div className="lg:col-span-2">
                 <h2 className="text-3xl font-serif font-bold text-[#1B2A4A] mb-6">{"Vue d'ensemble du programme"}</h2>
                 <p className="text-gray-700 mb-6 text-lg leading-relaxed">
-                    {"Le Master en Relations Internationales de l'Institut Universitaire Jean-Paul II offre une formation d'excellence pour comprendre et analyser les dynamiques complexes qui façonnent le monde contemporain. Ce programme interdisciplinaire combine des approches théoriques et pratiques pour former les futurs experts et décideurs dans le domaine des relations internationales."}
+                    {"Le Master en Relations Internationales de l'Université Internationale Jean Paul II de Bafang offre une formation d'excellence pour comprendre et analyser les dynamiques complexes qui façonnent le monde contemporain. Ce programme interdisciplinaire combine des approches théoriques et pratiques pour former les futurs experts et décideurs dans le domaine des relations internationales."}
                 </p>
                 <p className="text-gray-700 mb-8 text-lg leading-relaxed">
                    {"Grâce à un corps professoral composé d'universitaires renommés et de praticiens expérimentés, les étudiants bénéficient d'un enseignement de haut niveau ancré dans les réalités du terrain. Le programme met l'accent sur l'acquisition de compétences analytiques, linguistiques et interculturelles essentielles pour évoluer dans un environnement international."}

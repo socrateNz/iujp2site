@@ -146,7 +146,7 @@ const Admission = () => {
                             </div>
                             <div>
                                 <h4 className="font-bold text-[#1B2A4A] text-sm">Email</h4>
-                                <p className="text-gray-600 text-sm">admissions@iujp2.fr</p>
+                                <p className="text-gray-600 text-sm">admissions@uijp2.fr</p>
                             </div>
                         </div>
                         <div className="flex items-start">

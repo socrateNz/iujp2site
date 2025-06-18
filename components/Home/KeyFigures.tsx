@@ -125,7 +125,7 @@ const KeyFigures = () => {
     <section className="py-20 bg-white">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#1B2A4A] mb-4">{"L'IUJP2 en chiffres"}</h2>
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#1B2A4A] mb-4">{"L'UIJP2 en chiffres"}</h2>
           <div className="w-20 h-1 bg-[#34773D] mx-auto"></div>
           <p className="mt-6 text-gray-600 max-w-2xl mx-auto">{"Découvrez notre institut à travers quelques chiffres qui témoignent de notre engagement envers l'excellence académique et le développement personnel de nos étudiants."}</p>
         </div>
