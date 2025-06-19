@@ -25,10 +25,10 @@ const FormationsSection = () => {
         </div>
         <Tabs defaultValue="licence" className="w-full">
           <div className="flex justify-center mb-8">
-            <TabsList className="bg-gray-100">
-              <TabsTrigger value="licence" className="cursor-pointer data-[state=active]:bg-[#1B2A4A] data-[state=active]:text-white px-6">Licence</TabsTrigger>
-              <TabsTrigger value="master" className="cursor-pointer data-[state=active]:bg-[#1B2A4A] data-[state=active]:text-white px-6">Master</TabsTrigger>
-              <TabsTrigger value="doctorat" className="cursor-pointer data-[state=active]:bg-[#1B2A4A] data-[state=active]:text-white px-6">Doctorat</TabsTrigger>
+            <TabsList className="bg-gray-100 max-w-[350px] gap-0 px-0">
+              <TabsTrigger value="licence" className="cursor-pointer data-[state=active]:bg-[#1B2A4A] data-[state=active]:text-white px-2">Licence</TabsTrigger>
+              <TabsTrigger value="master" className="cursor-pointer data-[state=active]:bg-[#1B2A4A] data-[state=active]:text-white px-2">Master</TabsTrigger>
+              <TabsTrigger value="doctorat" className="cursor-pointer data-[state=active]:bg-[#1B2A4A] data-[state=active]:text-white px-2">Doctorat</TabsTrigger>
               <Button onClick={() => router.push("/formations")} variant={'ghost'} className="cursor-pointer">{"Toutes les formation"}</Button>
             </TabsList>
           </div>

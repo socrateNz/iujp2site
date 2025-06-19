@@ -17,15 +17,14 @@ const router = useRouter();
       ></div>
       <div className="container mx-auto px-4 h-full flex items-center relative z-20">
         <div className="max-w-2xl text-white">
-          <h1 className="text-5xl md:text-6xl font-serif font-bold mb-4">{"Université Internationale Jean Paul II de Bafang"}</h1>
+          <h1 className="text-[40px] md:text-6xl font-serif font-bold mb-4">{"Université Internationale Jean Paul II de Bafang"}</h1>
           <p className="text-xl md:text-2xl mb-8 font-light">{"Excellence académique, innovation et valeurs humanistes pour former les leaders de demain"}</p>
           <div className="flex flex-col sm:flex-row gap-4">
-            <Button onClick={() => router.push("/formations")} className="cursor-pointer bg-[#34773D] hover:bg-[#34773D]/80 text-white px-8 py-6 text-lg !rounded-button whitespace-nowrap">
+            <Button onClick={() => router.push("/formations")} className="max-w-[260px] w-full cursor-pointer bg-[#34773D] hover:bg-[#34773D]/80 text-white py-6 text-lg !rounded-button whitespace-nowrap">
               {"Découvrir nos formations"}
-              <i className="fas fa-arrow-right ml-2"></i>
             </Button>
-            <Link href="/catalogue.pdf" target="_blank" rel="noopener noreferrer">
-              <Button variant="outline" className="cursor-pointer text-white hover:text-white bg-[#1B2A4A]/80 hover:bg-[#1B2A4A]/30 px-8 py-6 text-lg !rounded-button whitespace-nowrap">
+            <Link href="/catalogue.pdf" target="_blank" rel="noopener noreferrer" className="w-auto">
+              <Button variant="outline" className="max-w-[260px] w-full cursor-pointer text-white hover:text-white bg-[#1B2A4A]/80 hover:bg-[#1B2A4A]/30 px-8 py-6 text-lg !rounded-button whitespace-nowrap">
                 <FaDownload className="mr-2" />
                 {"Télécharger le catalogue"}
               </Button>

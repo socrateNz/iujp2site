@@ -3,6 +3,9 @@
 import { Button } from "@/components/ui/button";
 import { useRouter, usePathname } from "next/navigation";
 import React from "react";
+import { Menu } from "./ui/menu";
+import { FaEllipsisV } from "react-icons/fa";
+import { MenuIcon } from "lucide-react";
 
 const Header = () => {
   const pathname = usePathname();
@@ -43,12 +46,14 @@ const Header = () => {
     <header className="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         <div onClick={() => router.push("/")} className="flex items-center gap-2 cursor-pointer">
-          {/* <div className="mr-2 text-[#1B2A4A] text-3xl font-serif font-bold">
-          <span className="text-[#D4AF37]">UIJP2</span>II
-        </div> */}
           <img src="/Images/logo.png" alt="Logo" className="size-10" />
           <div className="hidden md:block text-sm text-gray-600 font-serif">Université Internationale Jean Paul II de Bafang</div>
         </div>
+        <Menu>
+          <Button variant={"outline"} className="md:hidden text-[#1B2A4A] hover:bg-[#93b197] hover:text-white !rounded-button">
+            <MenuIcon />
+          </Button>
+        </Menu>
         <nav className="hidden md:flex items-center space-x-6">
           {link.map((item, index) => (
             <Button
