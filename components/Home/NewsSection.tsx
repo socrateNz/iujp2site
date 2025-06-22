@@ -45,7 +45,7 @@ const NewsSection = ({ articles }: Article) => {
               </CardContent>
               <CardFooter>
                 <Button
-                onClick={() => router.push(`/actualites/${article.id}`)}
+                onClick={() => router.push(`/actualites/${article._id}`)}
                  variant="outline" className="w-full border-[#1B2A4A] text-[#1B2A4A] hover:bg-[#1B2A4A] hover:text-white !rounded-button whitespace-nowrap">
                   {"Lire l'article complet"}
                   <i className="fas fa-arrow-right ml-2"></i>
