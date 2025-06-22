@@ -103,8 +103,6 @@ export async function POST(request: NextRequest) {
     const db = client.db();
 
     console.log("Et ici alors ...");
-    
-    
 
     let imageUrl = image || '';
     let imagePublicId = '';
