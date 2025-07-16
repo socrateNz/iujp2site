@@ -1,6 +1,16 @@
+"use client";
+
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaTwitter } from "react-icons/fa";
+import { usePathname } from "next/navigation";
 
 const Footer = () => {
+  const pathname = usePathname();
+
+  // Ne pas afficher le footer sur les pages admin
+  if (pathname.startsWith("/admin")) {
+    return null;
+  }
+
   const links = [
     {
       title: "Liens rapides",
@@ -73,25 +83,10 @@ const Footer = () => {
                 <span>contact@uijp2.fr</span>
               </li>
             </ul>
-            {/* <div className="mt-6">
-              <h4 className="text-sm font-bold mb-3">Moyens de paiement acceptés</h4>
-              <div className="flex space-x-3">
-                {['cc-visa', 'cc-mastercard', 'cc-paypal'].map((payment, index) => (
-                  <i key={index} className={`fab fa-${payment} text-2xl text-gray-300`}></i>
-                ))}
-              </div>
-            </div> */}
           </div>
         </div>
         <div className="pt-8 border-t border-gray-700 text-center text-gray-400 text-sm">
           <p>© 2025 Université Internationale Jean Paul II de Bafang. Tous droits réservés.</p>
-          {/* <div className="flex justify-center space-x-6 mt-4">
-            {['Mentions légales', 'Politique de confidentialité', 'Accessibilité'].map((item, index) => (
-              <a key={index} href="#" className="hover:text-[#34773D] transition-colors cursor-pointer">
-                {item}
-              </a>
-            ))}
-          </div> */}
         </div>
       </div>
     </footer>

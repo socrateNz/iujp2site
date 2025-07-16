@@ -3,11 +3,13 @@ import { getServerSession } from 'next-auth';
 import bcrypt from 'bcryptjs';
 import clientPromise from '@/lib/mongodb';
 import { User, ApiResponse } from '@/lib/types';
+import { signIn } from "next-auth/react";
+import { authOptions } from '@/lib/auth';
 
 // GET - Récupérer la liste des utilisateurs
 export async function GET() {
   try {
-    const session = await getServerSession();
+    const session = await getServerSession(authOptions);
     
     if (!session?.user || session.user.role !== 'admin') {
       return NextResponse.json(
@@ -40,8 +42,7 @@ export async function GET() {
 // POST - Créer un nouvel utilisateur admin
 export async function POST(request: NextRequest) {
   try {
-    const session = await getServerSession();
-    
+    const session = await getServerSession(authOptions)
     if (!session?.user || session.user.role !== 'admin') {
       return NextResponse.json(
         { success: false, error: 'Accès non autorisé' },

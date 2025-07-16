@@ -32,21 +32,23 @@ export default function AdminLogin() {
       if (result?.error) {
         setError('Email ou mot de passe incorrect');
       } else {
-        // Vérifier le rôle de l'utilisateur
+        // Laisse un petit délai pour que la session se mette à jour
+        await new Promise(resolve => setTimeout(resolve, 500));
         const session = await getSession();
+
         if (session?.user?.role === 'admin') {
           router.push('/admin');
         } else {
           setError('Accès non autorisé');
         }
       }
-    } catch (error) {
+    } catch (err) {
       setError('Erreur de connexion');
     } finally {
       setLoading(false);
     }
   };
-  
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
@@ -126,6 +128,7 @@ export default function AdminLogin() {
             </form>
           </CardContent>
         </Card>
+
         <div className="text-center">
           <p className="text-xs text-gray-500">
             Université Internationale Jean Paul II de Bafang
@@ -134,4 +137,4 @@ export default function AdminLogin() {
       </div>
     </div>
   );
-} 
+}

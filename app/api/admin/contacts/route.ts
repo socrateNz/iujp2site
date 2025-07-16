@@ -4,11 +4,12 @@ import { ObjectId } from 'mongodb';
 import clientPromise from '@/lib/mongodb';
 import { ContactMessage, ApiResponse } from '@/lib/types';
 import { sendAdminReply } from '@/lib/sendMail';
+import { authOptions } from '@/lib/auth';
 
 // GET - Récupérer la liste des messages de contact
 export async function GET(request: NextRequest) {
   try {
-    const session = await getServerSession();
+    const session = await getServerSession(authOptions);
     
     if (!session?.user || session.user.role !== 'admin') {
       return NextResponse.json(

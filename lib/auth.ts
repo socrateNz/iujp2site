@@ -4,73 +4,59 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import clientPromise from '@/lib/mongodb';
 import { User } from '@/lib/types';
 
+export async function loginUser(credentials: { email: string; password: string }) {
+  const client = await clientPromise;
+  const db = client.db();
+
+  const user = await db.collection('users').findOne({ email: credentials.email });
+
+  if (!user) return null;
+
+  const isPasswordValid = credentials.password === user.password;
+  if (!isPasswordValid) return null;
+
+  return {
+    id: user._id.toString(),
+    name: user.name,
+    email: user.email,
+    role: user.role,
+  };
+}
+
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
-      name: 'credentials',
+      name: 'Credentials',
       credentials: {
         email: { label: 'Email', type: 'email' },
-        password: { label: 'Mot de passe', type: 'password' }
+        password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
-          return null;
+        if (!credentials) return null;
+        const user = await loginUser(credentials);
+        if (user) {
+          return user;
         }
-
-        try {
-          const client = await clientPromise;
-          const db = client.db();
-
-          const user = await db.collection('users').findOne({
-            email: credentials.email
-          }) as User | null;
-
-          if (!user) return null;
-
-          const isPasswordValid = credentials.password === user.password;
-          if (!isPasswordValid) return null;
-
-          return {
-            id: user._id?.toString() || '',
-            email: user.email,
-            name: user.name,
-            role: user.role,
-          };
-        } catch (error) {
-          console.error('Erreur authentification:', error);
-          return null;
-        }
-      }
-    })
+        return null;
+      },
+    }),
   ],
-  session: {
-    strategy: 'jwt',
-    maxAge: 24 * 60 * 60, // 24 heures
-  },
   callbacks: {
+    async session({ session, token }) {
+      if (token) {
+        session.user.role = token.role;
+      }
+      return session;
+    },
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id;
         token.role = user.role;
-        token.name = user.name;
-        token.email = user.email;
       }
       return token;
     },
-    async session({ session, token }) {
-      session.user = {
-        ...session.user,
-        id: token.id as string,
-        role: token.role as 'admin' | 'user',
-        name: token.name as string,
-        email: token.email as string,
-      };
-      return session;
-    }
   },
   pages: {
-    signIn: '/login-admin',
-    error: '/login-admin',
+    signIn: '/auth/login',
+    error: '/auth/error',
   },
-  secret: process.env.NEXTAUTH_SECRET,
 };
