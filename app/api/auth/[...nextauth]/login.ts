@@ -66,7 +66,7 @@ export async function loginUser(credentials: { email: string; password: string }
     },
     // optionnel
     pages: {
-      signIn: '/auth/login',
+      signIn: '/login-admin',
       error: '/auth/error',
     },
   };
