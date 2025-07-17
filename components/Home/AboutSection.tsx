@@ -19,7 +19,7 @@ const AboutSection = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="relative">
             <img
-              src="https://readdy.ai/api/search-image?query=A%20diverse%20group%20of%20professors%20and%20academic%20staff%20in%20a%20modern%20university%20meeting%20room%2C%20discussing%20educational%20matters%2C%20professional%20attire%2C%20warm%20lighting%2C%20engaged%20expressions%2C%20collaborative%20atmosphere%2C%20elegant%20interior%20design%20with%20bookshelves&width=600&height=500&seq=2&orientation=landscape"
+              src="/Images/histoire.webp"
               alt="Équipe de l'Université Internationale Jean Paul II de Bafang"
               className="rounded-lg shadow-xl object-cover w-full h-[500px] object-top"
             />

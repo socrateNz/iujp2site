@@ -12,7 +12,8 @@ const router = useRouter();
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{
-          backgroundImage: `url('https://readdy.ai/api/search-image?query=A%20prestigious%20university%20campus%20with%20modern%20architecture%2C%20beautiful%20gardens%2C%20students%20walking%20between%20buildings%2C%20soft%20natural%20lighting%2C%20elegant%20academic%20atmosphere%2C%20high-quality%20professional%20photography%2C%20wide%20angle%20view%2C%20clear%20blue%20sky%2C%20inspiring%20educational%20environment&width=1440&height=600&seq=1&orientation=landscape')`
+          // backgroundImage: `url('https://readdy.ai/api/search-image?query=A%20prestigious%20university%20campus%20with%20modern%20architecture%2C%20beautiful%20gardens%2C%20students%20walking%20between%20buildings%2C%20soft%20natural%20lighting%2C%20elegant%20academic%20atmosphere%2C%20high-quality%20professional%20photography%2C%20wide%20angle%20view%2C%20clear%20blue%20sky%2C%20inspiring%20educational%20environment&width=1440&height=600&seq=1&orientation=landscape')`
+          backgroundImage: `url('/Images/hero.webp')`
         }}
       ></div>
       <div className="container mx-auto px-4 h-full flex items-center relative z-20">

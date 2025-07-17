@@ -2,6 +2,7 @@
 
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaTwitter } from "react-icons/fa";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 const Footer = () => {
   const pathname = usePathname();
@@ -87,6 +88,10 @@ const Footer = () => {
         </div>
         <div className="pt-8 border-t border-gray-700 text-center text-gray-400 text-sm">
           <p>© 2025 Université Internationale Jean Paul II de Bafang. Tous droits réservés.</p>
+          <div className="flex gap-2 mx-auto w-full justify-center">
+            <p>Designé et implémenté par </p>
+            <Link about="_blank" href={"https://portfolio-socrate.vercel.app/fr"} className="text-blue-400 italic">Etarcos Dev</Link>
+          </div>
         </div>
       </div>
     </footer>

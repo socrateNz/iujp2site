@@ -28,6 +28,7 @@ const page = () => {
 
   return (
     <div className='max-w-7xl mx-auto py-10'>
+      <h1>{"Actualités"}</h1>
       <GridNews articles={articles} />
     </div>
   )

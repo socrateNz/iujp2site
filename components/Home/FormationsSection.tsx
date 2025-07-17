@@ -1,19 +1,15 @@
 "use client"
 
 import { Button } from "../ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
-import { Badge } from "../ui/badge";
 import { useRouter } from "next/navigation";
-import { useTransition } from "react";
-import { Loader } from "lucide-react";
 import { formations } from "@/data/data";
 import Link from "next/link";
+import FormationGrid from "./FormationGrid";
 
 const FormationsSection = () => {
 
   const router = useRouter();
-  const [isPending, startTransition] = useTransition();
 
   return (
     <section id="formations" className="py-20 bg-white">
@@ -26,50 +22,15 @@ const FormationsSection = () => {
         <Tabs defaultValue="licence" className="w-full">
           <div className="flex justify-center mb-8">
             <TabsList className="bg-gray-100 max-w-[350px] gap-0 px-0">
+              <TabsTrigger value="bts" className="cursor-pointer data-[state=active]:bg-[#1B2A4A] data-[state=active]:text-white px-2">BTS</TabsTrigger>
               <TabsTrigger value="licence" className="cursor-pointer data-[state=active]:bg-[#1B2A4A] data-[state=active]:text-white px-2">Licence</TabsTrigger>
               <TabsTrigger value="master" className="cursor-pointer data-[state=active]:bg-[#1B2A4A] data-[state=active]:text-white px-2">Master</TabsTrigger>
-              <TabsTrigger value="doctorat" className="cursor-pointer data-[state=active]:bg-[#1B2A4A] data-[state=active]:text-white px-2">Doctorat</TabsTrigger>
               <Button onClick={() => router.push("/formations")} variant={'ghost'} className="cursor-pointer">{"Toutes les formation"}</Button>
             </TabsList>
           </div>
           {Object.entries(formations).map(([level, formationsList]) => (
             <TabsContent key={level} value={level} className="mt-0">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {formationsList.map((formation, index) => (
-                  <Card key={index} className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                    <div className="h-[250px] overflow-hidden">
-                      <img
-                        src={formation.image}
-                        alt={formation.title}
-                        className="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105"
-                      />
-                    </div>
-                    <CardHeader>
-                      <div className="flex justify-between items-start">
-                        <CardTitle className="text-xl font-serif text-[#1B2A4A]">{formation.title}</CardTitle>
-                        <Badge className="bg-[#34773D]">{formation.duration}</Badge>
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-gray-600">{formation.description}</p>
-                    </CardContent>
-                    <CardFooter>
-                      <Button
-                        disabled={isPending}
-                        onClick={() => startTransition(
-                          () => {
-                            router.push(`/formations/${formation.id}`)
-                          }
-                        )}
-                        className="w-full bg-[#1B2A4A] hover:bg-[#0F1A30] text-white !rounded-button whitespace-nowrap">
-                        {isPending && <Loader className="animate-spin mr-2" size={18} />}
-                        {"Détails de la formation"}
-                        <i className="fas fa-arrow-right ml-2"></i>
-                      </Button>
-                    </CardFooter>
-                  </Card>
-                ))}
-              </div>
+              <FormationGrid formationsList={formationsList.slice(0,3)} />
             </TabsContent>
           ))}
         </Tabs>

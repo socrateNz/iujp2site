@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import HeroSection from './HeroSection'
 import KeyFigures from './KeyFigures'
 import AboutSection from './AboutSection'
@@ -8,9 +8,30 @@ import FormationsSection from './FormationsSection'
 import StudentLifeSection from './StudentLifeSection'
 import NewsSection from './NewsSection'
 import ContactSection from './ContactSection'
-import { news } from '@/data/data';
+import Loading from '../loading';
 
 const Home = () => {
+
+    const [articles, setArticles] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchArticles = async () => {
+            const res = await fetch('/api/admin/articles?published=true');
+            const data = await res.json();
+            setArticles(data.data.articles);
+        };
+
+        fetchArticles();
+        setLoading(false)
+    }, []);
+
+    if (loading || articles.length <= 0) {
+        return (
+            <Loading />
+        );
+    }
+
     return (
         <div>
             <HeroSection />
@@ -18,7 +39,7 @@ const Home = () => {
             <AboutSection />
             <FormationsSection />
             <StudentLifeSection />
-            <NewsSection articles={news.slice(0,3)} />
+            <NewsSection articles={articles.slice(0,3)} />
             <ContactSection />
         </div>
     )

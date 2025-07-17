@@ -5,9 +5,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { 
-  FileText, 
-  Plus, 
+import {
+  Plus,
   Search,
   Edit,
   Trash2,
@@ -39,7 +38,7 @@ export default function AdminArticles() {
 
       const response = await fetch(`/api/admin/articles?${params}`);
       const data = await response.json();
-      
+
       if (data.success) {
         setArticles(data.data.articles || data.data);
       }
@@ -61,7 +60,7 @@ export default function AdminArticles() {
       });
 
       const data = await response.json();
-      
+
       if (data.success) {
         fetchArticles();
       } else {
@@ -84,7 +83,7 @@ export default function AdminArticles() {
       });
 
       const data = await response.json();
-      
+
       if (data.success) {
         fetchArticles();
       } else {
@@ -98,12 +97,12 @@ export default function AdminArticles() {
 
   const filteredArticles = articles.filter(article => {
     const matchesSearch = article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         article.description.toLowerCase().includes(searchTerm.toLowerCase());
+      article.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = !filterCategory || article.category === filterCategory;
-    const matchesPublished = filterPublished === '' || 
-                           (filterPublished === 'true' && article.published) ||
-                           (filterPublished === 'false' && !article.published);
-    
+    const matchesPublished = filterPublished === '' ||
+      (filterPublished === 'true' && article.published) ||
+      (filterPublished === 'false' && !article.published);
+
     return matchesSearch && matchesCategory && matchesPublished;
   });
 
@@ -185,24 +184,27 @@ export default function AdminArticles() {
             {filteredArticles.map((article) => (
               <div key={article._id?.toString()} className="border rounded-lg p-4 hover:bg-gray-50">
                 <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
-                      <h3 className="font-semibold text-lg">{article.title}</h3>
-                      <Badge variant={article.published ? 'default' : 'secondary'}>
-                        {article.published ? 'Publié' : 'Brouillon'}
-                      </Badge>
-                      <Badge variant="outline">{article.category}</Badge>
-                    </div>
-                    <p className="text-gray-600 mb-2">{article.description}</p>
-                    <div className="flex items-center gap-4 text-sm text-gray-500">
-                      <span>Par {article.author}</span>
-                      <span>•</span>
-                      <span>{article.readTime}</span>
-                      <span>•</span>
-                      <span className="flex items-center gap-1">
-                        <Calendar className="h-3 w-3" />
-                        {new Date(article.createdAt).toLocaleDateString('fr-FR')}
-                      </span>
+                  <div className='flex gap-4 items-center'>
+                    <img src={article.image} alt={article.title} className='max-h-22 aspect-square rounded-sm object-cover' />
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-2">
+                        <h3 className="font-semibold text-lg">{article.title}</h3>
+                        <Badge variant={article.published ? 'default' : 'secondary'}>
+                          {article.published ? 'Publié' : 'Brouillon'}
+                        </Badge>
+                        <Badge variant="outline">{article.category}</Badge>
+                      </div>
+                      <p className="text-gray-600 mb-2">{article.description}</p>
+                      <div className="flex items-center gap-4 text-sm text-gray-500">
+                        <span>Par {article.author}</span>
+                        <span>•</span>
+                        <span>{article.readTime}</span>
+                        <span>•</span>
+                        <span className="flex items-center gap-1">
+                          <Calendar className="h-3 w-3" />
+                          {new Date(article.createdAt).toLocaleDateString('fr-FR')}
+                        </span>
+                      </div>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 ml-4">

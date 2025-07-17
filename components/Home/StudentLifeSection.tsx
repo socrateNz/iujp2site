@@ -80,7 +80,7 @@ const StudentLifeSection = () => {
                     </div>
                     <div className="relative">
                         <img
-                            src="https://readdy.ai/api/search-image?query=Beautiful%20university%20campus%20with%20historic%20and%20modern%20buildings%2C%20students%20walking%20between%20classes%2C%20lush%20green%20spaces%2C%20academic%20atmosphere%2C%20sunny%20day%2C%20wide%20angle%20view%2C%20clean%20minimalist%20background&width=600&height=600&seq=26&orientation=squarish"
+                            src="/Images/campus.webp"
                             alt="Campus de l'Université Internationale Jean Paul II de Bafang"
                             className="rounded-lg shadow-xl object-cover w-full h-[500px] object-top"
                         />
