@@ -2,21 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import clientPromise from '@/lib/mongodb';
 import { Article } from '@/lib/types';
-import { uploadImage, deleteImage } from '@/lib/cloudinary';
-import { Session } from "next-auth";
 import { authOptions } from '@/lib/auth';
 
 // GET - Récupérer la liste des articles
 export async function GET(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions) 
-    if (!session?.user || session.user.role !== 'admin') {
-      return NextResponse.json(
-        { success: false, error: 'Accès non autorisé' },
-        { status: 401 }
-      );
-    }
-
     const { searchParams } = new URL(request.url);
     const page = parseInt(searchParams.get('page') || '1');
     const limit = parseInt(searchParams.get('limit') || '10');

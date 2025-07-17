@@ -13,11 +13,13 @@ import Loading from '../loading';
 const Home = () => {
 
     const [articles, setArticles] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const fetchArticles = async () => {
-            const res = await fetch('/api/admin/articles?published=true');
+            const res = await fetch('/api/admin/articles?published=true', {
+                method: 'GET'
+            });
             const data = await res.json();
             setArticles(data.data.articles);
         };
@@ -25,6 +27,9 @@ const Home = () => {
         fetchArticles();
         setLoading(false)
     }, []);
+
+    console.log(articles);
+    
 
     if (loading || articles.length <= 0) {
         return (

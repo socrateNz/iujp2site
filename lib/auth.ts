@@ -2,7 +2,6 @@
 import type { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import clientPromise from '@/lib/mongodb';
-import { User } from '@/lib/types';
 
 export async function loginUser(credentials: { email: string; password: string }) {
   const client = await clientPromise;

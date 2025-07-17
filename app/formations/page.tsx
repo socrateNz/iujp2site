@@ -3,7 +3,6 @@
 import FormationGrid from '@/components/Home/FormationGrid'
 import Head from '@/components/ui/head'
 import { formations } from '@/data/data'
-import { TabsContent } from '@radix-ui/react-tabs'
 import React from 'react'
 
 const page = () => {
