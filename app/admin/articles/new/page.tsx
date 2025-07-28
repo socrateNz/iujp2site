@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { useSession } from "next-auth/react";
+import { Loader2 } from "lucide-react";
 
 export default function NewArticlePage() {
   const [title, setTitle] = useState("");
@@ -59,7 +60,7 @@ export default function NewArticlePage() {
         body: JSON.stringify({ title, description, category, content, image, author, readTime }),
       });
       const data = await res.json();
-      
+
       if (data.success) {
         router.push("/admin/articles");
       } else {
@@ -82,6 +83,34 @@ export default function NewArticlePage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && <div className="text-red-500">{error}</div>}
             <div>
+              <label className="block mb-1 font-medium">Image</label>
+
+              {/* Input caché */}
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                ref={fileInputRef}
+                className="hidden"
+              />
+
+              {uploading &&<>
+               <Loader2 className="animate-spin" size={20} />
+               <p>Téléchargement de l'image en cours...</p>
+              </>}
+
+              {/* Aperçu de l'image */}
+              <div className="mt-2">
+                <img
+                  src={image || "/Images/no-image.jpg"}
+                  alt="Aperçu"
+                  className="max-h-40 rounded cursor-pointer"
+                  onClick={() => fileInputRef.current?.click()}
+                />
+              </div>
+            </div>
+
+            <div>
               <label className="block mb-1 font-medium">Titre</label>
               <Input value={title} onChange={e => setTitle(e.target.value)} required />
             </div>
@@ -100,16 +129,6 @@ export default function NewArticlePage() {
             <div>
               <label className="block mb-1 font-medium">Temps de lecture (ex: 5 min)</label>
               <Input value={readTime} onChange={e => setReadTime(e.target.value)} required />
-            </div>
-            <div>
-              <label className="block mb-1 font-medium">Image</label>
-              <input type="file" accept="image/*" onChange={handleImageChange} ref={fileInputRef} />
-              {uploading && <div className="text-blue-500">Upload en cours...</div>}
-              {image && (
-                <div className="mt-2">
-                  <img src={image} alt="Aperçu" className="max-h-40 rounded" />
-                </div>
-              )}
             </div>
             <Button type="submit" disabled={loading || uploading} className="w-full">
               {loading ? "Création..." : "Créer l'article"}

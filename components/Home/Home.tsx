@@ -31,7 +31,7 @@ const Home = () => {
     console.log(articles);
     
 
-    if (loading || articles.length <= 0) {
+    if (loading) {
         return (
             <Loading />
         );

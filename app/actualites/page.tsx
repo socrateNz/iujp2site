@@ -2,6 +2,7 @@
 
 import GridNews from '@/components/Actualites/GridNews';
 import Loading from '@/components/loading';
+import Head from '@/components/ui/head';
 import React, { useEffect, useState } from 'react'
 
 const page = () => {
@@ -27,9 +28,11 @@ const page = () => {
   }
 
   return (
-    <div className='max-w-7xl mx-auto py-10'>
-      <h1>{"Actualités"}</h1>
-      <GridNews articles={articles} />
+    <div className='py-10'>
+      <Head title="Toute L'actualité" description="Informez vous a propos de l'actualité universitaire" />
+      <div className='max-w-7xl mx-auto'>
+        <GridNews articles={articles} />
+      </div>
     </div>
   )
 }

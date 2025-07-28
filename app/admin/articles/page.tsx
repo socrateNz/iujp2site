@@ -17,6 +17,9 @@ import {
 import Link from 'next/link';
 import { Article } from '@/lib/types';
 import Loading from '@/components/loading';
+import ConfirmDialog from '@/components/Confirm';
+import { toast } from 'sonner';
+import { EditArticleDialog } from '@/components/admin/Article/EditArticle';
 
 export default function AdminArticles() {
   const [articles, setArticles] = useState<Article[]>([]);
@@ -50,9 +53,6 @@ export default function AdminArticles() {
   };
 
   const handleDeleteArticle = async (articleId: string) => {
-    if (!confirm('Êtes-vous sûr de vouloir supprimer cet article ?')) {
-      return;
-    }
 
     try {
       const response = await fetch(`/api/admin/articles/${articleId}`, {
@@ -63,12 +63,13 @@ export default function AdminArticles() {
 
       if (data.success) {
         fetchArticles();
+        toast.success('Article supprimé avec succès');
       } else {
-        alert(data.error || 'Erreur suppression article');
+        toast.error(data.error || 'Erreur suppression article');
       }
     } catch (error) {
       console.error('Erreur suppression article:', error);
-      alert('Erreur suppression article');
+      toast.error('Erreur suppression article');
     }
   };
 
@@ -87,11 +88,11 @@ export default function AdminArticles() {
       if (data.success) {
         fetchArticles();
       } else {
-        alert(data.error || 'Erreur mise à jour article');
+        toast.error(data.error || 'Erreur mise à jour article');
       }
     } catch (error) {
       console.error('Erreur mise à jour article:', error);
-      alert('Erreur mise à jour article');
+      toast.error('Erreur mise à jour article');
     }
   };
 
@@ -219,18 +220,20 @@ export default function AdminArticles() {
                         <Eye className="h-4 w-4" />
                       )}
                     </Button>
-                    <Link href={`/admin/articles/${article._id}/edit`}>
+                    <EditArticleDialog article={article} onSuccess={fetchArticles}>
                       <Button size="sm" variant="outline">
                         <Edit className="h-4 w-4" />
                       </Button>
-                    </Link>
-                    <Button
-                      size="sm"
-                      variant="destructive"
-                      onClick={() => handleDeleteArticle(article._id!.toString())}
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
+                    </EditArticleDialog>
+                    
+                    <ConfirmDialog message={'Êtes-vous sûr de vouloir supprimer cet article ?'} onConfirm={() => handleDeleteArticle(article._id!.toString())}>
+                      <Button
+                        size="sm"
+                        variant="destructive"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </ConfirmDialog>
                   </div>
                 </div>
               </div>

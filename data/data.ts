@@ -5,9 +5,10 @@ export type Formation = {
     description: string;
     duration: string;
     classe: string;
+    ecole: string;
 };
 
-export const formations = {
+export const formations: { [key: string]: Formation[] } = {
     bts: [
         {
             id: 11,
@@ -15,7 +16,8 @@ export const formations = {
             image: "https://readdy.ai/api/search-image?query=International%20trade%20students%20studying%20import-export%20in%20a%20business%20school%2C%20diverse%20team%2C%20maps%2C%20cargo%20charts&width=400&height=250&orientation=landscape",
             description: "Formation en techniques d'import-export et négociation internationale.",
             duration: "2 ans",
-            classe: "bts"
+            classe: "bts",
+            ecole: ""
         },
         {
             id: 12,
@@ -23,7 +25,8 @@ export const formations = {
             image: "https://readdy.ai/api/search-image?query=Accounting%20and%20management%20students%2C%20financial%20analysis%20workshop%2C%20modern%20classroom&width=400&height=250&orientation=landscape",
             description: "Gestion comptable, analyse financière et fiscalité des PME.",
             duration: "2 ans",
-            classe: "bts"
+            classe: "bts",
+            ecole: ""
         },
         {
             id: 13,
@@ -31,7 +34,8 @@ export const formations = {
             image: "https://readdy.ai/api/search-image?query=Communication%20students%20planning%20campaigns%2C%20creative%20workspace%2C%20PR%2C%20media%2C%20branding&width=400&height=250&orientation=landscape",
             description: "Communication interne et externe des entreprises, relations publiques.",
             duration: "2 ans",
-            classe: "bts"
+            classe: "bts",
+            ecole: ""
         },
         {
             id: 14,
@@ -39,7 +43,8 @@ export const formations = {
             image: "https://readdy.ai/api/search-image?query=Logistics%20students%20with%20supply%20chain%20diagrams%2C%20transport%20planning%20tools%2C%20distribution%20systems&width=400&height=250&orientation=landscape",
             description: "Gestion des flux logistiques, entreposage et distribution.",
             duration: "2 ans",
-            classe: "bts"
+            classe: "bts",
+            ecole: ""
         },
         {
             id: 15,
@@ -47,7 +52,8 @@ export const formations = {
             image: "https://readdy.ai/api/search-image?query=IT%20students%20working%20on%20hardware%2C%20networks%2C%20system%20maintenance%20labs%2C%20technical%20training&width=400&height=250&orientation=landscape",
             description: "Installation, maintenance et sécurisation des systèmes informatiques.",
             duration: "2 ans",
-            classe: "bts"
+            classe: "bts",
+            ecole: ""
         },
         {
             id: 16,
@@ -55,7 +61,8 @@ export const formations = {
             image: "https://readdy.ai/api/search-image?query=Agro%20entrepreneurship%20students%2C%20agricultural%20innovation%2C%20farm%20business%2C%20cooperative%20projects&width=400&height=250&orientation=landscape",
             description: "Création et gestion de projets agropastoraux durables.",
             duration: "2 ans",
-            classe: "bts"
+            classe: "bts",
+            ecole: ""
         },
         {
             id: 17,
@@ -63,7 +70,8 @@ export const formations = {
             image: "https://readdy.ai/api/search-image?query=Hospitality%20management%20students%2C%20restaurant%20training%2C%20hotel%20operations%2C%20guest%20service%20skills&width=400&height=250&orientation=landscape",
             description: "Formation pratique en gestion hôtelière et service restauration.",
             duration: "2 ans",
-            classe: "bts"
+            classe: "bts",
+            ecole: ""
         },
         {
             id: 18,
@@ -71,7 +79,8 @@ export const formations = {
             image: "https://readdy.ai/api/search-image?query=Nursing%20students%20in%20clinical%20training%2C%20patient%20care%2C%20hospital%20simulation%20labs&width=400&height=250&orientation=landscape",
             description: "Formation en soins, hygiène, et accompagnement médical.",
             duration: "2 ans",
-            classe: "bts"
+            classe: "bts",
+            ecole: ""
         },
         {
             id: 19,
@@ -79,7 +88,8 @@ export const formations = {
             image: "https://readdy.ai/api/search-image?query=Medical%20lab%20students%2C%20microscope%20work%2C%20blood%20tests%2C%20lab%20safety%20training%2C%20clean%20environment&width=400&height=250&orientation=landscape",
             description: "Techniques de prélèvement, analyse et gestion des laboratoires.",
             duration: "2 ans",
-            classe: "bts"
+            classe: "bts",
+            ecole: ""
         },
         {
             id: 20,
@@ -87,7 +97,8 @@ export const formations = {
             image: "https://readdy.ai/api/search-image?query=Physiotherapy%20students%2C%20rehabilitation%20exercises%2C%20therapy%20equipment%2C%20clinical%20practice&width=400&height=250&orientation=landscape",
             description: "Méthodes de rééducation et de réadaptation fonctionnelle.",
             duration: "2 ans",
-            classe: "bts"
+            classe: "bts",
+            ecole: ""
         },
         {
             id: 21,
@@ -95,7 +106,8 @@ export const formations = {
             image: "https://readdy.ai/api/search-image?query=Electrotechnics%20students%2C%20electrical%20circuit%20labs%2C%20hands-on%20training%2C%20industrial%20equipment&width=400&height=250&orientation=landscape",
             description: "Étude des systèmes électriques, machines et automatismes.",
             duration: "2 ans",
-            classe: "bts"
+            classe: "bts",
+            ecole: ""
         },
         {
             id: 22,
@@ -103,7 +115,8 @@ export const formations = {
             image: "https://readdy.ai/api/search-image?query=Industrial%20IT%20students%2C%20automation%2C%20embedded%20systems%2C%20robotics%2C%20smart%20machines&width=400&height=250&orientation=landscape",
             description: "Automatisation, programmation industrielle et systèmes embarqués.",
             duration: "2 ans",
-            classe: "bts"
+            classe: "bts",
+            ecole: ""
         },
         {
             id: 23,
@@ -111,7 +124,8 @@ export const formations = {
             image: "https://readdy.ai/api/search-image?query=Civil%20engineering%20students%2C%20building%20design%2C%20construction%20planning%2C%20technical%20drawings&width=400&height=250&orientation=landscape",
             description: "Conception et réalisation de bâtiments, matériaux et topographie.",
             duration: "2 ans",
-            classe: "bts"
+            classe: "bts",
+            ecole: ""
         },
         {
             id: 24,
@@ -119,7 +133,8 @@ export const formations = {
             image: "https://readdy.ai/api/search-image?query=Accounting%20students%2C%20financial%20reports%2C%20budgeting%2C%20bookkeeping%20tools&width=400&height=250&orientation=landscape",
             description: "Fundamentals of accounting, bookkeeping and financial analysis.",
             duration: "2 years",
-            classe: "bts"
+            classe: "bts",
+            ecole: ""
         },
         {
             id: 25,
@@ -127,7 +142,8 @@ export const formations = {
             image: "https://readdy.ai/api/search-image?query=Banking%20and%20finance%20students%2C%20investment%20strategy%2C%20financial%20planning%2C%20modern%20finance%20lab&width=400&height=250&orientation=landscape",
             description: "Banking operations, financial markets and investment management.",
             duration: "2 years",
-            classe: "bts"
+            classe: "bts",
+            ecole: ""
         },
         {
             id: 26,
@@ -135,7 +151,8 @@ export const formations = {
             image: "https://readdy.ai/api/search-image?query=Software%20engineering%20students%2C%20coding%20projects%2C%20development%20teams%2C%20agile%20methodology%2C%20modern%20workspace&width=400&height=250&orientation=landscape",
             description: "Software design, development, testing and deployment.",
             duration: "2 years",
-            classe: "bts"
+            classe: "bts",
+            ecole: ""
         },
         {
             id: 27,
@@ -143,7 +160,8 @@ export const formations = {
             image: "https://readdy.ai/api/search-image?query=Nursing%20students%20clinical%20skills%20training%2C%20healthcare%20environment%2C%20medical%20equipment&width=400&height=250&orientation=landscape",
             description: "Nursing care techniques and patient support in clinical settings.",
             duration: "2 years",
-            classe: "bts"
+            classe: "bts",
+            ecole: ""
         },
         {
             id: 28,
@@ -151,7 +169,8 @@ export const formations = {
             image: "https://readdy.ai/api/search-image?query=Medical%20lab%20science%20students%2C%20clinical%20tests%2C%20diagnostic%20labs%2C%20microscope%20equipment&width=400&height=250&orientation=landscape",
             description: "Clinical diagnostics, lab analysis and health testing techniques.",
             duration: "2 years",
-            classe: "bts"
+            classe: "bts",
+            ecole: ""
         },
         {
             id: 29,
@@ -159,7 +178,8 @@ export const formations = {
             image: "https://readdy.ai/api/search-image?query=Transport%20management%20students%2C%20logistics%20planning%2C%20supply%20chains%2C%20distribution%20networks&width=400&height=250&orientation=landscape",
             description: "Transport systems, logistics coordination and supply chain management.",
             duration: "2 years",
-            classe: "bts"
+            classe: "bts",
+            ecole: ""
         }
     ],
     licence: [
@@ -169,7 +189,8 @@ export const formations = {
             image: "https://readdy.ai/api/search-image?query=Students%20learning%20accounting%20and%20taxation%2C%20financial%20reports%2C%20tax%20laws%2C%20university%20classroom&width=400&height=250&orientation=landscape",
             description: "Maîtrise des principes comptables, de la fiscalité et de la gestion financière.",
             duration: "3 ans",
-            classe: "licence"
+            classe: "licence",
+            ecole: ""
         },
         {
             id: 31,
@@ -177,7 +198,8 @@ export const formations = {
             image: "https://readdy.ai/api/search-image?query=Banking%20and%20finance%20students%2C%20investment%2C%20corporate%20finance%2C%20stock%20market%2C%20finance%20classroom&width=400&height=250&orientation=landscape",
             description: "Techniques bancaires, gestion financière, marchés monétaires et crédits.",
             duration: "3 ans",
-            classe: "licence"
+            classe: "licence",
+            ecole: ""
         },
         {
             id: 32,
@@ -185,7 +207,8 @@ export const formations = {
             image: "https://readdy.ai/api/search-image?query=Audit%20training%2C%20internal%20control%2C%20financial%20review%2C%20risk%20assessment%2C%20students%20auditing%20case%20studies&width=400&height=250&orientation=landscape",
             description: "Fondamentaux de l’audit financier, contrôle interne et analyse des risques.",
             duration: "3 ans",
-            classe: "licence"
+            classe: "licence",
+            ecole: ""
         },
         {
             id: 33,
@@ -193,7 +216,8 @@ export const formations = {
             image: "https://readdy.ai/api/search-image?query=Automation%20and%20computer%20engineering%20students%2C%20robotics%2C%20industrial%20systems%2C%20PLC%2C%20programming&width=400&height=250&orientation=landscape",
             description: "Bases de l'automatisation industrielle et de l'informatique embarquée.",
             duration: "3 ans",
-            classe: "licence"
+            classe: "licence",
+            ecole: ""
         },
         {
             id: 34,
@@ -201,7 +225,8 @@ export const formations = {
             image: "https://readdy.ai/api/search-image?query=Electrical%20engineering%20students%2C%20power%20systems%2C%20motors%2C%20control%20panels%2C%20technical%20training&width=400&height=250&orientation=landscape",
             description: "Études sur les systèmes électriques, installations et équipements industriels.",
             duration: "3 ans",
-            classe: "licence"
+            classe: "licence",
+            ecole: ""
         },
         {
             id: 35,
@@ -209,7 +234,8 @@ export const formations = {
             image: "https://readdy.ai/api/search-image?query=Animal%20production%20students%2C%20livestock%20farming%2C%20veterinary%20sciences%2C%20rural%20training%20center&width=400&height=250&orientation=landscape",
             description: "Techniques d’élevage, alimentation animale et santé vétérinaire.",
             duration: "3 ans",
-            classe: "licence"
+            classe: "licence",
+            ecole: ""
         },
         {
             id: 36,
@@ -217,7 +243,8 @@ export const formations = {
             image: "https://readdy.ai/api/search-image?query=Plant%20production%20students%2C%20agronomy%2C%20crop%20management%2C%20greenhouses%2C%20sustainable%20agriculture&width=400&height=250&orientation=landscape",
             description: "Techniques agricoles, cultures vivrières et protection des plantes.",
             duration: "3 ans",
-            classe: "licence"
+            classe: "licence",
+            ecole: ""
         },
         {
             id: 37,
@@ -225,7 +252,8 @@ export const formations = {
             image: "https://readdy.ai/api/search-image?query=Rural%20engineering%20students%2C%20irrigation%20systems%2C%20agricultural%20infrastructure%2C%20mechanized%20farming&width=400&height=250&orientation=landscape",
             description: "Infrastructures agricoles, irrigation, gestion des ressources rurales.",
             duration: "3 ans",
-            classe: "licence"
+            classe: "licence",
+            ecole: ""
         }
     ],
     master: [
@@ -235,7 +263,8 @@ export const formations = {
             image: "https://readdy.ai/api/search-image?query=Advanced%20accounting%20students%2C%20tax%20strategy%2C%20corporate%20finance%2C%20audit%20planning&width=400&height=250&orientation=landscape",
             description: "Expertise comptable avancée, optimisation fiscale et normes IFRS.",
             duration: "2 ans",
-            classe: "master"
+            classe: "master",
+            ecole: ""
         },
         {
             id: 39,
@@ -243,7 +272,8 @@ export const formations = {
             image: "https://readdy.ai/api/search-image?query=Postgraduate%20finance%20students%2C%20portfolio%20management%2C%20investment%20banking%2C%20risk%20analysis&width=400&height=250&orientation=landscape",
             description: "Finance internationale, analyse des risques et gestion de portefeuille.",
             duration: "2 ans",
-            classe: "master"
+            classe: "master",
+            ecole: ""
         },
         {
             id: 40,
@@ -251,7 +281,8 @@ export const formations = {
             image: "https://readdy.ai/api/search-image?query=Graduate%20audit%20training%2C%20corporate%20governance%2C%20internal%20control%2C%20forensic%20audit&width=400&height=250&orientation=landscape",
             description: "Audit interne, forensic audit et audit des systèmes d'information.",
             duration: "2 ans",
-            classe: "master"
+            classe: "master",
+            ecole: ""
         },
         {
             id: 41,
@@ -259,7 +290,8 @@ export const formations = {
             image: "https://readdy.ai/api/search-image?query=Advanced%20automation%20engineering%2C%20PLC%2C%20robotics%2C%20cyber-physical%20systems%2C%20graduate%20lab&width=400&height=250&orientation=landscape",
             description: "Conception de systèmes automatisés intelligents et informatique industrielle avancée.",
             duration: "2 ans",
-            classe: "master"
+            classe: "master",
+            ecole: ""
         },
         {
             id: 42,
@@ -267,7 +299,8 @@ export const formations = {
             image: "https://readdy.ai/api/search-image?query=Electrical%20engineering%20graduates%2C%20power%20systems%20design%2C%20renewable%20energy%2C%20industrial%20automation&width=400&height=250&orientation=landscape",
             description: "Distribution d'énergie, énergies renouvelables et automatismes industriels.",
             duration: "2 ans",
-            classe: "master"
+            classe: "master",
+            ecole: ""
         },
         {
             id: 43,
@@ -275,7 +308,8 @@ export const formations = {
             image: "https://readdy.ai/api/search-image?query=Graduate%20students%20in%20animal%20science%2C%20veterinary%20medicine%2C%20animal%20nutrition%2C%20livestock%20research&width=400&height=250&orientation=landscape",
             description: "Nutrition animale, reproduction, gestion sanitaire et production intensive.",
             duration: "2 ans",
-            classe: "master"
+            classe: "master",
+            ecole: ""
         },
         {
             id: 44,
@@ -283,7 +317,8 @@ export const formations = {
             image: "https://readdy.ai/api/search-image?query=Graduate%20students%20in%20plant%20science%2C%20genetic%20improvement%2C%20plant%20pathology%2C%20sustainable%20crops&width=400&height=250&orientation=landscape",
             description: "Biotechnologies végétales, phytopathologie et innovations agricoles durables.",
             duration: "2 ans",
-            classe: "master"
+            classe: "master",
+            ecole: ""
         },
         {
             id: 45,
@@ -291,7 +326,8 @@ export const formations = {
             image: "https://readdy.ai/api/search-image?query=Graduate%20rural%20engineering%2C%20hydraulic%20infrastructure%2C%20sustainable%20land%20management%2C%20agricultural%20engineering&width=400&height=250&orientation=landscape",
             description: "Hydraulique agricole, équipements ruraux, et aménagement du territoire.",
             duration: "2 ans",
-            classe: "master"
+            classe: "master",
+            ecole: ""
         }
     ]
 };
@@ -476,4 +512,196 @@ export const news: News[] = [
         description: "Venez découvrir l'Institut Universitaire Jean-Paul II lors de notre journée portes ouvertes le 10 avril 2025.",
         content: "L'Institut Universitaire Jean-Paul II invite tous les futurs étudiants à sa journée portes ouvertes le 10 avril 2025. Cet événement est l'occasion idéale pour découvrir nos programmes académiques, rencontrer nos enseignants et visiter nos installations modernes. Des visites guidées du campus seront organisées tout au long de la journée, ainsi que des présentations sur les différents cursus proposés. Les visiteurs pourront également échanger avec des étudiants actuels pour en savoir plus sur la vie à l'IUJP2. L'entrée est gratuite et ouverte à tous, sans inscription préalable. Nous vous attendons nombreux pour partager un moment convivial et informatif sur notre institut."
     }
+];
+
+
+type Filiere = {
+    code: string;
+    nom: string;
+    option?: string;
+};
+
+export type Filieres = {
+    ecole: string;
+    filieres: Filiere[]
+}
+
+export const filieres = [
+    {
+        ecole: "ecole001",
+        filieres: [
+            {
+                code: "IDE",
+                nom: "Infirmiers Diplômé d’État"
+            },
+            {
+                code: "IDESF",
+                nom: "Infirmiers Diplômé d’État Sage-Femme"
+            },
+            {
+                code: "TAM",
+                nom: "Technicien d’analyse Médicale"
+            },
+            {
+                code: "TEK",
+                nom: "Technicien en Kinésithérapie"
+            },
+            {
+                code: "ASG",
+                nom: "Aide-Soignante Généraliste"
+            },
+            {
+                code: "TSP",
+                nom: "Technicien en Sciences Pharmaceutiques"
+            },
+            {
+                code: "TOS",
+                nom: "Technicien Médico-Sanitaires",
+                option: "Odontostomatologie"
+            },
+            {
+                code: "ATMSSP",
+                nom: "Agent Technique Médico-Sanitaire",
+                option: "Pharmacie"
+            },
+            {
+                code: "TIM",
+                nom: "Technicien d’Imagerie Médicale"
+            }
+        ]
+    },
+    {
+        ecole: "ecole002",
+        filieres: [
+            {
+                code: "AGRICULTURE",
+                nom: "Agriculture"
+            },
+            {
+                code: "BUSINESS_AND_FINANCE",
+                nom: "Commerce et Finance"
+            },
+            {
+                code: "LEGAL_CAREERS",
+                nom: "Carrières Juridiques"
+            },
+            {
+                code: "MANAGEMENT",
+                nom: "Gestion"
+            },
+            {
+                code: "ENGINEERING_AND_TECHNOLOGY",
+                nom: "Ingénierie et Technologie"
+            },
+            {
+                code: "SCIENCES_OF_EDUCATION",
+                nom: "Sciences de l’Éducation"
+            },
+            {
+                code: "MEDICAL_AND_BIOMEDICAL_SCIENCES",
+                nom: "Sciences Médicales et Biomédicales"
+            }
+        ]
+    }
 ]
+
+export type Ecole = {
+    id: string;
+    nom: string;
+    url?: string;
+    sigle?: string;
+    description: string;
+    anneeCreation?: number;
+    fondateur?: string;
+    accreditations?: string[];
+    adresse: {
+        ville: string;
+        quartier?: string;
+        pays: string;
+        boitePostale?: string;
+    };
+    contacts: {
+        telephone?: string;
+        email?: string;
+    };
+    formations: string[];
+    logoUrl: string;
+    images?: string[];
+    localisationGoogleMaps?: string;
+};
+
+export const ecoles: Ecole[] = [
+    {
+        id: "ecole001",
+        nom: "École des Sciences de la Santé de l'Institu Supérieure de Bafang",
+        sigle: "ESS-ISB",
+        description: "Établissement offrant une formation de haut niveau en sciences de la santé. Spécialisée en sciences de la santé et en sciences biologiques.",
+        anneeCreation: 2012,
+        accreditations: ["MINESUP", "MINSANTE"],
+        adresse: {
+            ville: "Bafang",
+            quartier: "Banka",
+            pays: "Cameroun",
+            boitePostale: "BP 1234"
+        },
+        contacts: {
+            telephone: "+237 6 75 85 02 65",
+            email: "uijeanpaul2@gmail.com"
+        },
+        formations: [
+            "Licence en Marketing",
+            "Licence en Gestion des Entreprises",
+            "Master en Commerce International"
+        ],
+        logoUrl: "/Images/campus.webp"
+    },
+    {
+        id: "ecole002",
+        nom: "Faculté d'Agronomie et des Sciences Agricoles",
+        sigle: "FASA",
+        description: "Faculté spécialisée dans les sciences agronomiques, offrant des formations en agriculture durable et en gestion des ressources naturelles.",
+        anneeCreation: 2014,
+        accreditations: ["MINESUP"],
+        adresse: {
+            ville: "Douala",
+            quartier: "Akwa",
+            pays: "Cameroun",
+            boitePostale: "BP 2345"
+        },
+        contacts: {
+            telephone: "+237 6 93 45 43 45",
+            email: "uijeanpaul2@gmail.com"
+        },
+        formations: [
+            "Licence en Informatique de Gestion",
+            "Master en Administration Systèmes & Réseaux"
+        ],
+        logoUrl: "/Images/campus.webp"
+    },
+    {
+        id: "ecole004",
+        nom: "Kesmond international university",
+        sigle: "KIU",
+        description: "Institut universitaire confessionnel offrant des formations pluridisciplinaires.",
+        url: "https://kesmonds.edu.cm/",
+        anneeCreation: 2010,
+        fondateur: "Archidiocèse de Yaoundé",
+        accreditations: ["MINESUP", "CAMES"],
+        adresse: {
+            ville: "Yaoundé",
+            quartier: "Mvolyé",
+            pays: "Cameroun",
+            boitePostale: "BP 5678"
+        },
+        contacts: {
+            telephone: "+237 6 77 00 22 30",
+            email: "uijeanpaul2@gmail.com"
+        },
+        formations: [
+            "Licence en Communication",
+            "Licence en Informatique",
+            "Master en Sciences Sociales"
+        ],
+        logoUrl: "/Images/campus.webp"
+    }
+];

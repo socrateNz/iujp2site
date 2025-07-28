@@ -140,4 +140,28 @@ export interface TableColumn {
 export interface SelectOption {
   value: string;
   label: string;
+}
+
+// Types pour les écoles et filières
+export interface Filiere {
+  _id?: ObjectId;
+  title: string;
+  image: string;
+  description: string;
+  duration: number;
+  ecoleId: string; // Référence à l'école par son _id
+  examen: string[];
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface Ecole {
+  _id?: ObjectId;
+  title: string;
+  description: string;
+  image: string;
+  directeur?: string;
+  formation: string[]; // Tableau d'ObjectId de filières
+  createdAt: Date;
+  updatedAt: Date;
 } 

@@ -1,14 +1,15 @@
 "use client";
 
-import { useState } from 'react';
-import { signIn, getSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Loader2, Lock, Mail } from 'lucide-react';
+import { getSession, signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+
 
 export default function AdminLogin() {
   const [email, setEmail] = useState('');
@@ -16,6 +17,7 @@ export default function AdminLogin() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
+  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,6 +39,8 @@ export default function AdminLogin() {
         const session = await getSession();
 
         if (session?.user?.role === 'admin') {
+          console.log("Accès autorisé");
+          
           router.push('/admin');
         } else {
           setError('Accès non autorisé');
