@@ -12,7 +12,6 @@ export default function NewEcolePage() {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState('');
   const [directeur, setDirecteur] = useState('');
-  const [formation, setFormation] = useState<string>('');
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const router = useRouter();

@@ -7,10 +7,10 @@ import ConfirmDialog from '@/components/Confirm';
 import { Trash2, Edit, Plus, Search, Eye, EyeOff, Calendar } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
 import Loading from '@/components/loading';
 import { Ecole } from '@/lib/types';
 import { toast } from 'sonner';
+import EditEcoleDialog from '@/components/admin/Ecole/EditEcole';
 // import { EditArticleDialog } from '@/components/admin/EditArticleDialog';
 
 
@@ -124,26 +124,26 @@ export default function EcolesAdminPage() {
                   <div className='flex gap-4 items-center'>
                     <img src={ecole.image} alt={ecole.title} className='max-h-22 aspect-square rounded-sm object-cover' />
                     <div className="flex-1">
-
+                      <h3 className="text-lg font-semibold text-gray-900">{ecole.title}</h3>
                       <p className="text-gray-600 mb-2">{ecole.description}</p>
                       <div className="flex items-center gap-4 text-sm text-gray-500">
-                        <span>Par {ecole.directeur}</span>
+                        {ecole.directeur && <span>Directeur: {ecole.directeur}</span>}
                         <span>•</span>
-                        <span>{ecole.formation}</span>
+                        <span>{ecole.formation.length} Filieres</span>
                         <span>•</span>
                         <span className="flex items-center gap-1">
-                          <Calendar className="h-3 w-3" />
+                          <Calendar className="h-3 w-3" /> Ajouté le
                           {new Date(ecole.createdAt).toLocaleDateString('fr-FR')}
                         </span>
                       </div>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 ml-4">
-                    {/* <EditArticleDialog article={article} onSuccess={fetchArticles}>
+                    <EditEcoleDialog ecole={ecole} onUpdate={fetchEcoles}>
                       <Button size="sm" variant="outline">
                         <Edit className="h-4 w-4" />
                       </Button>
-                    </EditArticleDialog> */}
+                    </EditEcoleDialog>
 
                     <ConfirmDialog message={'Êtes-vous sûr de vouloir supprimer cet article ?'} onConfirm={() => handleDeleteEcole(ecole._id!.toString())}>
                       <Button

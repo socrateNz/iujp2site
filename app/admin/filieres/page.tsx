@@ -9,7 +9,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Input } from '@/components/ui/input';
 import ConfirmDialog from '@/components/Confirm';
 import { Trash2, Edit, Plus, Search, Eye, EyeOff, Calendar } from 'lucide-react';
-import { Filiere } from '@/lib/types';
+import { Ecole, Filiere } from '@/lib/types';
+import EditFiliereDialog from '@/components/admin/Filiere/EditFiliere';
 
 
 export default function FilieresAdminPage() {
@@ -17,9 +18,12 @@ export default function FilieresAdminPage() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [ecoles, setEcoles] = useState<Ecole[]>([]);
+
 
   useEffect(() => {
     fetchFiliere()
+    fetchEcoles()
   }, []);
 
   const fetchFiliere = async () => {
@@ -35,10 +39,23 @@ export default function FilieresAdminPage() {
       });
   }
 
+  const fetchEcoles = async () => {
+    fetch('/api/admin/ecoles')
+      .then(res => res.json())
+      .then(data => {
+        setEcoles(data.data?.ecoles || []);
+        setLoading(false);
+      })
+      .catch(() => {
+        setError('Erreur lors du chargement des écoles');
+        setLoading(false);
+      });
+  }
+
   const filteredFiliere = filieres.filter(filiere => {
     const matchesSearch = filiere.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       filiere.description.toLowerCase().includes(searchTerm.toLowerCase());
-    return matchesSearch 
+    return matchesSearch
   });
 
   const handleDeleteFiliere = async (filiereId: string) => {
@@ -124,16 +141,29 @@ export default function FilieresAdminPage() {
                   <div className='flex gap-4 items-center'>
                     <img src={filiere.image} alt={filiere.title} className='max-h-22 aspect-square rounded-sm object-cover' />
                     <div className="flex-1">
-
+                      <h2 className="text-lg font-semibold mb-2">{filiere.title}</h2>
                       <p className="text-gray-600 mb-2">{filiere.description}</p>
+                      <div className='flex gap-2 items-center'>
+                        <span>•</span>
+                        <p className="text-gray-600">{`${filiere.duration} ${filiere.duration > 1 ? 'ans' : 'an'}`}</p>
+                        <span>•</span>
+                        <p className="text-gray-600">{filiere.examen?.join(", ")}</p>
+                        <span>•</span>
+                        <p className="text-gray-600">{
+                          ecoles.find(ecole => ecole._id?.toString() === filiere.ecoleId)?.title}</p>
+                        <span className="flex items-center gap-1">
+                          <Calendar className="h-3 w-3" /> Ajouté le
+                          {new Date(filiere.createdAt).toLocaleDateString('fr-FR')}
+                        </span>
+                      </div>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 ml-4">
-                    {/* <EditArticleDialog article={article} onSuccess={fetchArticles}>
+                    <EditFiliereDialog filiere={filiere} onUpdate={fetchFiliere} >
                       <Button size="sm" variant="outline">
                         <Edit className="h-4 w-4" />
                       </Button>
-                    </EditArticleDialog> */}
+                    </EditFiliereDialog>
 
                     <ConfirmDialog message={'Êtes-vous sûr de vouloir supprimer cet article ?'} onConfirm={() => handleDeleteFiliere(filiere._id!.toString())}>
                       <Button

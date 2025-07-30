@@ -1,9 +1,12 @@
+"use client";
+
 import React, { useTransition } from 'react'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '../ui/card'
 import { Badge } from '../ui/badge'
 import { Button } from '../ui/button'
 import { useRouter } from 'next/navigation';
-import { Loader } from 'lucide-react';
+import { Loader, LucideTimer } from 'lucide-react';
+import { Filiere } from '@/lib/types';
 
 interface Formation {
     id: number;
@@ -15,7 +18,7 @@ interface Formation {
 }
 
 interface Props {
-    formationsList: Formation[];
+    formationsList: Filiere[];
 }
 
 const FormationGrid = ({formationsList}: Props) => {
@@ -23,7 +26,7 @@ const FormationGrid = ({formationsList}: Props) => {
     const router = useRouter();
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mx-7">
             {formationsList.map((formation, index) => (
                 <Card key={index} className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
                     <div className="h-[250px] overflow-hidden">
@@ -36,7 +39,10 @@ const FormationGrid = ({formationsList}: Props) => {
                     <CardHeader>
                         <div className="flex justify-between items-start">
                             <CardTitle className="text-xl font-serif text-[#1B2A4A]">{formation.title}</CardTitle>
-                            <Badge className="bg-[#34773D]">{formation.duration}</Badge>
+                            <Badge className="bg-[#34773D]">
+                                <LucideTimer />
+                                {formation.duration} ans
+                                </Badge>
                         </div>
                     </CardHeader>
                     <CardContent>
@@ -47,7 +53,7 @@ const FormationGrid = ({formationsList}: Props) => {
                             disabled={isPending}
                             onClick={() => startTransition(
                                 () => {
-                                    router.push(`/formations/${formation.id}`)
+                                    router.push(`/formations/${formation._id}`)
                                 }
                             )}
                             className="w-full bg-[#1B2A4A] hover:bg-[#0F1A30] text-white !rounded-button whitespace-nowrap">

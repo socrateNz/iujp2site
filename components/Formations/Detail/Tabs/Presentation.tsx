@@ -1,4 +1,8 @@
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { Filiere } from '@/lib/types'
+import { Calendar, GraduationCap, LucideTimer, Map } from 'lucide-react'
+import Link from 'next/link'
 // import { Formation } from '@/data/data'
 import React from 'react'
 
@@ -6,21 +10,30 @@ import React from 'react'
 //     formaation: Formation
 // }
 
-const Presentation = () => {
+const Presentation = ({ formation, ecole }: { formation: Filiere | undefined; ecole: string|undefined; }) => {
+
+    function getAnneeScolaire(): number {
+        const date = new Date();
+        const mois = date.getMonth(); 
+        const annee = date.getFullYear();
+
+        return mois >= 6 ? annee : annee - 1;
+    }
+
     return (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             <div className="lg:col-span-2">
                 <h2 className="text-3xl font-serif font-bold text-[#1B2A4A] mb-6">{"Vue d'ensemble du programme"}</h2>
                 <p className="text-gray-700 mb-6 text-lg leading-relaxed">
-                    {"Le Master en Relations Internationales de l'Université Internationale Jean Paul II de Bafang offre une formation d'excellence pour comprendre et analyser les dynamiques complexes qui façonnent le monde contemporain. Ce programme interdisciplinaire combine des approches théoriques et pratiques pour former les futurs experts et décideurs dans le domaine des relations internationales."}
+                    {"Les formations proposées au sein de notre établissement sont conçues pour offrir une expérience d'apprentissage enrichissante et complète. Nos formateurs experts, passionnés par leur domaine, accompagnent chaque étudiant dans sa progression avec une approche personnalisée. Grâce à des méthodes pédagogiques innovantes et adaptées aux besoins du marché, les formations allient théorie et pratique, permettant aux apprenants de développer des compétences directement applicables dans leur futur professionnel. L’établissement dispose d’infrastructures modernes et d’outils pédagogiques à la pointe de la technologie, créant un environnement propice à l’épanouissement académique et personnel. Chaque parcours est pensé pour garantir la réussite et l'insertion professionnelle des étudiants, dans un cadre dynamique et collaboratif."}
                 </p>
                 <p className="text-gray-700 mb-8 text-lg leading-relaxed">
-                   {"Grâce à un corps professoral composé d'universitaires renommés et de praticiens expérimentés, les étudiants bénéficient d'un enseignement de haut niveau ancré dans les réalités du terrain. Le programme met l'accent sur l'acquisition de compétences analytiques, linguistiques et interculturelles essentielles pour évoluer dans un environnement international."}
+                    {"Grâce à un corps professoral composé d'universitaires renommés et de praticiens expérimentés, les étudiants bénéficient d'un enseignement de haut niveau ancré dans les réalités du terrain. Le programme met l'accent sur l'acquisition de compétences analytiques, linguistiques et interculturelles essentielles pour évoluer dans un environnement international."}
                 </p>
 
                 <div className="bg-gray-50 p-8 rounded-lg mb-10">
                     <h3 className="text-2xl font-serif font-bold text-[#1B2A4A] mb-6">Objectifs pédagogiques</h3>
-                    <ul className="space-y-4">
+                    {/* <ul className="space-y-4">
                         {[
                             "Maîtriser les théories et concepts fondamentaux des relations internationales",
                             "Développer une expertise régionale approfondie (Europe, Asie, Moyen-Orient, Afrique ou Amériques)",
@@ -36,7 +49,8 @@ const Presentation = () => {
                                 <span className="text-gray-700">{item}</span>
                             </li>
                         ))}
-                    </ul>
+                    </ul> */}
+                    <p>{"Les objectifs pédagogiques de notre établissement visent à former des apprenants autonomes, compétents et prêts à relever les défis du monde professionnel. Chaque formation est structurée autour d’un programme rigoureux qui favorise l’acquisition de connaissances solides, le développement de compétences techniques et le renforcement des aptitudes personnelles. Nous encourageons l’esprit critique, la créativité et la capacité à travailler en équipe, tout en mettant l’accent sur l’éthique, la rigueur et l’innovation. Notre ambition est de permettre à chaque étudiant de devenir un acteur engagé, capable de s’adapter, d’évoluer et de contribuer activement à son domaine d’activité."}</p>
                 </div>
 
             </div>
@@ -50,65 +64,34 @@ const Presentation = () => {
                     <div className="p-6 space-y-4">
                         <div className="flex items-start">
                             <div className="mr-3 mt-1 text-[#34773D]">
-                                <i className="fas fa-calendar-alt"></i>
+                                <LucideTimer />
                             </div>
                             <div>
                                 <h4 className="font-bold text-[#1B2A4A] text-sm">Durée</h4>
-                                <p className="text-gray-600">2 ans (4 semestres)</p>
+                                {formation?.duration &&<p className="text-gray-600">{` ${formation.duration} ${formation.duration > 1 ? 'ans' : "an"}`} </p>}
                             </div>
                         </div>
                         <div className="flex items-start">
                             <div className="mr-3 mt-1 text-[#34773D]">
-                                <i className="fas fa-graduation-cap"></i>
+                                <GraduationCap />
                             </div>
                             <div>
                                 <h4 className="font-bold text-[#1B2A4A] text-sm">Diplôme</h4>
-                                <p className="text-gray-600">Master en Relations Internationales</p>
+                                <div className='flex gap-2'>
+                                    {formation?.examen.map((x, i) => (
+                                        <Badge key={i} className="bg-[#1B2A4A] text-white border border-white px-3 py-1">{x}</Badge>
+                                    ))
+                                    }
+                                </div>
                             </div>
                         </div>
                         <div className="flex items-start">
                             <div className="mr-3 mt-1 text-[#34773D]">
-                                <i className="fas fa-map-marker-alt"></i>
+                                <Map />
                             </div>
                             <div>
                                 <h4 className="font-bold text-[#1B2A4A] text-sm">Lieu</h4>
-                                <p className="text-gray-600">Campus principal, Paris</p>
-                            </div>
-                        </div>
-                        <div className="flex items-start">
-                            <div className="mr-3 mt-1 text-[#34773D]">
-                                <i className="fas fa-language"></i>
-                            </div>
-                            <div>
-                                <h4 className="font-bold text-[#1B2A4A] text-sm">{"Langues d'enseignement"}</h4>
-                                <p className="text-gray-600">Français (60%), Anglais (40%)</p>
-                            </div>
-                        </div>
-                        <div className="flex items-start">
-                            <div className="mr-3 mt-1 text-[#34773D]">
-                                <i className="fas fa-users"></i>
-                            </div>
-                            <div>
-                                <h4 className="font-bold text-[#1B2A4A] text-sm">Effectif</h4>
-                                <p className="text-gray-600">25 étudiants par promotion</p>
-                            </div>
-                        </div>
-                        <div className="flex items-start">
-                            <div className="mr-3 mt-1 text-[#34773D]">
-                                <i className="fas fa-clock"></i>
-                            </div>
-                            <div>
-                                <h4 className="font-bold text-[#1B2A4A] text-sm">Rythme</h4>
-                                <p className="text-gray-600">Temps plein ou alternance</p>
-                            </div>
-                        </div>
-                        <div className="flex items-start">
-                            <div className="mr-3 mt-1 text-[#34773D]">
-                                <i className="fas fa-euro-sign"></i>
-                            </div>
-                            <div>
-                                <h4 className="font-bold text-[#1B2A4A] text-sm">Frais de scolarité</h4>
-                                <p className="text-gray-600">8 500 € par an</p>
+                                <p className="text-gray-600">{ecole}</p>
                             </div>
                         </div>
                         <div className="flex items-start">
@@ -116,8 +99,8 @@ const Presentation = () => {
                                 <i className="fas fa-calendar-check"></i>
                             </div>
                             <div>
-                                <h4 className="font-bold text-[#1B2A4A] text-sm">Rentrée</h4>
-                                <p className="text-gray-600">Septembre 2025</p>
+                                <h4 className="font-bold text-[#1B2A4A] text-sm">{"Rentrée académique"}</h4>
+                                <p className="text-gray-600">Septembre {getAnneeScolaire()}</p>
                             </div>
                         </div>
                         <div className="flex items-start">
@@ -125,8 +108,8 @@ const Presentation = () => {
                                 <i className="fas fa-file-alt"></i>
                             </div>
                             <div>
-                                <h4 className="font-bold text-[#1B2A4A] text-sm">Candidature</h4>
-                                <p className="text-gray-600">Avant le 30 avril 2025</p>
+                                <h4 className="font-bold text-[#1B2A4A] text-sm">{"Dépot de candidature"}</h4>
+                                <p className="text-gray-600">Avant le 30 Septembre {getAnneeScolaire()}</p>
                             </div>
                         </div>
                     </div>
@@ -141,7 +124,7 @@ const Presentation = () => {
                         </Button>
                         <div className="text-center mt-4">
                             <p className="text-sm text-gray-500">Des questions ?</p>
-                            <a href="#contact" className="text-[#34773D] hover:underline font-medium cursor-pointer">Contactez un conseiller</a>
+                            <Link href="/contact" className="text-[#34773D] hover:underline font-medium cursor-pointer">Contactez un conseiller</Link>
                         </div>
                     </div>
                 </div>

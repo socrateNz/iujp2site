@@ -1,32 +1,31 @@
 import Details from '@/components/Formations/Detail/Detail';
+import Loading from '@/components/loading';
 import { formations } from '@/data/data';
+import { Filiere } from '@/lib/types';
 import { Metadata } from 'next';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import ClientComp from './ClientComp';
 
 
-export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ _id: string }> }): Promise<Metadata> {
 
-  const { id } = await params
+  const { _id } = await params
 
   return {
-    title: `Details du service ${id}`,
+    title: `Details du service ${_id}`,
   };
 }
 
 const DatailFournPage = async ({ params }: Readonly<{
-  params: Promise<{ id: string }>;
+  params: Promise<{ _id: string }>;
 }>) => {
-  const formationId = (await params).id;
-  const allFormations = [...formations.licence, ...formations.master];
-  const formation = allFormations.find((x) => x.id === Number(formationId));
+
+  const formationId = (await params)._id
 
 
-  if (!formation) {
-    return <div>Service introuvable</div>;
-  }
   return (
     <div>
-      <Details formation={formation} />
+      <ClientComp formationId={formationId} />
     </div>
   )
 }

@@ -21,7 +21,7 @@ const page = () => {
     setLoading(false)
   }, []);
 
-  if (loading || articles.length <= 0) {
+  if (loading) {
     return (
       <Loading />
     );

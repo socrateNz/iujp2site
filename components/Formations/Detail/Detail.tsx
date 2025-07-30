@@ -11,47 +11,56 @@ import Admission from './Tabs/Admission';
 import Debouches from './Tabs/Debouches';
 import Presentation from './Tabs/Presentation';
 import Link from 'next/link';
+import { Filiere } from '@/lib/types';
+import { LucideTimer } from 'lucide-react';
 
 interface Props {
-    formation: Formation
+    formation: Filiere | undefined
+    ecole: string | undefined
 }
 
-const Details = ({ formation }: Props) => {
+const Details = ({ formation, ecole }: Props) => {
     return (
         <div className="min-h-screen bg-white">
             <main className="pt-16">
                 {/* Bannière de formation */}
                 <section className="relative h-[400px] overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#1B2A4A]/90 to-[#1B2A4A]/70 z-10"></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-[#1B2A4A]/90 to-[#1B2A4A]/70 z-10" />
                     <div
                         className="absolute inset-0 bg-cover bg-center"
                         style={{
-                            backgroundImage: `url('https://readdy.ai/api/search-image?query=A%2520prestigious%2520university%2520classroom%2520with%2520students%2520engaged%2520in%2520an%2520international%2520relations%2520lecture%252C%2520modern%2520academic%2520setting%252C%2520professor%2520at%2520podium%252C%2520world%2520map%2520on%2520wall%252C%2520elegant%2520architecture%252C%2520professional%2520lighting%252C%2520serious%2520academic%2520atmosphere&width=1440&height=400&seq=33&orientation=landscape')`
+                            backgroundImage: `url(${formation?.image})`
                         }}
-                    ></div>
+                    />
 
                     <div className="container mx-auto px-4 h-full flex items-center relative z-20">
                         <div className="max-w-3xl text-white">
                             <div className="flex items-center mb-4">
                                 <a href="https://readdy.ai/home/b810b447-bdd3-4c3f-8f2a-b8c2991aa67d/a087413a-f905-43cf-b8f6-3797ade6f8f4" data-readdy="true" className="text-gray-200 hover:text-[#34773D] transition-colors cursor-pointer">
-                                    <i className="fas fa-arrow-left mr-2"></i>
+                                    <i className="fas fa-arrow-left mr-2" />
                                     Retour aux formations
                                 </a>
                             </div>
-                            <h1 className="text-4xl md:text-5xl font-serif font-bold mb-4">{formation.title}</h1>
+                            <h1 className="text-4xl md:text-5xl font-serif font-bold mb-4">{formation?.title}</h1>
                             <div className="flex flex-wrap gap-3 mb-6">
-                                <Badge className="bg-[#34773D] text-white px-3 py-1">Niveau Bac+5</Badge>
-                                <Badge className="bg-white text-[#1B2A4A] px-3 py-1">{`${formation.duration}`}</Badge>
-                                <Badge className="bg-[#1B2A4A] text-white border border-white px-3 py-1">Formation initiale</Badge>
-                                <Badge className="bg-[#1B2A4A] text-white border border-white px-3 py-1">Formation continue</Badge>
+                                <Badge className="bg-white text-[#1B2A4A] px-3 py-1">
+                                    <LucideTimer />
+                                    {`${formation?.duration} ans`}
+                                </Badge>
+                                {formation?.examen.map((x, i) => (
+                                    <Badge key={i} className="bg-[#1B2A4A] text-white border border-white px-3 py-1">{x}</Badge>
+                                ))
+                                }
                             </div>
                             {/* description */}
-                            <p className="text-xl mb-8 font-light">F{"ormez-vous à l'analyse des enjeux géopolitiques contemporains et préparez-vous à une carrière internationale dans la diplomatie, les organisations internationales ou les entreprises multinationales."}</p>
+                            <p className="text-xl mb-8 font-light">{formation?.description}</p>
                             <div className="flex flex-col sm:flex-row gap-4">
-                                <Button className="bg-[#34773D] hover:bg-[#34773D]/80 text-white px-6 py-5 text-lg !rounded-button whitespace-nowrap">
-                                    Candidater maintenant
-                                    <i className="fas fa-user-edit ml-2"></i>
-                                </Button>
+                                <Link href={"/contacts"}>
+                                    <Button className="bg-[#34773D] hover:bg-[#34773D]/80 text-white px-6 py-5 text-lg !rounded-button whitespace-nowrap">
+                                        Candidater maintenant
+                                        <i className="fas fa-user-edit ml-2"></i>
+                                    </Button>
+                                </Link>
                                 <Link href="/catalogue.pdf" target="_blank" rel="noopener noreferrer">
                                     <Button variant="outline" className="cursor-pointer text-white hover:text-white bg-[#1B2A4A]/80 hover:bg-[#1B2A4A]/30 px-8 text-lg !rounded-button whitespace-nowrap">
                                         Télécharger la brochure
@@ -73,20 +82,20 @@ const Details = ({ formation }: Props) => {
                                         value="presentation"
                                         className="data-[state=active]:bg-[#34773D] data-[state=active]:border-[#34773D] data-[state=active]:text-white rounded-none h-16 px-6"
                                     >
-                                        Présentation
+                                        {"Présentation de nos objectifs"}
                                     </TabsTrigger>
-                                    <TabsTrigger
+                                    {/* <TabsTrigger
                                         value="debouches"
                                         className="data-[state=active]:bg-[#34773D] data-[state=active]:border-[#34773D] data-[state=active]:text-white rounded-none h-16 px-6"
                                     >
                                         Débouchés professionnels
-                                    </TabsTrigger>
-                                    <TabsTrigger
+                                    </TabsTrigger> */}
+                                    {/* <TabsTrigger
                                         value="admission"
                                         className="data-[state=active]:bg-[#34773D] data-[state=active]:border-[#34773D] data-[state=active]:text-white rounded-none h-16 px-6"
                                     >
                                         Admission et coûts
-                                    </TabsTrigger>
+                                    </TabsTrigger> */}
                                 </TabsList>
                             </div>
 
@@ -94,7 +103,7 @@ const Details = ({ formation }: Props) => {
                             <div className="py-12">
                                 {/* Présentation */}
                                 <TabsContent value="presentation" className="mt-0">
-                                    <Presentation />
+                                    <Presentation formation={formation} ecole={ecole} />
                                 </TabsContent>
 
                                 {/* Débouchés professionnels */}
