@@ -10,7 +10,7 @@ interface Props {
 
 const GridEcole = ({ ecoles }: Props) => {
     return (
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 py-10 p-10'>
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 py-10 p-10'>
             {ecoles.map((ecole, index) => (
                 <Link href={ `/nos-ecoles/${ecole._id}`} key={index} className="overflow-hidden flex flex-col cursor-pointer hover:shadow-lg transition-shadow border rounded-xl">
                     <div className="w-full overflow-hidden">
