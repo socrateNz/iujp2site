@@ -47,7 +47,7 @@ const KeyFigures = () => {
             name: 'Taux de réussite',
             type: 'bar',
             barWidth: '60%',
-            data: [85, 88, 92, 94, 96],
+            data: [98, 88, 92, 94, 96],
             itemStyle: {
               color: '#1B2A4A'
             }
@@ -115,10 +115,10 @@ const KeyFigures = () => {
   }, []);
 
   const figures = [
-    { icon: <FaUserGraduate className='text-[#34773D] text-4xl' />, value: '3,500+', label: 'Étudiants inscrits' },
-    { icon: <FaChalkboardTeacher className='text-[#34773D] text-4xl' />, value: '180', label: 'Professeurs et chercheurs' },
-    { icon: <FaGraduationCap className='text-[#34773D] text-4xl' />, value: '96%', label: 'Taux de réussite' },
-    { icon: <FaGlobeAfrica className='text-[#34773D] text-4xl' />, value: '45', label: 'Partenariats internationaux' }
+    { icon: <FaUserGraduate className='text-[#34773D] text-4xl' />, value: '1,500+', label: 'Étudiants inscrits' },
+    { icon: <FaChalkboardTeacher className='text-[#34773D] text-4xl' />, value: '40+', label: 'Professeurs et chercheurs' },
+    { icon: <FaGraduationCap className='text-[#34773D] text-4xl' />, value: '98%', label: 'Taux de réussite' },
+    { icon: <FaGlobeAfrica className='text-[#34773D] text-4xl' />, value: '12', label: 'Partenariats internationaux' }
   ];
 
   return (

@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
 import { useState, ChangeEvent } from "react"
 import { Ecole } from "@/lib/types"
+import { Textarea } from "@/components/ui/textarea"
 
 
 interface EditArticleDialogProps {
@@ -95,23 +96,27 @@ export default function EditEcoleDialog({
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>{children}</DialogTrigger>
-            <DialogContent className="sm:max-w-lg">
+            <DialogContent className="sm:max-w-lg max-h-[700px] overflow-auto">
                 <DialogHeader>
                     <DialogTitle>Modifier l’article</DialogTitle>
                 </DialogHeader>
                 <div className="space-y-4 pt-2">
-                    <Input
-                        placeholder="Nom de l'école"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        required
-                    />
-                    <Input
-                        placeholder="Description"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        required
-                    />
+                    <div>
+                        <p>Titre</p>
+                        <Input
+                            placeholder="Titre"
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            required />
+                    </div>
+                    <div>
+                        <p>Description</p>
+                        <Textarea
+                            placeholder="Description"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            required />
+                    </div>
                     <div>
                         <label className="block mb-1 text-sm font-medium">Image</label>
                         <Input type="file" accept="image/*" onChange={handleImageChange} />
@@ -123,11 +128,14 @@ export default function EditEcoleDialog({
                             />
                         )}
                     </div>
-                    <Input
-                        placeholder="Directeur (optionnel)"
-                        value={directeur}
-                        onChange={(e) => setDirecteur(e.target.value)}
-                    />
+                    <div>
+                        <p>Directeur</p>
+                        <Input
+                            placeholder="Directeur"
+                            value={directeur}
+                            onChange={(e) => setDirecteur(e.target.value)}
+                            required />
+                    </div>
                 </div>
                 <DialogFooter className="pt-4">
                     <Button onClick={() => setOpen(false)} variant="outline">Annuler</Button>

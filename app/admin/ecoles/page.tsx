@@ -46,7 +46,7 @@ export default function EcolesAdminPage() {
   const handleDeleteEcole = async (ecoleId: string) => {
 
     try {
-      const response = await fetch(`/api/admin/ecole/${ecoleId}`, {
+      const response = await fetch(`/api/admin/ecoles/${ecoleId}`, {
         method: 'DELETE',
       });
 

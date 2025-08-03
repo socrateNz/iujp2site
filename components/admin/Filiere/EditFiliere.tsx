@@ -1,5 +1,9 @@
-"use client"
+"use client";
 
+import { useEffect, useState, ChangeEvent } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Dialog,
   DialogTrigger,
@@ -7,97 +11,132 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { toast } from "sonner"
-import { useEffect, useState, ChangeEvent } from "react"
-import { Filiere } from "@/lib/types"
+} from "@/components/ui/dialog";
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormMessage
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+import { Filiere } from "@/lib/types";
+import { MultiSelectUsers } from "@/components/ui/multi-select";
 
 interface Ecole {
-  _id: string
-  title: string
+  _id: string;
+  title: string;
 }
 
+const formSchema = z.object({
+  title: z.string().min(1),
+  image: z.any(),
+  description: z.string().min(1),
+  duration: z.string().min(1),
+  ecoleId: z.string().min(1),
+  examen: z.array(z.string()).optional(),
+});
+
+export const diplomes = [
+  { id: 1, name: "CERTIFICATION" },
+  { id: 2, name: "BTS/HND" },
+  { id: 3, name: "LICENCE" },
+  { id: 4, name: "MASTER" },
+  { id: 5, name: "DOCTORAT" }
+];
+
 interface Props {
-  filiere: Filiere
-  children: React.ReactNode
-  onUpdate: (filiere: Filiere) => void
+  filiere: Filiere;
+  children: React.ReactNode;
+  onUpdate: (filiere: Filiere) => void;
 }
 
 export default function EditFiliereDialog({ filiere, children, onUpdate }: Props) {
-  const [title, setTitle] = useState(filiere.title)
-  const [description, setDescription] = useState(filiere.description)
-  const [duration, setDuration] = useState(String(filiere.duration))
-  const [ecoleId, setEcoleId] = useState(filiere.ecoleId)
-  const [examen, setExamen] = useState(filiere.examen?.join(", ") || "")
-  const [imageFile, setImageFile] = useState<File | null>(null)
-  const [imageUrl, setImageUrl] = useState(filiere.image || "")
-  const [ecoles, setEcoles] = useState<Ecole[]>([])
-  const [loading, setLoading] = useState(false)
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imageUrl, setImageUrl] = useState(filiere.image || "");
+  const [uploading, setUploading] = useState(false);
+  const [ecoles, setEcoles] = useState<Ecole[]>([]);
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      title: filiere.title,
+      image: "",
+      description: filiere.description,
+      duration: String(filiere.duration),
+      ecoleId: filiere.ecoleId,
+      examen: filiere.examen || [],
+    },
+  });
 
   useEffect(() => {
     fetch("/api/admin/ecoles")
       .then((res) => res.json())
       .then((data) => {
-        setEcoles(data.data?.ecoles || [])
-      })
-  }, [])
+        setEcoles(data.data?.ecoles || []);
+      });
+  }, []);
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setImageFile(e.target.files[0])
-      setImageUrl(URL.createObjectURL(e.target.files[0]))
+      setImageFile(e.target.files[0]);
+      const url = URL.createObjectURL(e.target.files[0]);
+      setImageUrl(url);
+      form.setValue("image", e.target.files[0]);
     }
-  }
+  };
 
   const handleUploadImage = async () => {
-    if (!imageFile) return imageUrl
-    const formData = new FormData()
-    formData.append("file", imageFile)
+    if (!imageFile) return imageUrl;
+    setUploading(true);
+    const formData = new FormData();
+    formData.append("file", imageFile);
     const res = await fetch("/api/upload", {
       method: "POST",
       body: formData,
-    })
-    const data = await res.json()
-    if (data.success && data.url) return data.url
-    toast.error(data.error || "Erreur upload image")
-    return imageUrl
-  }
+    });
+    const data = await res.json();
+    setUploading(false);
+    if (data.success && data.url) {
+      return data.url;
+    } else {
+      toast.error(data.error || "Erreur upload image");
+      return imageUrl;
+    }
+  };
 
-  const handleSubmit = async () => {
-    setLoading(true)
-    const uploadedImage = await handleUploadImage()
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    let uploadedImageUrl = imageUrl;
+    if (imageFile && !imageUrl.startsWith("http")) {
+      uploadedImageUrl = await handleUploadImage();
+      if (!uploadedImageUrl) return;
+    }
 
     try {
       const res = await fetch(`/api/admin/filieres/${filiere._id}`, {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          title,
-          description,
-          duration: Number(duration),
-          image: uploadedImage,
-          ecoleId,
-          examen: examen.split(",").map((e) => e.trim()),
+          ...values,
+          image: uploadedImageUrl,
+          duration: Number(values.duration),
+          examen: values.examen,
         }),
-      })
-
-      const data = await res.json()
+      });
+      const data = await res.json();
       if (data.success) {
-        toast.success("Filière mise à jour avec succès")
-        onUpdate(data.filiere)
+        toast.success("Filière mise à jour avec succès");
+        onUpdate(data.filiere);
       } else {
-        toast.error(data.error || "Erreur lors de la mise à jour")
+        toast.error(data.error || "Erreur lors de la mise à jour");
       }
     } catch (err) {
-      toast.error("Erreur serveur lors de la mise à jour")
-    } finally {
-      setLoading(false)
+      toast.error("Erreur lors de la mise à jour");
     }
-  }
+  };
 
   return (
     <Dialog>
@@ -107,47 +146,105 @@ export default function EditFiliereDialog({ filiere, children, onUpdate }: Props
           <DialogTitle>Modifier la filière</DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-4">
-          <Input placeholder="Nom de la filière" value={title} onChange={(e) => setTitle(e.target.value)} required />
-          <div>
-            <label className="block mb-1">Image</label>
-            <Input type="file" accept="image/*" onChange={handleImageChange} />
-            {imageUrl && <img src={imageUrl} alt="Aperçu" className="mt-2 max-h-40 rounded" />}
-          </div>
-          <Input placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} required />
-          <Input
-            placeholder="Durée (en années)"
-            value={duration}
-            type="number"
-            min={1}
-            onChange={(e) => setDuration(e.target.value)}
-            required
-          />
-          <div>
-            <label className="block mb-1">École</label>
-            <select
-              className="w-full border rounded px-3 py-2"
-              value={ecoleId}
-              onChange={(e) => setEcoleId(e.target.value)}
-              required
-            >
-              <option value="">Sélectionner une école</option>
-              {ecoles.map((ecole) => (
-                <option key={ecole._id} value={ecole._id}>
-                  {ecole.title}
-                </option>
-              ))}
-            </select>
-          </div>
-          <Input placeholder="Examens (séparés par des virgules)" value={examen} onChange={(e) => setExamen(e.target.value)} />
-        </div>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nom</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Nom de la filière" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <DialogFooter className="pt-4">
-          <Button onClick={handleSubmit} disabled={loading}>
-            {loading ? "Mise à jour..." : "Mettre à jour"}
-          </Button>
-        </DialogFooter>
+            <FormItem>
+              <FormLabel>Image</FormLabel>
+              <FormControl>
+                <Input type="file" accept="image/*" onChange={handleImageChange} />
+              </FormControl>
+              {imageUrl && <img src={imageUrl} alt="Aperçu" className="mt-2 max-h-40 rounded" />}
+            </FormItem>
+
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Description</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Description" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="duration"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Durée (en années)</FormLabel>
+                  <FormControl>
+                    <Input type="number" min={1} placeholder="Ex: 3" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="ecoleId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>École</FormLabel>
+                  <FormControl>
+                    <select className="w-full border rounded px-3 py-2" {...field}>
+                      <option value="">Sélectionner une école</option>
+                      {ecoles.map((ecole) => (
+                        <option key={ecole._id} value={ecole._id}>
+                          {ecole.title}
+                        </option>
+                      ))}
+                    </select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="examen"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Diplômes</FormLabel>
+                  <FormControl>
+                    <MultiSelectUsers
+                      elts={diplomes}
+                      value={diplomes.filter((d) => field.value?.includes(d.name))}
+                      onChange={(selected) => field.onChange(selected.map((el) => el.name))}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <DialogFooter className="pt-4">
+              <Button type="submit" disabled={form.formState.isSubmitting || uploading}>
+                {form.formState.isSubmitting || uploading ? "Mise à jour..." : "Mettre à jour"}
+              </Button>
+            </DialogFooter>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

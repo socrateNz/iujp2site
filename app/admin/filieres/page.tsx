@@ -61,7 +61,7 @@ export default function FilieresAdminPage() {
   const handleDeleteFiliere = async (filiereId: string) => {
 
     try {
-      const response = await fetch(`/api/admin/filiere/${filiereId}`, {
+      const response = await fetch(`/api/admin/filieres/${filiereId}`, {
         method: 'DELETE',
       });
 
@@ -145,13 +145,13 @@ export default function FilieresAdminPage() {
                       <p className="text-gray-600 mb-2">{filiere.description}</p>
                       <div className='flex gap-2 items-center'>
                         <span>•</span>
-                        <p className="text-gray-600">{`${filiere.duration} ${filiere.duration > 1 ? 'ans' : 'an'}`}</p>
+                        <p className="text-gray-600 text-nowrap">{`${filiere.duration} ${filiere.duration > 1 ? 'ans' : 'an'}`}</p>
                         <span>•</span>
-                        <p className="text-gray-600">{filiere.examen?.join(", ")}</p>
+                        <p className="text-gray-600 text-nowrap">{filiere.examen?.join(", ")}</p>
                         <span>•</span>
                         <p className="text-gray-600">{
                           ecoles.find(ecole => ecole._id?.toString() === filiere.ecoleId)?.title}</p>
-                        <span className="flex items-center gap-1">
+                        <span className="flex text-nowrap items-center gap-1">
                           <Calendar className="h-3 w-3" /> Ajouté le
                           {new Date(filiere.createdAt).toLocaleDateString('fr-FR')}
                         </span>

@@ -1,10 +1,33 @@
 "use client";
 
-import { useState, useEffect, ChangeEvent } from 'react';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
+
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormMessage
+} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
+import { MultiSelectUsers } from '@/components/ui/multi-select';
+import { diplomes } from '@/data/data';
+
+const formSchema = z.object({
+  title: z.string().min(1),
+  image: z.any(),
+  description: z.string().min(1),
+  duration: z.string().min(1),
+  ecoleId: z.string().min(1),
+  examen: z.array(z.string()).optional(),
+});
 
 interface Ecole {
   _id: string;
@@ -12,17 +35,23 @@ interface Ecole {
 }
 
 export default function NewFilierePage() {
-  const [title, setTitle] = useState('');
+  const router = useRouter();
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState('');
-  const [description, setDescription] = useState('');
-  const [duration, setDuration] = useState('');
-  const [ecoleId, setEcoleId] = useState('');
-  const [examen, setExamen] = useState('');
-  const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [ecoles, setEcoles] = useState<Ecole[]>([]);
-  const router = useRouter();
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      title: '',
+      image: '',
+      description: '',
+      duration: '',
+      ecoleId: '',
+      examen: [],
+    },
+  });
 
   useEffect(() => {
     fetch('/api/admin/ecoles')
@@ -32,10 +61,12 @@ export default function NewFilierePage() {
       });
   }, []);
 
-  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setImageFile(e.target.files[0]);
-      setImageUrl(URL.createObjectURL(e.target.files[0]));
+      const url = URL.createObjectURL(e.target.files[0]);
+      setImageUrl(url);
+      form.setValue('image', e.target.files[0]);
     }
   };
 
@@ -58,28 +89,22 @@ export default function NewFilierePage() {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     let uploadedImageUrl = imageUrl;
     if (imageFile && !imageUrl.startsWith('http')) {
       uploadedImageUrl = await handleUploadImage();
-      if (!uploadedImageUrl) {
-        setLoading(false);
-        return;
-      }
+      if (!uploadedImageUrl) return;
     }
+
     try {
       const res = await fetch('/api/admin/filieres', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          title,
+          ...values,
           image: uploadedImageUrl,
-          description,
-          duration: Number(duration),
-          ecoleId,
-          examen: examen ? examen.split(',').map(e => e.trim()) : [],
+          duration: Number(values.duration),
+          examen: values.examen,
         }),
       });
       const data = await res.json();
@@ -91,46 +116,113 @@ export default function NewFilierePage() {
       }
     } catch (err) {
       toast.error('Erreur lors de la création');
-    } finally {
-      setLoading(false);
     }
   };
 
   return (
     <div className="max-w-xl mx-auto p-6">
       <h1 className="text-2xl font-bold mb-4">Nouvelle filière</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <Input placeholder="Nom de la filière" value={title} onChange={e => setTitle(e.target.value)} required />
-        <div>
-          <label className="block mb-1">Image</label>
-          <Input type="file" accept="image/*" onChange={handleImageChange} required />
-          {imageUrl && <img src={imageUrl} alt="Aperçu" className="mt-2 max-h-40 rounded" />}
-        </div>
-        <Input placeholder="Description" value={description} onChange={e => setDescription(e.target.value)} required />
-        <Input placeholder="Durée (en années)" value={duration} onChange={e => setDuration(e.target.value)} required type="number" min={1} />
-        <div>
-          <label className="block mb-1">École</label>
-          <select
-            className="w-full border rounded px-3 py-2"
-            value={ecoleId}
-            onChange={e => setEcoleId(e.target.value)}
-            required
-          >
-            <option value="">Sélectionner une école</option>
-            {ecoles.map(ecole => (
-              <option key={ecole._id} value={ecole._id}>{ecole.title}</option>
-            ))}
-          </select>
-        </div>
-        <Input placeholder="Examens (séparés par des virgules)" value={examen} onChange={e => setExamen(e.target.value)} />
-        <Button type="submit" disabled={loading || uploading}>
-          {loading || uploading ? (
-            <span className="flex items-center gap-2"><svg className="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" /></svg>Création...</span>
-          ) : (
-            'Créer'
-          )}
-        </Button>
-      </form>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <FormField
+            control={form.control}
+            name="title"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Nom</FormLabel>
+                <FormControl>
+                  <Input placeholder="Nom de la filière" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* IMAGE */}
+          <FormItem>
+            <FormLabel>Image</FormLabel>
+            <FormControl>
+              <Input type="file" accept="image/*" onChange={handleImageChange} />
+            </FormControl>
+            {imageUrl && <img src={imageUrl} alt="Aperçu" className="mt-2 max-h-40 rounded" />}
+          </FormItem>
+
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Description</FormLabel>
+                <FormControl>
+                  <Input placeholder="Description" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="duration"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Durée (en années)</FormLabel>
+                <FormControl>
+                  <Input type="number" min={1} placeholder="Ex: 3" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* ECOLE */}
+          <FormField
+            control={form.control}
+            name="ecoleId"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>École</FormLabel>
+                <FormControl>
+                  <select className="w-full border rounded px-3 py-2" {...field}>
+                    <option value="">Sélectionner une école</option>
+                    {ecoles.map((ecole) => (
+                      <option key={ecole._id} value={ecole._id}>
+                        {ecole.title}
+                      </option>
+                    ))}
+                  </select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* EXAMENS */}
+          <FormField
+            control={form.control}
+            name="examen"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Diplômes</FormLabel>
+                <FormControl>
+                  <MultiSelectUsers
+                    elts={diplomes}
+                    value={diplomes.filter((d) => field.value?.includes(d.name))}
+                    onChange={(selected) =>
+                      field.onChange(selected.map((el) => el.name))
+                    }
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <Button type="submit" disabled={form.formState.isSubmitting || uploading}>
+            {(form.formState.isSubmitting || uploading) ? 'Création...' : 'Créer'}
+          </Button>
+        </form>
+      </Form>
     </div>
   );
-} 
+}

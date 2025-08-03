@@ -425,24 +425,34 @@ export const programmeAnnee = [
 
 export const activities = [
     {
-        title: "Associations étudiantes",
-        image: "https://readdy.ai/api/search-image?query=Diverse%20student%20group%20meeting%20in%20campus%20lounge%2C%20planning%20student%20association%20activities%2C%20casual%20atmosphere%2C%20engaged%20discussion%2C%20modern%20university%20interior%2C%20bright%20natural%20lighting%2C%20clean%20minimalist%20background&width=400&height=300&seq=17&orientation=landscape",
-        description: "Plus de 30 associations étudiantes pour développer vos passions et enrichir votre parcours universitaire."
+        title: "Bureau des Etudiants",
+        image: "/associations/bureau.webp",
+        description: "Organisez la vie étudiante, créez des événements inoubliables et représentez vos camarades au sein du Bureau des Étudiants."
     },
     {
-        title: "Sport et bien-être",
-        image: "https://readdy.ai/api/search-image?query=University%20sports%20facilities%20with%20students%20exercising%2C%20modern%20gym%20equipment%2C%20fitness%20activities%2C%20healthy%20lifestyle%2C%20bright%20lighting%2C%20active%20atmosphere&width=400&height=300&seq=18&orientation=landscape",
-        description: "Installations sportives modernes et programmes de bien-être pour maintenir un équilibre sain entre études et vie personnelle."
+        title: "Club Fanfare",
+        image: "/associations/fanfare.webp",
+        description: "Rejoignez le club fanfare pour vibrer en musique, animer les événements et partager votre énergie avec toute la communauté."
     },
     {
-        title: "Événements culturels",
-        image: "https://readdy.ai/api/search-image?query=University%20cultural%20event%20with%20students%20attending%20performance%2C%20auditorium%20setting%2C%20artistic%20atmosphere%2C%20engaged%20audience%2C%20stage%20lighting&width=400&height=300&seq=19&orientation=landscape",
-        description: "Concerts, théâtre, expositions et festivals culturels organisés tout au long de l'année académique."
+        title: "Club Informatique",
+        image: "/associations/informatique.webp",
+        description: "Partagez votre passion du numérique, développez des projets innovants et progressez en codage au sein du club informatique étudiant."
     },
     {
-        title: "Projets communautaires",
-        image: "https://readdy.ai/api/search-image?query=Students%20volunteering%20in%20community%20service%20project%2C%20teamwork%2C%20helping%20others%2C%20outdoor%20activity%2C%20social%20responsibility%2C%20positive%20impact&width=400&height=300&seq=20&orientation=landscape",
-        description: "Initiatives de service communautaire et projets d'engagement social pour faire une différence positive."
+        title: "Chorale Universitaire",
+        image: "/associations/chorale.webp",
+        description: "Exprimez votre talent vocal, vivez la musique en groupe et animez les temps forts avec la Chorale Universitaire."
+    },
+    {
+        title: "Club Santé",
+        image: "/associations/sante.webp",
+        description: "Sensibilisez à la prévention, organisez des actions solidaires et promouvez le bien-être au sein du campus avec le Club Santé."
+    },
+    {
+        title: "Club Journal",
+        image: "/associations/journal.webp",
+        description: "Informez, rédigez et exprimez vos idées en rejoignant le Club Journal, la voix étudiante au cœur du campus."
     }
 ];
 
@@ -704,4 +714,12 @@ export const ecoles: Ecole[] = [
         ],
         logoUrl: "/Images/campus.webp"
     }
+];
+
+export const diplomes = [
+    { id: 1, name: "CERTIFICATION" },
+    { id: 2, name: "BTS/HND" },
+    { id: 3, name: "LICENCE" },
+    { id: 4, name: "MASTER" },
+    { id: 5, name: "DOCTORAT" }
 ];

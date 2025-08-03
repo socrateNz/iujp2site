@@ -80,11 +80,11 @@ const StudentLifeSection = () => {
                     </div>
                     <div className="relative">
                         <img
-                            src="/Images/campus.webp"
+                            src="/campus.webp"
                             alt="Campus de l'Université Internationale Jean Paul II de Bafang"
                             className="rounded-lg shadow-xl object-cover w-full h-[500px] object-top"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#1B2A4A]/80 to-transparent flex items-end rounded-lg">
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#1B2A4A]/50 to-transparent flex items-end rounded-lg">
                             <div className="p-8 text-white">
                                 <h3 className="text-2xl font-serif font-bold mb-2">{"Notre campus"}</h3>
                                 <p className="mb-4">{"Un environnement d'apprentissage exceptionnel au cœur de la ville."}</p>

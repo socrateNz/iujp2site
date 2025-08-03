@@ -51,7 +51,7 @@ const ClientComp = ({formationId}: {formationId: string}) => {
 
   // const formation = filieres.find((x) => x._id === Number(formationId));
   const formation = filieres.find((x) => x._id?.toString() === formationId);
-  const ecole = ecoles.find(x => x._id?.toString() === formation?.ecoleId)
+  const ecole = ecoles.find(x => x._id?.toString() === formation?.ecoleId)  
 
   return (
     <div>

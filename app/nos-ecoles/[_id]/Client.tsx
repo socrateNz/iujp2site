@@ -55,7 +55,16 @@ const Client = ({ filiereId }: { filiereId: string }) => {
     return (
         <div className='mt-15 flex flex-col items-center'>
             <Head title={ecole?.title} description={ecole?.description} />
-            <div className='max-w-[1400px] w-full mx-auto my-10'>
+            <div className='max-w-[1400px] w-full flex flex-col my-10'>
+                <div className='flex gap-3 items-center'>
+                    <img src={ecole?.image} alt={ecole?.title} className='max-w-[200px] w-full h-auto aspect-square object-cover' />
+                    <div className='flex flex-col'>
+                        {ecole?.description.replace(/\\n/g, '\b').split('\n').map((line, index) => (
+                            // <p key={index} className='mt-2 text-lg'>{line}</p>
+                            <p key={index} className='mt-2 text-lg ' style={{ whiteSpace: 'pre-line' }}>{line || "Bienvenue à l'Institut Universitaire Jean-Paul II, votre destination pour une éducation de qualité."}</p>
+                        ))}
+                    </div>
+                </div>
                 <FormationGrid formationsList={filieres.filter((x) => x.ecoleId === filiereId)} />
             </div>
         </div>

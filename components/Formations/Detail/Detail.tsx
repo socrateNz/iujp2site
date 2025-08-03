@@ -53,7 +53,6 @@ const Details = ({ formation, ecole }: Props) => {
                                 }
                             </div>
                             {/* description */}
-                            <p className="text-xl mb-8 font-light">{formation?.description}</p>
                             <div className="flex flex-col sm:flex-row gap-4">
                                 <Link href={"/contacts"}>
                                     <Button className="bg-[#34773D] hover:bg-[#34773D]/80 text-white px-6 py-5 text-lg !rounded-button whitespace-nowrap">

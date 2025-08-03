@@ -2,15 +2,16 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { ObjectId } from 'mongodb';
 import clientPromise from '@/lib/mongodb';
-import { ContactMessage, ApiResponse } from '@/lib/types';
 import { sendAdminReply } from '@/lib/sendMail';
 import { authOptions } from '@/lib/auth';
+import { NextApiRequest, NextApiResponse } from 'next';
+import { getSession } from 'next-auth/react';
 
 // GET - Récupérer la liste des messages de contact
 export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    
+
     if (!session?.user || session.user.role !== 'admin') {
       return NextResponse.json(
         { success: false, error: 'Accès non autorisé' },
@@ -29,7 +30,7 @@ export async function GET(request: NextRequest) {
 
     // Construire le filtre
     const filter: any = {};
-    
+
     if (status) filter.status = status;
     if (search) {
       filter.$or = [
@@ -42,7 +43,7 @@ export async function GET(request: NextRequest) {
 
     // Pagination
     const skip = (page - 1) * limit;
-    
+
     const contacts = await db.collection('contacts')
       .find(filter)
       .sort({ createdAt: -1 })
@@ -76,8 +77,8 @@ export async function GET(request: NextRequest) {
 // POST - Répondre à un message de contact
 export async function POST(request: NextRequest) {
   try {
-    const session = await getServerSession();
-    
+    const session = await getServerSession(authOptions);
+
     if (!session?.user || session.user.role !== 'admin') {
       return NextResponse.json(
         { success: false, error: 'Accès non autorisé' },
@@ -150,4 +151,110 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     );
   }
-} 
+}
+
+export async function PUT(request: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions);
+
+    if (!session?.user || session.user.role !== 'admin') {
+      return NextResponse.json(
+        { success: false, error: 'Accès non autorisé' },
+        { status: 401 }
+      );
+    }
+
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+
+    if (!id || !ObjectId.isValid(id)) {
+      return NextResponse.json(
+        { success: false, error: 'ID invalide ou manquant' },
+        { status: 400 }
+      );
+    }
+
+    const { status, notes } = await request.json();
+
+    const updateFields: any = {
+      updatedAt: new Date(),
+    };
+
+    if (status) updateFields.status = status;
+    if (notes !== undefined) updateFields.notes = notes;
+
+    const client = await clientPromise;
+    const db = client.db();
+
+    const result = await db.collection('contacts').updateOne(
+      { _id: new ObjectId(id) },
+      { $set: updateFields }
+    );
+
+    if (result.matchedCount === 0) {
+      return NextResponse.json(
+        { success: false, error: 'Message non trouvé' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      message: 'Message mis à jour avec succès'
+    });
+  } catch (error) {
+    console.error('Erreur mise à jour contact:', error);
+    return NextResponse.json(
+      { success: false, error: 'Erreur serveur' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions);
+
+    if (!session?.user || session.user.role !== 'admin') {
+      return NextResponse.json(
+        { success: false, error: 'Accès non autorisé' },
+        { status: 401 }
+      );
+    }
+
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+
+    if (!id || !ObjectId.isValid(id)) {
+      return NextResponse.json(
+        { success: false, error: 'ID invalide ou manquant' },
+        { status: 400 }
+      );
+    }
+
+    const client = await clientPromise;
+    const db = client.db();
+
+    const result = await db.collection('contacts').deleteOne({
+      _id: new ObjectId(id),
+    });
+
+    if (result.deletedCount === 0) {
+      return NextResponse.json(
+        { success: false, error: 'Message non trouvé' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      message: 'Message supprimé avec succès',
+    });
+  } catch (error) {
+    console.error('Erreur suppression contact:', error);
+    return NextResponse.json(
+      { success: false, error: 'Erreur serveur' },
+      { status: 500 }
+    );
+  }
+}

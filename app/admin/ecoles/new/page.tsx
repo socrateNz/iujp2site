@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
+import { Textarea } from '@/components/ui/textarea';
 
 export default function NewEcolePage() {
   const [title, setTitle] = useState('');
@@ -82,14 +83,23 @@ export default function NewEcolePage() {
     <div className="max-w-xl mx-auto p-6">
       <h1 className="text-2xl font-bold mb-4">Nouvelle école</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
-        <Input placeholder="Nom de l'école" value={title} onChange={e => setTitle(e.target.value)} required />
-        <Input placeholder="Description" value={description} onChange={e => setDescription(e.target.value)} required />
+        <div>
+          <p>Nom de l'école</p>
+          <Input placeholder="Nom de l'école" value={title} onChange={e => setTitle(e.target.value)} required />
+        </div>
+        <div>
+          <p>Description</p>
+          <Textarea rows={5} placeholder="Description" value={description} onChange={e => setDescription(e.target.value)} required />
+        </div>
         <div>
           <label className="block mb-1">Image</label>
           <Input type="file" accept="image/*" onChange={handleImageChange} required />
           {imageUrl && <img src={imageUrl} alt="Aperçu" className="mt-2 max-h-40 rounded" />}
         </div>
-        <Input placeholder="Directeur (optionnel)" value={directeur} onChange={e => setDirecteur(e.target.value)} />
+        <div>
+          <p>Directeur</p>
+          <Input placeholder="Directeur" value={directeur} onChange={e => setDirecteur(e.target.value)} required />
+        </div>
         <Button type="submit" disabled={loading || uploading}>
           {loading || uploading ? (
             <span className="flex items-center gap-2"><svg className="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" /></svg>Création...</span>

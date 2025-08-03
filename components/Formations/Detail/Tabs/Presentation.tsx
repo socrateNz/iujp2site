@@ -10,11 +10,11 @@ import React from 'react'
 //     formaation: Formation
 // }
 
-const Presentation = ({ formation, ecole }: { formation: Filiere | undefined; ecole: string|undefined; }) => {
+const Presentation = ({ formation, ecole }: { formation: Filiere | undefined; ecole: string | undefined; }) => {
 
     function getAnneeScolaire(): number {
         const date = new Date();
-        const mois = date.getMonth(); 
+        const mois = date.getMonth();
         const annee = date.getFullYear();
 
         return mois >= 6 ? annee : annee - 1;
@@ -23,13 +23,9 @@ const Presentation = ({ formation, ecole }: { formation: Filiere | undefined; ec
     return (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             <div className="lg:col-span-2">
-                <h2 className="text-3xl font-serif font-bold text-[#1B2A4A] mb-6">{"Vue d'ensemble du programme"}</h2>
-                <p className="text-gray-700 mb-6 text-lg leading-relaxed">
-                    {"Les formations proposées au sein de notre établissement sont conçues pour offrir une expérience d'apprentissage enrichissante et complète. Nos formateurs experts, passionnés par leur domaine, accompagnent chaque étudiant dans sa progression avec une approche personnalisée. Grâce à des méthodes pédagogiques innovantes et adaptées aux besoins du marché, les formations allient théorie et pratique, permettant aux apprenants de développer des compétences directement applicables dans leur futur professionnel. L’établissement dispose d’infrastructures modernes et d’outils pédagogiques à la pointe de la technologie, créant un environnement propice à l’épanouissement académique et personnel. Chaque parcours est pensé pour garantir la réussite et l'insertion professionnelle des étudiants, dans un cadre dynamique et collaboratif."}
-                </p>
-                <p className="text-gray-700 mb-8 text-lg leading-relaxed">
-                    {"Grâce à un corps professoral composé d'universitaires renommés et de praticiens expérimentés, les étudiants bénéficient d'un enseignement de haut niveau ancré dans les réalités du terrain. Le programme met l'accent sur l'acquisition de compétences analytiques, linguistiques et interculturelles essentielles pour évoluer dans un environnement international."}
-                </p>
+                <h2 className="text-3xl font-sans font-bold text-[#1B2A4A] mb-6">{"Vue d'ensemble du programme"}</h2>
+
+                <p className="text-xl mb-8 font-light">{formation?.description}</p>
 
                 <div className="bg-gray-50 p-8 rounded-lg mb-10">
                     <h3 className="text-2xl font-serif font-bold text-[#1B2A4A] mb-6">Objectifs pédagogiques</h3>
@@ -68,7 +64,7 @@ const Presentation = ({ formation, ecole }: { formation: Filiere | undefined; ec
                             </div>
                             <div>
                                 <h4 className="font-bold text-[#1B2A4A] text-sm">Durée</h4>
-                                {formation?.duration &&<p className="text-gray-600">{` ${formation.duration} ${formation.duration > 1 ? 'ans' : "an"}`} </p>}
+                                {formation?.duration && <p className="text-gray-600">{` ${formation.duration} ${formation.duration > 1 ? 'ans' : "an"}`} </p>}
                             </div>
                         </div>
                         <div className="flex items-start">
@@ -114,14 +110,16 @@ const Presentation = ({ formation, ecole }: { formation: Filiere | undefined; ec
                         </div>
                     </div>
                     <div className="p-6 bg-gray-50 space-y-4">
+                        <Link href="/contact">
                         <Button className="w-full bg-[#34773D] hover:bg-[#34773D]/80 text-white !rounded-button whitespace-nowrap">
                             Candidater maintenant
                             <i className="fas fa-arrow-right ml-2"></i>
                         </Button>
-                        <Button variant="outline" className="w-full border-[#1B2A4A] text-[#1B2A4A] hover:bg-[#1B2A4A] hover:text-white !rounded-button whitespace-nowrap">
-                            Demander une documentation
-                            <i className="fas fa-file-pdf ml-2"></i>
-                        </Button>
+                        </Link>
+                            {/* <Button variant="outline" className="w-full border-[#1B2A4A] text-[#1B2A4A] hover:bg-[#1B2A4A] hover:text-white !rounded-button whitespace-nowrap">
+                                Demander une documentation
+                                <i className="fas fa-file-pdf ml-2"></i>
+                            </Button> */}
                         <div className="text-center mt-4">
                             <p className="text-sm text-gray-500">Des questions ?</p>
                             <Link href="/contact" className="text-[#34773D] hover:underline font-medium cursor-pointer">Contactez un conseiller</Link>

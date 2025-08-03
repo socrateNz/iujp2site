@@ -70,7 +70,7 @@ export async function sendAdminReply(replyData: ReplyData) {
       <p>Équipe administrative<br>
       Université Internationale Jean Paul II de Bafang</p>
       <hr>
-      <p><em>Cet email a été envoyé depuis le système d'administration de l'UIJP II</em></p>
+      <p><em>ne répondez pas a cet email. <br /> Cet email a été envoyé depuis le système d'administration de l'UIJP II</em></p>
     `,
   };
 

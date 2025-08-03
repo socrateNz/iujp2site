@@ -35,10 +35,35 @@ export default function ContactForm() {
     },
   })
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values)
-    setSubmitted(true)
-  }
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: values.name,
+          email: values.email,
+          subject: values.subject,
+          message: values.message,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setSubmitted(true);
+        form.reset(); // Optionnel : reset du formulaire
+      } else {
+        alert(data.error || "Erreur lors de l'envoi du message.");
+      }
+    } catch (error) {
+      alert("Erreur réseau ou serveur.");
+      console.error(error);
+    }
+  };
+
 
   return (
     <Form {...form}>

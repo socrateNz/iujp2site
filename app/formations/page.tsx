@@ -3,8 +3,7 @@
 import FormationGrid from '@/components/Home/FormationGrid'
 import Loading from '@/components/loading'
 import Head from '@/components/ui/head'
-import { formations } from '@/data/data'
-import { Ecole, Filiere } from '@/lib/types'
+import { Filiere } from '@/lib/types'
 import React, { useEffect, useState } from 'react'
 
 const page = () => {
