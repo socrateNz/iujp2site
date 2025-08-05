@@ -28,9 +28,6 @@ const Home = () => {
         setLoading(false)
     }, []);
 
-    console.log(articles);
-    
-
     if (loading) {
         return (
             <Loading />
