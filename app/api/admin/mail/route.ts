@@ -19,7 +19,7 @@ export async function POST(req: Request) {
 
         await transporter.sendMail({
             from: `"${name}" <${email}>`,
-            to: process.env.EMAIL_TO,
+            to: email,
             subject: "Réponse de L'Université Internationale Jean Paul II de Bafang",
             text: message,
             html: `

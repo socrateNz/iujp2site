@@ -32,7 +32,7 @@ export default function AdminContacts() {
 
   useEffect(() => {
     fetchContacts();
-  }, []);
+  }, [selectedContact]);
 
   const fetchContacts = async () => {
     try {
@@ -64,7 +64,7 @@ export default function AdminContacts() {
         },
         body: JSON.stringify({
           name: replyForm.adminName,
-          email: "snzogning0@gmail.com",
+          email: selectedContact!.email,
           subject: "Réponse de l'UIJP II",
           message: replyForm.message,
         }),
@@ -166,7 +166,6 @@ export default function AdminContacts() {
       toast.error("Erreur lors de la suppression");
     }
   };
-
 
   return (
     <div className="space-y-6">

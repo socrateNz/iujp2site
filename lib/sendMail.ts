@@ -57,7 +57,7 @@ export async function sendContactNotification(contactData: ContactData) {
 // Envoi de réponse admin
 export async function sendAdminReply(replyData: ReplyData) {
   const mailOptions = {
-    from: process.env.SMTP_USER,
+    from: process.env.EMAIL_USER,
     to: replyData.to,
     subject: `Re: ${replyData.subject}`,
     html: `

@@ -4,8 +4,6 @@ import { ObjectId } from 'mongodb';
 import clientPromise from '@/lib/mongodb';
 import { sendAdminReply } from '@/lib/sendMail';
 import { authOptions } from '@/lib/auth';
-import { NextApiRequest, NextApiResponse } from 'next';
-import { getSession } from 'next-auth/react';
 
 // GET - Récupérer la liste des messages de contact
 export async function GET(request: NextRequest) {
