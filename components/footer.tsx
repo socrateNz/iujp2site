@@ -104,11 +104,11 @@ const Footer = () => {
               </li>
               <li className="flex items-center">
                 <i className="fas fa-phone-alt mr-3 text-[#34773D]"></i>
-                <Link href={"https://wa.me/message/42RBUTP466X5I1"} target={"_blank"} className={"text-gray-600"}>{"+237 6 87 65 24 67 / +237 6 52 99 23 01"}</Link>
+                <Link href={"https://wa.me/message/42RBUTP466X5I1"} target={"_blank"} className={"text-white"}>{"+237 6 87 65 24 67 / +237 6 52 99 23 01"}</Link>
               </li>
               <li className="flex items-center">
                 <i className="fas fa-envelope mr-3 text-[#34773D]"></i>
-                <Link href={"mailto:hndprogram.uijp2bafang@gmail.com"} target={"_blank"} className={"text-gray-600"}>hndprogram.uijp2bafang@gmail.com</Link>
+                <Link href={"mailto:hndprogram.uijp2bafang@gmail.com"} target={"_blank"} className={"text-white"}>hndprogram.uijp2bafang@gmail.com</Link>
               </li>
             </ul>
           </div>
