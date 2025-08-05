@@ -104,11 +104,11 @@ const Footer = () => {
               </li>
               <li className="flex items-center">
                 <i className="fas fa-phone-alt mr-3 text-[#34773D]"></i>
-                <span>696 259 025 - 671 525 662 - 699 305 168</span>
+                <Link href={"https://wa.me/message/42RBUTP466X5I1"} target={"_blank"} className={"text-gray-600"}>{"+237 6 87 65 24 67 / +237 6 52 99 23 01"}</Link>
               </li>
               <li className="flex items-center">
                 <i className="fas fa-envelope mr-3 text-[#34773D]"></i>
-                <span>contact@uijp2.fr</span>
+                <Link href={"mailto:hndprogram.uijp2bafang@gmail.com"} target={"_blank"} className={"text-gray-600"}>hndprogram.uijp2bafang@gmail.com</Link>
               </li>
             </ul>
           </div>
