@@ -55,7 +55,7 @@ const Client = ({ filiereId }: { filiereId: string }) => {
     return (
         <div className='mt-15 flex flex-col items-center'>
             <Head title={ecole?.title} description={ecole?.description} />
-            <div className='max-w-[1400px] w-full flex flex-col my-10'>
+            <div className='max-w-[1400px] w-full flex flex-col my-10 gap-10'>
                 <div className='flex gap-3 items-center'>
                     <img src={ecole?.image} alt={ecole?.title} className='max-w-[200px] w-full h-auto aspect-square object-cover' />
                     <div className='flex flex-col'>
@@ -65,7 +65,11 @@ const Client = ({ filiereId }: { filiereId: string }) => {
                         ))}
                     </div>
                 </div>
-                <FormationGrid formationsList={filieres.filter((x) => x.ecoleId === filiereId)} />
+
+                <div className='flex flex-col gap-5 border-t pt-10'>
+                    <h2 className='text-3xl font-bold uppercase'>Formations</h2>
+                    <FormationGrid formationsList={filieres.filter((x) => x.ecoleId === filiereId)} />
+                </div>
             </div>
         </div>
     )

@@ -54,9 +54,9 @@ const Details = ({ formation, ecole }: Props) => {
                             </div>
                             {/* description */}
                             <div className="flex flex-col sm:flex-row gap-4">
-                                <Link href={"/contacts"}>
+                                <Link target='_blank' href={"https://docs.google.com/forms/d/e/1FAIpQLScseIhBG54CVcHykTt43ErddcuebewPz2NLNDTd48EWsUeRag/viewform?usp=header"}>
                                     <Button className="bg-[#34773D] hover:bg-[#34773D]/80 text-white px-6 py-5 text-lg !rounded-button whitespace-nowrap">
-                                        Candidater maintenant
+                                        Postuler maintenant
                                         <i className="fas fa-user-edit ml-2"></i>
                                     </Button>
                                 </Link>

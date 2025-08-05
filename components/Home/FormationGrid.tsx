@@ -27,7 +27,7 @@ const FormationGrid = ({ formationsList }: Props) => {
     const router = useRouter();
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mx-7">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mx-7">
             {formationsList.map((formation, index) => (
                 <Card key={index} className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
                     <div className="h-[250px] overflow-hidden">

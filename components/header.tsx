@@ -51,7 +51,7 @@ const Header = () => {
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         <div onClick={() => router.push("/")} className="flex items-center gap-2 cursor-pointer">
           <img src="/Images/logo.png" alt="Logo" className="size-10" />
-          <div className="hidden md:block text-sm text-gray-600 font-serif">Université Internationale Jean Paul II de Bafang</div>
+          <p className="hidden md:block font-bold text-sm text-gray-600 font-serif max-w-[200px]">Université Internationale Jean Paul II de Bafang</p>
         </div>
         <Menu>
           <Button variant={"outline"} className="md:hidden text-[#1B2A4A] hover:bg-[#93b197] hover:text-white !rounded-button">

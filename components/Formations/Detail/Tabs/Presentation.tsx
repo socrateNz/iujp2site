@@ -1,7 +1,7 @@
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Filiere } from '@/lib/types'
-import { Calendar, GraduationCap, LucideTimer, Map } from 'lucide-react'
+import { ArrowRight, Calendar, GraduationCap, LucideTimer, Map } from 'lucide-react'
 import Link from 'next/link'
 // import { Formation } from '@/data/data'
 import React from 'react'
@@ -110,10 +110,10 @@ const Presentation = ({ formation, ecole }: { formation: Filiere | undefined; ec
                         </div>
                     </div>
                     <div className="p-6 bg-gray-50 space-y-4">
-                        <Link href="/contact">
+                        <Link target='_blank' href="https://docs.google.com/forms/d/e/1FAIpQLScseIhBG54CVcHykTt43ErddcuebewPz2NLNDTd48EWsUeRag/viewform?usp=header">
                         <Button className="w-full bg-[#34773D] hover:bg-[#34773D]/80 text-white !rounded-button whitespace-nowrap">
-                            Candidater maintenant
-                            <i className="fas fa-arrow-right ml-2"></i>
+                            Postuler maintenant
+                            <ArrowRight />
                         </Button>
                         </Link>
                             {/* <Button variant="outline" className="w-full border-[#1B2A4A] text-[#1B2A4A] hover:bg-[#1B2A4A] hover:text-white !rounded-button whitespace-nowrap">

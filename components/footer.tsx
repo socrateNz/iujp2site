@@ -1,6 +1,6 @@
 "use client";
 
-import { FaFacebookF, FaInstagram, FaLinkedinIn, FaTwitter } from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaLinkedinIn, FaTiktok, FaTwitter } from "react-icons/fa";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 
@@ -34,6 +34,25 @@ const Footer = () => {
     }
   ];
 
+  const socialLinks = [
+    {
+      url: "https://www.facebook.com/share/1JL9TaknAV/?mibextid=wwXIfr",
+      icon: <FaFacebookF size={18} />,
+    },
+    {
+      url: "https://x.com/JeanPaul2Bfg?t=PYNQBSE2SocA7-MeAvUF_w&s=09",
+      icon: <FaTwitter size={18} />,
+    },
+    {
+      url: "https://vm.tiktok.com/ZMHsFkfXYDGX9-1lm01/",
+      icon: <FaTiktok size={18} />,
+    },
+    {
+      url: "https://www.instagram.com/univjeanpaul2_bafang/profilecard/?igsh=bW1la252dXZjcjc5",
+      icon: <FaInstagram size={18} />,
+    },
+  ];
+
   return (
     <footer className="bg-[#1B2A4A] text-white pt-16 pb-8">
       <div className="container mx-auto px-4">
@@ -43,14 +62,18 @@ const Footer = () => {
               <img src="/Images/logo.png" alt="Logo" className="h-20 w-20" />
               <h3 className="text-xl font-serif font-bold mb-6 max-w-[250px] w-full flex justify-center">Université Internationale Jean Paul II de Bafang</h3>
             </div>
-            <p className="text-gray-300 mb-6">
-              Excellence académique, innovation et valeurs humanistes pour former les leaders de demain.
+            <p className="text-gray-300 mb-6 italic">
+              Science et conscience pour un monde meilleur
             </p>
             <div className="flex space-x-4">
-              {[<FaFacebookF size={18} />, <FaTwitter size={18} />, <FaLinkedinIn size={18} />, <FaInstagram size={18} />].map((social, index) => (
-                <a key={index} href="#" className="text-gray-300 hover:text-[#34773D] transition-colors cursor-pointer">
-                  {social}
-                </a>
+              {socialLinks.map((social, index) => (
+                <Link
+                  target="_blank"
+                  key={index}
+                  href={social.url}
+                  className="text-gray-300 hover:text-[#34773D] transition-colors cursor-pointer">
+                  {social.icon}
+                </Link>
               ))}
             </div>
           </div>
@@ -90,7 +113,7 @@ const Footer = () => {
           <p>© 2025 Université Internationale Jean Paul II de Bafang. Tous droits réservés.</p>
           <div className="flex gap-2 mx-auto w-full justify-center">
             <p>Designé et implémenté par </p>
-            <Link about="_blank" href={"https://portfolio-socrate.vercel.app/fr"} className="text-blue-400 italic">Etarcos Dev</Link>
+            <Link target="_blank" href={"https://portfolio-socrate.vercel.app/fr"} className="text-blue-400 italic">Etarcos Dev</Link>
           </div>
         </div>
       </div>
