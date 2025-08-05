@@ -6,7 +6,7 @@ const AboutSection = () => {
     { icon: 'medal', title: 'Excellence académique', description: 'Des programmes rigoureux et des enseignants de haut niveau.' },
     { icon: 'globe-americas', title: 'Dimension internationale', description: 'Des partenariats avec des universités prestigieuses.' },
     { icon: 'lightbulb', title: 'Innovation pédagogique', description: 'Des méthodes d\'enseignement adaptées aux réalités contemporaines.' },
-    { icon: 'hands-helping', title: 'Engagement sociétal', description: 'Une formation qui prépare à contribuer positivement à la société.' }
+    { icon: 'hands-helping', title: 'Engagement spirituel', description: 'Une formation qui renforce la foi, les valeurs chrétiennes et le sens du service.' }
   ];
 
   return (
