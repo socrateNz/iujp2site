@@ -1,6 +1,6 @@
 "use client";
 
-import { FaFacebookF, FaInstagram, FaLinkedinIn, FaTiktok, FaTwitter } from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaLinkedinIn, FaTiktok, FaTwitter, FaWhatsapp } from "react-icons/fa";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 
@@ -50,6 +50,10 @@ const Footer = () => {
     {
       url: "https://www.instagram.com/univjeanpaul2_bafang/profilecard/?igsh=bW1la252dXZjcjc5",
       icon: <FaInstagram size={18} />,
+    },
+    {
+      url: "https://wa.me/message/42RBUTP466X5I1",
+      icon: <FaWhatsapp size={18} />,
     },
   ];
 

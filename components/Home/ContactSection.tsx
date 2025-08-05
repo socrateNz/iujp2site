@@ -1,6 +1,6 @@
 import React from 'react';
 import ContactForm from './ContactForm';
-import { FaFacebookF, FaInstagram, FaLinkedinIn, FaTiktok, FaTwitter } from 'react-icons/fa';
+import { FaFacebookF, FaInstagram, FaLinkedinIn, FaTiktok, FaTwitter, FaWhatsapp } from 'react-icons/fa';
 import Link from 'next/link';
 
 const ContactSection = () => {
@@ -21,6 +21,10 @@ const ContactSection = () => {
     {
       url: "https://www.instagram.com/univjeanpaul2_bafang/profilecard/?igsh=bW1la252dXZjcjc5",
       icon: <FaInstagram size={18} />,
+    },
+    {
+      url: "https://wa.me/message/42RBUTP466X5I1",
+      icon: <FaWhatsapp size={18} />,
     },
   ];
 
@@ -109,7 +113,10 @@ const ContactSection = () => {
                   </div>
                 </div>
               </div>
-              <img src="/Images/whatsapp.jpg" alt="Whatsapp"  />
+              <div>
+                <h3 className="text-xl font-serif font-bold text-[#1B2A4A] mb-6 text-center">{"Scanner pour envoyer un message"}</h3>
+                <img src="/Images/whatsapp.jpg" alt="Whatsapp"  />
+              </div>
             </div>
           </div>
         </div>
