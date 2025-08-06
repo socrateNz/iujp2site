@@ -5,6 +5,7 @@ import { ArrowRight, Calendar, GraduationCap, LucideTimer, Map } from 'lucide-re
 import Link from 'next/link'
 // import { Formation } from '@/data/data'
 import React from 'react'
+import { FaWhatsapp } from 'react-icons/fa'
 
 // interface Props {
 //     formaation: Formation
@@ -111,18 +112,21 @@ const Presentation = ({ formation, ecole }: { formation: Filiere | undefined; ec
                     </div>
                     <div className="p-6 bg-gray-50 space-y-4">
                         <Link target='_blank' href="https://docs.google.com/forms/d/e/1FAIpQLScseIhBG54CVcHykTt43ErddcuebewPz2NLNDTd48EWsUeRag/viewform?usp=header">
-                        <Button className="w-full bg-[#34773D] hover:bg-[#34773D]/80 text-white !rounded-button whitespace-nowrap">
-                            Postuler maintenant
-                            <ArrowRight />
-                        </Button>
+                            <Button className="w-full bg-[#34773D] hover:bg-[#34773D]/80 text-white !rounded-button whitespace-nowrap">
+                                Postuler maintenant
+                                <ArrowRight />
+                            </Button>
                         </Link>
-                            {/* <Button variant="outline" className="w-full border-[#1B2A4A] text-[#1B2A4A] hover:bg-[#1B2A4A] hover:text-white !rounded-button whitespace-nowrap">
+                        {/* <Button variant="outline" className="w-full border-[#1B2A4A] text-[#1B2A4A] hover:bg-[#1B2A4A] hover:text-white !rounded-button whitespace-nowrap">
                                 Demander une documentation
                                 <i className="fas fa-file-pdf ml-2"></i>
                             </Button> */}
-                        <div className="text-center mt-4">
+                        <div className="flex flex-col items-center text-center mt-4">
                             <p className="text-sm text-gray-500">Des questions ?</p>
-                            <Link href="/contact" className="text-[#34773D] hover:underline font-medium cursor-pointer">Contactez un conseiller</Link>
+                            <Link href="https://wa.me/message/42RBUTP466X5I1" className="text-[#34773D] hover:underline font-medium cursor-pointer flex items-center gap-2">
+                                <FaWhatsapp />
+                                Contactez un conseiller
+                            </Link>
                         </div>
                     </div>
                 </div>

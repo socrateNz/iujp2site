@@ -25,6 +25,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Filiere } from "@/lib/types";
 import { MultiSelectUsers } from "@/components/ui/multi-select";
+import { Textarea } from "@/components/ui/textarea";
 
 interface Ecole {
   _id: string;
@@ -177,7 +178,7 @@ export default function EditFiliereDialog({ filiere, children, onUpdate }: Props
                 <FormItem>
                   <FormLabel>Description</FormLabel>
                   <FormControl>
-                    <Input placeholder="Description" {...field} />
+                    <Textarea rows={5} placeholder="Description" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

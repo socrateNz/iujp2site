@@ -19,6 +19,7 @@ import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { MultiSelectUsers } from '@/components/ui/multi-select';
 import { diplomes } from '@/data/data';
+import { Textarea } from '@/components/ui/textarea';
 
 const formSchema = z.object({
   title: z.string().min(1),
@@ -154,7 +155,7 @@ export default function NewFilierePage() {
               <FormItem>
                 <FormLabel>Description</FormLabel>
                 <FormControl>
-                  <Input placeholder="Description" {...field} />
+                  <Textarea rows={5} placeholder="Description" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
