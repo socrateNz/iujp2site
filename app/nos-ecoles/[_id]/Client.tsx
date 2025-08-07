@@ -56,7 +56,7 @@ const Client = ({ filiereId }: { filiereId: string }) => {
         <div className='mt-15 flex flex-col items-center'>
             <Head title={ecole?.title} description={ecole?.description} />
             <div className='max-w-[1400px] w-full flex flex-col my-10 gap-10'>
-                <div className='flex gap-3 items-center'>
+                <div className='flex flex-col md:flex-row gap-3 items-center'>
                     <img src={ecole?.image} alt={ecole?.title} className='max-w-[200px] w-full h-auto aspect-square object-cover' />
                     <div className='flex flex-col'>
                         {ecole?.description.replace(/\\n/g, '\b').split('\n').map((line, index) => (

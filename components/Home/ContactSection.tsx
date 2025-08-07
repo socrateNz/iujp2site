@@ -93,7 +93,7 @@ const ContactSection = () => {
                     </div>
                     <div>
                       <h4 className="font-bold text-[#1B2A4A] mb-1">{"Horaires d'ouverture"}</h4>
-                      <p className="text-gray-600">Lundi - Vendredi: 8h30 - 18h00<br />Samedi: 9h00 - 12h00</p>
+                      <p className="text-gray-600">Lundi - Vendredi: 8h00 - 17h00</p>
                     </div>
                   </div>
                 </div>
