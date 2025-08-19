@@ -57,18 +57,18 @@ const FormationsSection = () => {
         {examens.length > 0 && (
           <Tabs defaultValue="tous" className="w-full">
             <div className="flex justify-center mb-8">
-              <TabsList className="bg-gray-100 max-w-[90vw] gap-1 px-2 flex-wrap">
+              <TabsList className="bg-gray-100 max-w-[90vw] gap-1 px-2 flex flex-wrap">
                 <TabsTrigger key="tous" value="tous" className="cursor-pointer data-[state=active]:bg-[#1B2A4A] data-[state=active]:text-white px-3 py-1">
                   TOUS
                 </TabsTrigger>
                 {examens.map((examen) => (
-                  <TabsTrigger key={examen} value={examen} className="cursor-pointer data-[state=active]:bg-[#1B2A4A] data-[state=active]:text-white px-3 py-1">
+                  <TabsTrigger key={examen} value={examen} className="cursor-pointer data-[state=inactive]:text-[#1B2A4A] data-[state=active]:bg-[#1B2A4A] data-[state=active]:text-white px-3 py-1 w-fit">
                     {examen}
                   </TabsTrigger>
                 ))}
-                <Button onClick={() => router.push("/formations")} variant="ghost" className="cursor-pointer">
+                {/* <Button onClick={() => router.push("/formations")} variant="ghost" className="cursor-pointer">
                   Toutes les formations
-                </Button>
+                </Button> */}
               </TabsList>
             </div>
 
