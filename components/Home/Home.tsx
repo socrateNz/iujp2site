@@ -37,11 +37,11 @@ const Home = () => {
     return (
         <div>
             <HeroSection />
-            <KeyFigures />
             <AboutSection />
             <FormationsSection />
             <StudentLifeSection />
             <NewsSection articles={articles.slice(0,3)} />
+            <KeyFigures />
             <ContactSection />
         </div>
     )

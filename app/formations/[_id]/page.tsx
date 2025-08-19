@@ -22,7 +22,6 @@ const DatailFournPage = async ({ params }: Readonly<{
 
   const formationId = (await params)._id
 
-
   return (
     <div>
       <ClientComp formationId={formationId} />

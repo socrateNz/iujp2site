@@ -26,10 +26,10 @@ const Footer = () => {
     {
       title: "Nos Ecoles",
       items: [
-        { label: "Institut Supérieur de Bafang. (ISB)", href: "/nos-ecoles/" },
-        { label: "École des sciences de la santé de l'institut supérieur de Bafang (ESS-ISB)", href: "/nos-ecoles/" },
-        { label: "Kesmond international university (KIU)", href: "/nos-ecoles/" },
-        { label: "FASA", href: "/nos-ecoles/" },
+        { label: "Institut Supérieur de Bafang. (ISB)", href: "/nos-ecoles/688b380444ee853113770f4e" },
+        { label: "École des sciences de la santé de l'institut supérieur de Bafang (ESS-ISB)", href: "/nos-ecoles/688b3b9b9d13c9d67a522b83" },
+        { label: "Kesmond international university (KIU)", href: "/nos-ecoles/688b3ecd4f19d400290536a4" },
+        { label: "FASA", href: "/nos-ecoles/688b3ffc4f19d400290536a5" },
       ]
     }
   ];

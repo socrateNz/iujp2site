@@ -55,24 +55,29 @@ const FormationsSection = () => {
         </div>
 
         {examens.length > 0 && (
-          <Tabs defaultValue={examens[0]} className="w-full">
+          <Tabs defaultValue="tous" className="w-full">
             <div className="flex justify-center mb-8">
-              <TabsList className="bg-gray-100 max-w-[90vw] gap-1 px-2">
+              <TabsList className="bg-gray-100 max-w-[90vw] gap-1 px-2 flex-wrap">
+                <TabsTrigger key="tous" value="tous" className="cursor-pointer data-[state=active]:bg-[#1B2A4A] data-[state=active]:text-white px-3 py-1">
+                  TOUS
+                </TabsTrigger>
                 {examens.map((examen) => (
-                  <TabsTrigger
-                    key={examen}
-                    value={examen}
-                    className="cursor-pointer data-[state=active]:bg-[#1B2A4A] data-[state=active]:text-white px-3 py-1"
-                  >
+                  <TabsTrigger key={examen} value={examen} className="cursor-pointer data-[state=active]:bg-[#1B2A4A] data-[state=active]:text-white px-3 py-1">
                     {examen}
                   </TabsTrigger>
                 ))}
                 <Button onClick={() => router.push("/formations")} variant="ghost" className="cursor-pointer">
-                  {"Toutes les formations"}
+                  Toutes les formations
                 </Button>
               </TabsList>
             </div>
 
+            {/* Tous les filieres */}
+            <TabsContent value="tous" className="w-full">
+              <FormationGrid formationsList={filieres} />
+            </TabsContent>
+
+            {/* Filieres par examen */}
             {examens.map((examen) => {
               const filieresParExamen = filieres.filter(filiere => filiere.examen.includes(examen));
               return (
@@ -83,7 +88,6 @@ const FormationsSection = () => {
             })}
           </Tabs>
         )}
-
         <div className="mt-16 text-center">
           <Link href="/catalogue.pdf" target="_blank" rel="noopener noreferrer">
             <Button className="bg-[#1B2A4A] hover:bg-[#0F1A30] text-white px-8 py-6 text-lg !rounded-button whitespace-nowrap">

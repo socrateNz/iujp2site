@@ -38,7 +38,7 @@ const navigation: NavigationItem[] = [
   { name: 'Ecoles', href: '/admin/ecoles', icon: School },
   { name: 'Filieres', href: '/admin/filieres', icon: FileText },
   { name: 'Messages', href: '/admin/contacts', icon: MessageSquare },
-  { name: 'Paramètres', href: '/admin/parametres', icon: Settings },
+  // { name: 'Paramètres', href: '/admin/parametres', icon: Settings },
 ];
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
@@ -172,7 +172,7 @@ function MobileSidebar({
       />
       <div className="fixed inset-y-0 left-0 flex w-64 flex-col bg-white shadow-lg">
         <div className="flex h-16 items-center justify-between px-4">
-          <img src="/logo.png" alt="Logo" className="h-8 w-8" />
+          <img src="/Images/logo.png" alt="Logo" className="h-8 w-8" />
           <Button
             variant="ghost"
             size="sm"
