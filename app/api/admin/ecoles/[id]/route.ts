@@ -7,10 +7,6 @@ import { authOptions } from '@/lib/auth';
 // PATCH - Mettre à jour une école
 export async function PATCH(request: NextRequest, {params}: {params: Promise<{id: string}>}) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user || session.user.role !== 'admin') {
-      return NextResponse.json({ success: false, error: 'Accès non autorisé' }, { status: 401 });
-    }
     const id = (await params).id;
     const body = await request.json();
     const client = await clientPromise;
