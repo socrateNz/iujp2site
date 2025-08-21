@@ -15,7 +15,7 @@ const StudentLifeSection = () => {
         <section id="vie-etudiante" className="py-20 bg-gray-50">
             <div className="container mx-auto px-4">
                 <div className="text-center mb-16">
-                    <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#1B2A4A] mb-4">{"Vie étudiante"}</h2>
+                    <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#1B2A4A] mb-4">{"Vie estudiantine"}</h2>
                     <div className="w-20 h-1 bg-[#34773D] mx-auto"></div>
                     <p className="mt-6 text-gray-600 max-w-2xl mx-auto">{"Découvrez la richesse de la vie sur notre campus, où l'apprentissage se poursuit bien au-delà des salles de cours."}</p>
                 </div>
