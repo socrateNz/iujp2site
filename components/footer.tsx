@@ -108,7 +108,7 @@ const Footer = () => {
               </li>
               <li className="flex items-center">
                 <i className="fas fa-envelope mr-3 text-[#34773D]"></i>
-                <Link href={"mailto:info@uijpbafang.org"} target={"_blank"} className={"text-white"}>info@uijpbafang.org</Link>
+                <Link href={"mailto:infos@uijpbafang.org"} target={"_blank"} className={"text-white"}>infos@uijpbafang.org</Link>
               </li>
             </ul>
           </div>
