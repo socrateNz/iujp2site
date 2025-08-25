@@ -84,7 +84,7 @@ const ContactSection = () => {
                     </div>
                     <div>
                       <h4 className="font-bold text-[#1B2A4A] mb-1">Email</h4>
-                      <Link href={"mailto:hndprogram.uijp2bafang@gmail.com"} target={"_blank"} className={"text-gray-600"}>hndprogram.uijp2bafang@gmail.com</Link>
+                      <Link href={"mailto:info@uijpbafang.org"} target={"_blank"} className={"text-gray-600"}>info@uijpbafang.org</Link>
                     </div>
                   </div>
                   <div className="flex items-start">
