@@ -116,8 +116,8 @@ function AdminLayoutContent({ children }: AdminLayoutProps) {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Mobile Sidebar */}
-      <MobileSidebar 
-        sidebarOpen={sidebarOpen} 
+      <MobileSidebar
+        sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
         isActive={isActive}
         newMessagesCount={newMessagesCount}
@@ -125,7 +125,7 @@ function AdminLayoutContent({ children }: AdminLayoutProps) {
       />
 
       {/* Desktop Sidebar */}
-      <DesktopSidebar 
+      <DesktopSidebar
         isActive={isActive}
         newMessagesCount={newMessagesCount}
         handleSignOut={handleSignOut}
@@ -133,7 +133,7 @@ function AdminLayoutContent({ children }: AdminLayoutProps) {
 
       {/* Main Content Area */}
       <div className="lg:pl-64">
-        <Header 
+        <Header
           setSidebarOpen={setSidebarOpen}
           handleSignOut={handleSignOut}
           userName={session.user.name}
@@ -166,51 +166,57 @@ function MobileSidebar({
   return (
     <div className={`lg:hidden ${sidebarOpen ? 'fixed inset-0 z-50' : 'hidden'}`}>
       <div
-        className="fixed inset-0 bg-gray-600/75"
+        className="fixed inset-0 bg-gray-900/50 backdrop-blur-sm"
         onClick={() => setSidebarOpen(false)}
         aria-hidden="true"
       />
-      <div className="fixed inset-y-0 left-0 flex w-64 flex-col bg-white shadow-lg">
-        <div className="flex h-16 items-center justify-between px-4">
-          <img src="/Images/logo.png" alt="Logo" className="h-8 w-8" />
+      <div className="fixed inset-y-0 left-0 flex w-64 flex-col bg-slate-900 shadow-xl transition-transform duration-300 ease-in-out">
+        <div className="flex h-16 items-center justify-between px-4 border-b border-slate-800">
+          <div className="flex items-center gap-2">
+            <div className="h-8 w-8 rounded-lg bg-blue-600 flex items-center justify-center">
+              <span className="text-white font-bold">UI</span>
+            </div>
+            <span className="text-white font-semibold">Admin Panel</span>
+          </div>
           <Button
             variant="ghost"
             size="sm"
             onClick={() => setSidebarOpen(false)}
             aria-label="Fermer le menu"
+            className="text-slate-400 hover:text-white hover:bg-slate-800"
           >
             <X className="h-5 w-5" />
           </Button>
         </div>
-        <nav className="flex-1 space-y-1 px-2 py-4 overflow-y-auto">
-          {navigation.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-                isActive(item.href)
-                  ? 'bg-gray-100 text-gray-900'
-                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-              }`}
-              onClick={() => setSidebarOpen(false)}
-            >
-              <item.icon className="mr-3 h-5 w-5 flex-shrink-0" />
-              {item.name}
-              {item.name === 'Messages' && newMessagesCount > 0 && (
-                <span className="ml-auto flex h-5 w-5 items-center justify-center rounded-full bg-blue-500 text-xs text-white">
-                  {newMessagesCount}
-                </span>
-              )}
-              {isActive(item.href) && item.name !== 'Messages' && (
-                <span className="ml-auto h-2 w-2 rounded-full bg-blue-500" />
-              )}
-            </Link>
-          ))}
+        <nav className="flex-1 space-y-1 px-3 py-4 overflow-y-auto">
+          {navigation.map((item) => {
+            const active = isActive(item.href);
+            return (
+              <Link
+                key={item.name}
+                href={item.href}
+                className={`group flex items-center px-3 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 ${active
+                  ? 'bg-blue-600 text-white shadow-md shadow-blue-900/20'
+                  : 'text-slate-400 hover:bg-slate-800 hover:text-white'
+                  }`}
+                onClick={() => setSidebarOpen(false)}
+              >
+                <item.icon className={`mr-3 h-5 w-5 flex-shrink-0 transition-colors ${active ? 'text-white' : 'text-slate-500 group-hover:text-white'
+                  }`} />
+                {item.name}
+                {item.name === 'Messages' && newMessagesCount > 0 && (
+                  <span className="ml-auto flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white font-bold shadow-sm">
+                    {newMessagesCount}
+                  </span>
+                )}
+              </Link>
+            );
+          })}
         </nav>
-        <div className="p-4 border-t border-gray-200">
+        <div className="p-4 border-t border-slate-800">
           <Button
-            variant="outline"
-            className="w-full"
+            variant="ghost"
+            className="w-full justify-start text-slate-400 hover:text-red-400 hover:bg-slate-800 transition-colors"
             onClick={handleSignOut}
           >
             <LogOut className="mr-2 h-4 w-4" />
@@ -234,38 +240,55 @@ function DesktopSidebar({
 }) {
   return (
     <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col">
-      <div className="flex flex-col flex-grow bg-white border-r border-gray-200">
-        <div className="flex h-16 items-center px-4">
-          <h1 className="text-lg font-semibold">Admin UIJP II</h1>
+      <div className="flex flex-col flex-grow bg-slate-900 text-white shadow-xl">
+        <div className="flex h-16 items-center px-6 border-b border-slate-800">
+          <div className="flex items-center gap-3">
+            <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center shadow-lg shadow-blue-900/20">
+              <School className="h-5 w-5 text-white" />
+            </div>
+            <div>
+              <h1 className="text-sm font-bold tracking-tight">UIJP II</h1>
+              <p className="text-[10px] text-slate-400 font-medium">Administration</p>
+            </div>
+          </div>
         </div>
-        <nav className="flex-1 space-y-1 px-2 py-4 overflow-y-auto">
-          {navigation.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-                isActive(item.href)
-                  ? 'bg-gray-100 text-gray-900'
-                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-              }`}
-            >
-              <item.icon className="mr-3 h-5 w-5 flex-shrink-0" />
-              {item.name}
-              {item.name === 'Messages' && newMessagesCount > 0 && (
-                <span className="ml-auto flex h-5 w-5 items-center justify-center rounded-full bg-blue-500 text-xs text-white">
-                  {newMessagesCount}
-                </span>
-              )}
-              {isActive(item.href) && item.name !== 'Messages' && (
-                <span className="ml-auto h-2 w-2 rounded-full bg-blue-500" />
-              )}
-            </Link>
-          ))}
+        <nav className="flex-1 space-y-1 px-3 py-6 overflow-y-auto no-scrollbar">
+          <div className="px-3 mb-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+            Menu Principal
+          </div>
+          {navigation.map((item) => {
+            const active = isActive(item.href);
+            return (
+              <Link
+                key={item.name}
+                href={item.href}
+                className={`group flex items-center px-3 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 ${active
+                  ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/20 translate-x-1'
+                  : 'text-slate-400 hover:bg-slate-800 hover:text-white hover:translate-x-1'
+                  }`}
+              >
+                <item.icon className={`mr-3 h-5 w-5 flex-shrink-0 transition-colors ${active ? 'text-white' : 'text-slate-500 group-hover:text-white'
+                  }`} />
+                {item.name}
+                {item.name === 'Messages' && newMessagesCount > 0 && (
+                  <span className="ml-auto flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white font-bold shadow-sm">
+                    {newMessagesCount}
+                  </span>
+                )}
+              </Link>
+            );
+          })}
         </nav>
-        <div className="p-4 border-t border-gray-200">
+        <div className="p-4 border-t border-slate-800 bg-slate-900/50">
+          <div className="mb-4 px-2">
+            <div className="rounded-xl bg-slate-800 p-4">
+              <p className="text-xs text-slate-400 mb-2">Besoin d'aide ?</p>
+              <Link href={"https://portfolio-socrate.vercel.app/fr#contact"} className="text-xs font-medium text-slate-300">Contactez le support technique</Link>
+            </div>
+          </div>
           <Button
-            variant="outline"
-            className="w-full"
+            variant="ghost"
+            className="w-full justify-start text-slate-400 hover:text-red-400 hover:bg-slate-800 transition-colors"
             onClick={handleSignOut}
           >
             <LogOut className="mr-2 h-4 w-4" />
@@ -288,7 +311,7 @@ function Header({
   userName: string;
 }) {
   return (
-    <header className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
+    <header className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200/50 bg-white/80 backdrop-blur-xl px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
       <Button
         variant="ghost"
         size="sm"
@@ -300,17 +323,29 @@ function Header({
       </Button>
 
       <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-        <div className="flex flex-1"></div>
+        <div className="flex flex-1 items-center">
+          <h2 className="text-lg font-semibold text-gray-800">
+            Tableau de bord
+          </h2>
+        </div>
         <div className="flex items-center gap-x-4 lg:gap-x-6">
-          <div className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-200" />
           <div className="flex items-center gap-x-4">
-            <span className="text-sm text-gray-700">
-              {userName}
-            </span>
+            <div className="hidden sm:flex flex-col items-end">
+              <span className="text-sm font-semibold text-gray-900 leading-none">
+                {userName}
+              </span>
+              <span className="text-xs text-gray-500 mt-1">Administrateur</span>
+            </div>
+            <div className="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center border border-blue-200">
+              <Users className="h-4 w-4 text-blue-600" />
+            </div>
+
+            <div className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-200" />
+
             <Button
               variant="ghost"
-              size="sm"
-              className="lg:hidden"
+              size="icon"
+              className="text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-full"
               onClick={handleSignOut}
               aria-label="Déconnexion"
             >

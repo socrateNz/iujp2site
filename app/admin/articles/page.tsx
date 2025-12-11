@@ -12,7 +12,9 @@ import {
   Trash2,
   Eye,
   EyeOff,
-  Calendar
+  Calendar,
+  User,
+  Clock
 } from 'lucide-react';
 import Link from 'next/link';
 import { Article } from '@/lib/types';
@@ -118,15 +120,15 @@ export default function AdminArticles() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Gestion des articles</h1>
-          <p className="text-gray-600">
-            Gérez les articles et actualités du site
+          <h1 className="text-3xl font-bold tracking-tight text-slate-900">Articles</h1>
+          <p className="text-slate-500 mt-1">
+            Gestion du blog et des actualités.
           </p>
         </div>
         <Link href="/admin/articles/new">
-          <Button>
+          <Button className="bg-blue-600 hover:bg-blue-700 shadow-md hover:shadow-lg transition-all">
             <Plus className="mr-2 h-4 w-4" />
             Nouvel article
           </Button>
@@ -134,22 +136,22 @@ export default function AdminArticles() {
       </div>
 
       {/* Filtres */}
-      <Card>
+      <Card className="border-slate-200 shadow-sm">
         <CardContent className="pt-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="relative">
-              <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+              <Search className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
               <Input
-                placeholder="Rechercher un article..."
+                placeholder="Rechercher..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
+                className="pl-10 border-slate-200"
               />
             </div>
             <select
               value={filterCategory}
               onChange={(e) => setFilterCategory(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="px-3 py-2 border border-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-sm"
             >
               <option value="">Toutes les catégories</option>
               {categories.map(category => (
@@ -159,13 +161,13 @@ export default function AdminArticles() {
             <select
               value={filterPublished}
               onChange={(e) => setFilterPublished(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="px-3 py-2 border border-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-sm"
             >
               <option value="">Tous les statuts</option>
               <option value="true">Publiés</option>
               <option value="false">Brouillons</option>
             </select>
-            <Button onClick={fetchArticles} variant="outline">
+            <Button onClick={fetchArticles} variant="outline" className="border-slate-200 hover:bg-slate-50">
               Actualiser
             </Button>
           </div>
@@ -173,33 +175,39 @@ export default function AdminArticles() {
       </Card>
 
       {/* Liste des articles */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Articles ({filteredArticles.length})</CardTitle>
+      <Card className="border-slate-200 shadow-md">
+        <CardHeader className="border-b border-slate-100 bg-slate-50/50">
+          <CardTitle>Liste des Articles</CardTitle>
           <CardDescription>
-            Liste de tous les articles du site
+            {filteredArticles.length} articles trouvés
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-6">
           <div className="space-y-4">
             {filteredArticles.map((article) => (
-              <div key={article._id?.toString()} className="border rounded-lg p-4 hover:bg-gray-50">
-                <div className="flex items-start justify-between">
-                  <div className='flex gap-4 items-center'>
-                    <img src={article.image} alt={article.title} className='max-h-22 aspect-square rounded-sm object-cover' />
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <h3 className="font-semibold text-lg">{article.title}</h3>
-                        <Badge variant={article.published ? 'default' : 'secondary'}>
+              <div key={article._id?.toString()} className="group border border-slate-200 rounded-xl p-4 hover:shadow-lg transition-all duration-300 bg-white">
+                <div className="flex flex-col sm:flex-row items-start justify-between gap-4">
+                  <div className='flex flex-col sm:flex-row gap-4 items-start sm:items-center w-full'>
+                    <div className="relative overflow-hidden rounded-lg w-full sm:w-32 aspect-video bg-gray-100">
+                      <img
+                        src={article.image}
+                        alt={article.title}
+                        className='object-cover w-full h-full group-hover:scale-105 transition-transform duration-500'
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex flex-wrap items-center gap-2 mb-2">
+                        <h3 className="font-bold text-lg text-slate-900 line-clamp-1">{article.title}</h3>
+                        <Badge variant={article.published ? 'default' : 'secondary'} className={article.published ? "bg-emerald-500 hover:bg-emerald-600" : ""}>
                           {article.published ? 'Publié' : 'Brouillon'}
                         </Badge>
-                        <Badge variant="outline">{article.category}</Badge>
+                        <Badge variant="outline" className="text-slate-500 border-slate-200">{article.category}</Badge>
                       </div>
-                      <p className="text-gray-600 mb-2">{article.description}</p>
-                      <div className="flex items-center gap-4 text-sm text-gray-500">
-                        <span>Par {article.author}</span>
+                      <p className="text-slate-500 text-sm mb-3 line-clamp-2">{article.description}</p>
+                      <div className="flex flex-wrap items-center gap-4 text-xs text-slate-400 font-medium">
+                        <span className="flex items-center gap-1"><User className="h-3 w-3" /> {article.author}</span>
                         <span>•</span>
-                        <span>{article.readTime}</span>
+                        <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {article.readTime}</span>
                         <span>•</span>
                         <span className="flex items-center gap-1">
                           <Calendar className="h-3 w-3" />
@@ -208,11 +216,13 @@ export default function AdminArticles() {
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2 ml-4">
+                  <div className="flex items-center gap-2 self-start sm:self-center ml-auto">
                     <Button
                       size="sm"
-                      variant="outline"
+                      variant="ghost"
+                      className="text-slate-500 hover:text-blue-600 hover:bg-blue-50"
                       onClick={() => handleTogglePublished(article._id!.toString(), article.published)}
+                      title={article.published ? "Dépublier" : "Publier"}
                     >
                       {article.published ? (
                         <EyeOff className="h-4 w-4" />
@@ -221,15 +231,16 @@ export default function AdminArticles() {
                       )}
                     </Button>
                     <EditArticleDialog article={article} onSuccess={fetchArticles}>
-                      <Button size="sm" variant="outline">
+                      <Button size="sm" variant="ghost" className="text-slate-500 hover:text-blue-600 hover:bg-blue-50">
                         <Edit className="h-4 w-4" />
                       </Button>
                     </EditArticleDialog>
-                    
+
                     <ConfirmDialog message={'Êtes-vous sûr de vouloir supprimer cet article ?'} onConfirm={() => handleDeleteArticle(article._id!.toString())}>
                       <Button
                         size="sm"
-                        variant="destructive"
+                        variant="ghost"
+                        className="text-slate-500 hover:text-red-600 hover:bg-red-50"
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>

@@ -171,36 +171,36 @@ export default function AdminContacts() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Messages de contact</h1>
-        <p className="text-gray-600">
-          Gérez les messages reçus via le formulaire de contact
+        <h1 className="text-3xl font-bold tracking-tight text-slate-900">Messages</h1>
+        <p className="text-slate-500 mt-1">
+          Centre de messagerie et de support.
         </p>
       </div>
 
       {/* Filtres */}
-      <Card>
+      <Card className="border-slate-200 shadow-sm">
         <CardContent className="pt-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="relative">
-              <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+              <Search className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
               <Input
-                placeholder="Rechercher un message..."
+                placeholder="Rechercher..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
+                className="pl-10 border-slate-200 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="px-3 py-2 border border-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-sm text-slate-600"
             >
               <option value="">Tous les statuts</option>
               <option value="new">Nouveaux</option>
               <option value="read">Lus</option>
               <option value="replied">Répondus</option>
             </select>
-            <Button onClick={fetchContacts} variant="outline">
+            <Button onClick={fetchContacts} variant="outline" className="border-slate-200 hover:bg-slate-50 text-slate-600">
               Actualiser
             </Button>
           </div>
@@ -208,74 +208,91 @@ export default function AdminContacts() {
       </Card>
 
       {/* Liste des messages */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Messages ({filteredContacts.length})</CardTitle>
+      <Card className="border-slate-200 shadow-md">
+        <CardHeader className="border-b border-slate-100 bg-slate-50/50">
+          <CardTitle>Boîte de réception</CardTitle>
           <CardDescription>
-            Liste de tous les messages de contact
+            {filteredContacts.length} messages dans la liste
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-6">
           <div className="space-y-4">
             {filteredContacts.map((contact) => {
               return (
-                <div key={contact._id?.toString()} className="border rounded-lg p-4 hover:bg-gray-50">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
+                <div key={contact._id?.toString()} className={`group border rounded-xl p-5 hover:shadow-lg transition-all duration-300 ${contact.status === 'new' ? 'bg-white border-blue-200 shadow-sm' : 'bg-slate-50/50 border-slate-200'}`}>
+                  <div className="flex flex-col sm:flex-row items-start justify-between gap-4">
+                    <div className="flex-1 w-full">
+                      <div className="flex flex-wrap items-center gap-2 mb-3">
                         {getStatusIcon(contact.status)}
-                        <h3 className="font-semibold text-lg">{contact.subject}</h3>
+                        <h3 className={`text-lg ${contact.status === 'new' ? 'font-bold text-slate-900' : 'font-semibold text-slate-700'}`}>
+                          {contact.subject}
+                        </h3>
                         {getStatusBadge(contact.status)}
                       </div>
-                      <div className="flex items-center gap-4 text-sm text-gray-500 mb-2">
-                        <span><strong>De:</strong> {contact.name} ({contact.email})</span>
-                        <span>•</span>
-                        <span className="flex items-center gap-1">
+
+                      <div className="flex flex-wrap items-center gap-3 text-sm text-slate-500 mb-3 bg-slate-100/50 p-2 rounded-lg w-fit">
+                        <span className="font-medium text-slate-700">{contact.name}</span>
+                        <span className="text-slate-300">|</span>
+                        <span className="text-slate-600">{contact.email}</span>
+                        <span className="text-slate-300">|</span>
+                        <span className="flex items-center gap-1 text-xs">
                           <Clock className="h-3 w-3" />
-                          {new Date(contact.createdAt).toLocaleDateString('fr-FR')}
+                          {new Date(contact.createdAt).toLocaleDateString('fr-FR', {
+                            day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit'
+                          })}
                         </span>
                       </div>
-                      <p className="text-gray-600 mb-2">{contact.message}</p>
+
+                      <div className="prose prose-sm max-w-none text-slate-600 mb-4 bg-white p-4 rounded-lg border border-slate-100">
+                        {contact.message}
+                      </div>
+
                       {contact.replyMessage && (
-                        <div className="bg-blue-50 p-3 rounded-lg mt-2">
-                          <p className="text-sm font-medium text-blue-900 mb-1">
-                            Réponse de {contact.adminName}:
+                        <div className="ml-4 pl-4 border-l-2 border-blue-200 bg-blue-50/50 p-3 rounded-r-lg">
+                          <p className="text-xs font-bold text-blue-700 uppercase tracking-wide mb-1 flex items-center gap-2">
+                            <Reply className="h-3 w-3" />
+                            Réponse de {contact.adminName}
                           </p>
-                          <p className="text-sm text-blue-800">{contact.replyMessage}</p>
+                          <p className="text-sm text-blue-900">{contact.replyMessage}</p>
                         </div>
                       )}
                     </div>
-                    <div className="flex items-center gap-2 ml-4">
+
+                    <div className="flex sm:flex-col gap-2 self-end sm:self-start opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity">
                       {contact.status !== 'replied' && (
                         <Button
                           size="sm"
                           onClick={() => setSelectedContact(contact)}
-                          variant={"outline"}
+                          className="bg-blue-600 hover:bg-blue-700 text-white shadow-sm"
                         >
                           <Reply className="mr-2 h-4 w-4" />
                           Répondre
                         </Button>
                       )}
-                      {(contact.status !== 'replied') && <div>
-                        {(contact.status !== 'read') && (
+
+                      <div className="flex gap-2">
+                        {contact.status !== 'replied' && contact.status !== 'read' && (
                           <Button
                             size="sm"
                             onClick={() => handleRead(contact, "read")}
-                            variant={"outline"}
+                            variant="outline"
+                            className="text-slate-600 hover:text-green-600 hover:bg-green-50"
+                            title="Marquer comme lu"
                           >
-                            <Check className="mr-2 h-4 w-4" />
-                            Lu
+                            <Check className="h-4 w-4" />
                           </Button>
                         )}
-                      </div>}
 
-                      <Button
-                        size="sm"
-                        onClick={() => handleDelete(contact._id?.toString() || '')}
-                        variant={"destructive"}
-                      >
-                        <Trash className="h-4 w-4" />
-                      </Button>
+                        <Button
+                          size="sm"
+                          onClick={() => handleDelete(contact._id?.toString() || '')}
+                          variant="ghost"
+                          className="text-slate-400 hover:text-red-600 hover:bg-red-50"
+                          title="Supprimer"
+                        >
+                          <Trash className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </div>
