@@ -69,13 +69,14 @@ const DetailNews = ({ article }: Article) => {
                                 </p>
                             </div>
 
-                            {/* Article Body */}
+                            {/* Article Body (HTML issu de TipTap) */}
                             <div className="prose prose-lg max-w-none">
                                 <section id="introduction" className="mb-8">
                                     <h2 className="text-2xl font-serif font-bold text-gray-900 mb-4">Contenu</h2>
-                                    <p className="text-gray-700 leading-relaxed mb-4">
-                                        {article.content}
-                                    </p>
+                                    <div
+                                        className="text-gray-700 leading-relaxed mb-4"
+                                        dangerouslySetInnerHTML={{ __html: article.content }}
+                                    />
                                 </section>
                             </div>
 

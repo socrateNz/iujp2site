@@ -5,9 +5,18 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Textarea } from "@/components/ui/textarea";
 import { useSession } from "next-auth/react";
 import { Loader2 } from "lucide-react";
+import { EditorContent, useEditor, type Editor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import TextAlign from "@tiptap/extension-text-align";
+import Image from "@tiptap/extension-image";
+import Youtube from "@tiptap/extension-youtube";
+import { Table } from "@tiptap/extension-table";
+import TableRow from "@tiptap/extension-table-row";
+import TableCell from "@tiptap/extension-table-cell";
+import TableHeader from "@tiptap/extension-table-header";
+import TiptapMenu from "./TiptapMenu";
 
 export default function NewArticlePage() {
   const [title, setTitle] = useState("");
@@ -22,6 +31,32 @@ export default function NewArticlePage() {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { data: session } = useSession();
+
+  const editor = useEditor({
+    immediatelyRender: false,
+    extensions: [
+      StarterKit.configure({
+        heading: {
+          levels: [1, 2, 3, 4],
+        },
+      }),
+      TextAlign.configure({
+        types: ["heading", "paragraph"],
+      }),
+      Image,
+      Youtube,
+      Table.configure({
+        resizable: true,
+      }),
+      TableRow,
+      TableHeader,
+      TableCell,
+    ],
+    content,
+    onUpdate: ({ editor }: { editor: Editor }) => {
+      setContent(editor.getHTML());
+    },
+  });
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -94,9 +129,9 @@ export default function NewArticlePage() {
                 className="hidden"
               />
 
-              {uploading &&<>
-               <Loader2 className="animate-spin" size={20} />
-               <p>Téléchargement de l'image en cours...</p>
+              {uploading && <>
+                <Loader2 className="animate-spin" size={20} />
+                <p>Téléchargement de l'image en cours...</p>
               </>}
 
               {/* Aperçu de l'image */}
@@ -124,7 +159,12 @@ export default function NewArticlePage() {
             </div>
             <div>
               <label className="block mb-1 font-medium">Contenu</label>
-              <Textarea value={content} onChange={e => setContent(e.target.value)} rows={6} required />
+              <div className="border rounded">
+                <TiptapMenu editor={editor} />
+                <div className="min-h-[200px] p-2">
+                  <EditorContent editor={editor} />
+                </div>
+              </div>
             </div>
             <div>
               <label className="block mb-1 font-medium">Temps de lecture (ex: 5 min)</label>

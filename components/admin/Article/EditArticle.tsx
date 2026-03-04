@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -20,11 +20,20 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { Article } from "@/lib/types";
+import { EditorContent, useEditor, type Editor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import TextAlign from "@tiptap/extension-text-align";
+import Image from "@tiptap/extension-image";
+import Youtube from "@tiptap/extension-youtube";
+import { Table } from "@tiptap/extension-table";
+import TableRow from "@tiptap/extension-table-row";
+import TableCell from "@tiptap/extension-table-cell";
+import TableHeader from "@tiptap/extension-table-header";
+import TiptapMenu from "@/app/admin/articles/new/TiptapMenu";
 
 // Schéma de validation
 const articleFormSchema = z.object({
@@ -61,6 +70,7 @@ interface EditArticleDialogProps {
 export function EditArticleDialog({ article, onSuccess, children }: EditArticleDialogProps) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   const form = useForm<ArticleFormValues>({
     resolver: zodResolver(articleFormSchema),
@@ -76,6 +86,32 @@ export function EditArticleDialog({ article, onSuccess, children }: EditArticleD
     },
   });
 
+  const editor = useEditor({
+    immediatelyRender: false,
+    extensions: [
+      StarterKit.configure({
+        heading: {
+          levels: [1, 2, 3, 4],
+        },
+      }),
+      TextAlign.configure({
+        types: ["heading", "paragraph"],
+      }),
+      Image,
+      Youtube,
+      Table.configure({
+        resizable: true,
+      }),
+      TableRow,
+      TableHeader,
+      TableCell,
+    ],
+    content: article.content,
+    onUpdate: ({ editor }: { editor: Editor }) => {
+      form.setValue("content", editor.getHTML(), { shouldValidate: true });
+    },
+  });
+
   useEffect(() => {
     if (open) {
       form.reset({
@@ -88,8 +124,64 @@ export function EditArticleDialog({ article, onSuccess, children }: EditArticleD
         published: article.published,
         image: article.image || "",
       });
+      if (editor) {
+        editor.commands.setContent(article.content || "");
+      }
     }
-  }, [open, article, form]);
+  }, [open, article, form, editor]);
+
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const previousUrl = form.getValues("image") || article.image;
+
+    try {
+      setUploadingImage(true);
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const uploadRes = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const uploadData = await uploadRes.json();
+
+      if (!uploadRes.ok || !uploadData?.success || !uploadData?.url) {
+        throw new Error(uploadData?.error || "Erreur lors de l'upload de l'image");
+      }
+
+      // Met à jour le champ image avec la nouvelle URL
+      form.setValue("image", uploadData.url, { shouldValidate: true });
+
+      // Supprime l'ancienne image si elle existe et est différente
+      if (previousUrl && previousUrl !== uploadData.url) {
+        try {
+          await fetch("/api/delete-image", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ url: previousUrl }),
+          });
+        } catch (err) {
+          // On ne bloque pas l'édition si la suppression échoue
+          console.error("Erreur lors de la suppression de l'ancienne image", err);
+        }
+      }
+
+      toast.success("Image mise à jour avec succès.");
+    } catch (error) {
+      console.error(error);
+      toast.error("Erreur lors de la mise à jour de l'image.");
+    } finally {
+      setUploadingImage(false);
+      // reset de l'input fichier pour pouvoir re-upload la même image si besoin
+      e.target.value = "";
+    }
+  };
 
   async function onSubmit(data: ArticleFormValues) {
     try {
@@ -151,8 +243,9 @@ export function EditArticleDialog({ article, onSuccess, children }: EditArticleD
                   <FormItem className="md:col-span-2">
                     <FormLabel>Description</FormLabel>
                     <FormControl>
-                      <Textarea
+                      <textarea
                         placeholder="Description courte de l'article"
+                        className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
                         {...field}
                       />
                     </FormControl>
@@ -168,11 +261,13 @@ export function EditArticleDialog({ article, onSuccess, children }: EditArticleD
                   <FormItem className="md:col-span-2">
                     <FormLabel>Contenu</FormLabel>
                     <FormControl>
-                      <Textarea
-                        placeholder="Contenu complet de l'article"
-                        rows={10}
-                        {...field}
-                      />
+                      <div className="border rounded">
+                        <input type="hidden" {...field} />
+                        <TiptapMenu editor={editor} />
+                        <div className="min-h-[200px] p-2">
+                          <EditorContent editor={editor} />
+                        </div>
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -226,12 +321,37 @@ export function EditArticleDialog({ article, onSuccess, children }: EditArticleD
                 name="image"
                 render={({ field }) => (
                   <FormItem className="md:col-span-2">
-                    <FormLabel>URL de l'image</FormLabel>
+                    <FormLabel>Image</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="https://example.com/image.jpg"
-                        {...field}
-                      />
+                      <div className="space-y-2">
+                        {/* Aperçu de l'image actuelle */}
+                        {field.value ? (
+                          <div className="mt-2">
+                            <img
+                              src={field.value}
+                              alt="Aperçu"
+                              className="max-h-40 rounded border"
+                            />
+                          </div>
+                        ) : <Loader2 className="h-4 w-4 animate-spin" />}
+
+                        {/* Input fichier pour remplacer l'image */}
+                        <Input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleImageChange}
+                        />
+
+                        {uploadingImage && (
+                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                            <span>Mise à jour de l'image...</span>
+                          </div>
+                        )}
+
+                        {/* Champ caché pour conserver l'URL dans le formulaire */}
+                        <input type="hidden" {...field} />
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
