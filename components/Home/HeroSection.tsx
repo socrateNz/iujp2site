@@ -13,13 +13,6 @@ const items = [
     url: "/catalogue.pdf"
   },
   {
-    image: '/Images/eveque.webp',
-    title: "",
-    description: "",
-    textButton: "",
-    url: "/"
-  },
-  {
     image: '/Images/campus.webp',
     title: "Des écoles de qualité pour un avenir prometteur",
     description: "Découvrez des établissements reconnus pour leur excellence académique, offrant un environnement propice à l’épanouissement et à la réussite de chaque élève.",
@@ -28,31 +21,24 @@ const items = [
   },
   {
     image: '/Images/etudiants.webp',
-    title: "",
-    description: "",
-    textButton: "",
-    url: "/"
+    title: "Un avénir assuré",
+    description: "Nos programmes sont conçus pour développer vos compétences, vous préparer aux défis du marché et garantir un apprentissage pratique et efficace.",
+    textButton: "Voir les formations",
+    url: "/formations"
   },
   {
     image: '/Images/admin.webp',
-    title: "",
-    description: "",
-    textButton: "",
-    url: "/"
+    title: "Un personnel qualifié et spécialisé",
+    description: "Nos établissement recrutent un personnel hautement qualifié pour accompagner les etudiants",
+    textButton: "Nos écoles",
+    url: "/nos-ecoles"
   },
   {
-    image: '/Images/formation.webp',
+    image: '/Images/laureats.webp',
     title: "Élevez vos compétences, boostez votre futur",
     description: "Nos programmes sont conçus pour développer vos compétences, vous préparer aux défis du marché et garantir un apprentissage pratique et efficace.",
     textButton: "Consulter les formations",
     url: "/formations"
-  },
-  {
-    image: '/Images/laureats.webp',
-    title: "",
-    description: "",
-    textButton: "",
-    url: "/"
   },
 ];
 
