@@ -15,7 +15,8 @@ const items = [
     textButton: "Télécharger le catalogue",
     url: "/catalogue.pdf",
     icon: GraduationCap,
-    color: "from-blue-600 to-purple-600"
+    color: "from-blue-600/50 to-purple-600/50",
+    textColor: "from-blue-600 to-purple-600"
   },
   {
     image: '/Images/campus.webp',
@@ -26,7 +27,8 @@ const items = [
     textButton: "Voir les écoles",
     url: "/nos-ecoles",
     icon: BookOpen,
-    color: "from-emerald-600 to-teal-600"
+    color: "from-emerald-600/50 to-teal-600/50",
+    textColor: "from-emerald-600 to-teal-600"
   },
   {
     image: '/Images/etudiants.webp',
@@ -37,7 +39,8 @@ const items = [
     textButton: "Voir les formations",
     url: "/formations",
     icon: Sparkles,
-    color: "from-amber-600 to-orange-600"
+    color: "from-amber-600/50 to-orange-600/50",
+    textColor: "from-amber-600 to-orange-600"
   },
   {
     image: '/Images/admin.webp',
@@ -48,7 +51,8 @@ const items = [
     textButton: "Nos écoles",
     url: "/nos-ecoles",
     icon: Users,
-    color: "from-rose-600 to-pink-600"
+    color: "from-rose-600/50 to-pink-600/50",
+    textColor: "from-rose-600 to-pink-600"
   },
   {
     image: '/Images/laureats.webp',
@@ -59,7 +63,8 @@ const items = [
     textButton: "Consulter les formations",
     url: "/formations",
     icon: Sparkles,
-    color: "from-indigo-600 to-violet-600"
+    color: "from-indigo-600/50 to-violet-600/50",
+    textColor: "from-indigo-600 to-violet-600"
   },
 ];
 
@@ -325,7 +330,7 @@ export default function HeroSection() {
               variants={itemVariants}
               className="inline-flex items-center gap-3 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20"
             >
-              <CurrentIcon className="w-5 h-5" />
+              {/* <CurrentIcon className="w-5 h-5" /> */}
               <span className="text-sm font-medium tracking-wider uppercase">
                 {items[index].subtitle}
               </span>
@@ -352,7 +357,7 @@ export default function HeroSection() {
                   delay: 0.3,
                   ease: [0.22, 1, 0.36, 1]
                 }}
-                className={`inline-block text-5xl md:text-7xl font-bold bg-gradient-to-r ${items[index].color} bg-clip-text text-transparent`}
+                className={`inline-block text-5xl md:text-7xl font-bold bg-gradient-to-r ${items[index].textColor} bg-clip-text text-transparent`}
               >
                 {items[index].highlight}
               </motion.span>
@@ -475,7 +480,7 @@ export default function HeroSection() {
       <motion.div
         className="absolute bottom-0 left-0 h-1 z-20"
         style={{
-          background: `linear-gradient(90deg, ${items[index].color.split(' ')[1]} 0%, ${items[index].color.split(' ')[3]} 100%)`
+          background: `linear-gradient(45deg, ${items[index].color.split(' ')[1]} 0%, ${items[index].color.split(' ')[3]} 20%)`
         }}
         initial={{ width: '0%' }}
         animate={{ width: '100%' }}
