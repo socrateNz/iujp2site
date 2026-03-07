@@ -4,8 +4,8 @@ import { FaFacebookF, FaInstagram, FaLinkedinIn, FaTiktok, FaTwitter, FaWhatsapp
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Ecole } from "@/data/data";
 import Loading from "./loading";
+import { Ecole } from "@/lib/types";
 
 const Footer = () => {
   const pathname = usePathname();
@@ -50,8 +50,8 @@ const Footer = () => {
       title: "Nos Ecoles",
       items: [
         ...ecoles.map((ecole) => ({
-          label: ecole.nom,
-          href: `/nos-ecoles/${ecole.id}`,
+          label: ecole.title,
+          href: `/nos-ecoles/${ecole._id}`,
         }))
       ]
       // items: [
