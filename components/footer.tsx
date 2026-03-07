@@ -3,9 +3,32 @@
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaTiktok, FaTwitter, FaWhatsapp } from "react-icons/fa";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { Ecole } from "@/data/data";
+import Loading from "./loading";
 
 const Footer = () => {
   const pathname = usePathname();
+
+  const [ecoles, setEcoles] = useState<Ecole[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetchEcoles()
+  }, []);
+  const fetchEcoles = async () => {
+    fetch('/api/admin/ecoles')
+      .then(res => res.json())
+      .then(data => {
+        setEcoles(data.data?.ecoles || []);
+        setLoading(false);
+      })
+      .catch(() => {
+        setError('Erreur lors du chargement des écoles');
+        setLoading(false);
+      });
+  }
 
   // Ne pas afficher le footer sur les pages admin
   if (pathname.startsWith("/admin")) {
@@ -26,11 +49,17 @@ const Footer = () => {
     {
       title: "Nos Ecoles",
       items: [
-        { label: "Institut Supérieur de Bafang. (ISB)", href: "/nos-ecoles/688b380444ee853113770f4e" },
-        { label: "École des sciences de la santé de l'institut supérieur de Bafang (ESS-ISB)", href: "/nos-ecoles/688b3b9b9d13c9d67a522b83" },
-        { label: "Kesmond international university (KIU)", href: "/nos-ecoles/688b3ecd4f19d400290536a4" },
-        { label: "FASA", href: "/nos-ecoles/688b3ffc4f19d400290536a5" },
+        ...ecoles.map((ecole) => ({
+          label: ecole.nom,
+          href: `/nos-ecoles/${ecole.id}`,
+        }))
       ]
+      // items: [
+      //   { label: "Institut Supérieur de Bafang. (ISB)", href: "/nos-ecoles/688b380444ee853113770f4e" },
+      //   { label: "École des sciences de la santé de l' institut supérieur de Bafang (ESS-ISB)", href: "/nos-ecoles/688b3b9b9d13c9d67a522b83" },
+      //   { label: "Kesmond international university (KIU)", href: "/nos-ecoles/688b3ecd4f19d400290536a4" },
+      //   { label: "FASA", href: "/nos-ecoles/688b3ffc4f19d400290536a5" },
+      // ]
     }
   ];
 
@@ -56,6 +85,12 @@ const Footer = () => {
       icon: <FaWhatsapp size={18} />,
     },
   ];
+
+  if (loading) {
+    return (
+      <Loading />
+    );
+  }
 
   return (
     <footer className="bg-[#1B2A4A] text-white pt-16 pb-8">
