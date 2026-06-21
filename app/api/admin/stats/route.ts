@@ -19,19 +19,33 @@ export async function GET() {
     const client = await clientPromise;
     const db = client.db();
 
+    const now = new Date();
+    const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const startOfWeek = new Date(now);
+    startOfWeek.setDate(now.getDate() - 7);
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+
     // Récupérer les statistiques en parallèle
     const [
       totalUsers,
       totalArticles,
       publishedArticles,
       totalContacts,
-      newContacts
+      newContacts,
+      totalVisits,
+      todayVisits,
+      weekVisits,
+      monthVisits,
     ] = await Promise.all([
       db.collection('users').countDocuments(),
       db.collection('articles').countDocuments(),
       db.collection('articles').countDocuments({ published: true }),
       db.collection('contacts').countDocuments(),
-      db.collection('contacts').countDocuments({ status: 'new' })
+      db.collection('contacts').countDocuments({ status: 'new' }),
+      db.collection('pageViews').countDocuments(),
+      db.collection('pageViews').countDocuments({ createdAt: { $gte: startOfToday } }),
+      db.collection('pageViews').countDocuments({ createdAt: { $gte: startOfWeek } }),
+      db.collection('pageViews').countDocuments({ createdAt: { $gte: startOfMonth } }),
     ]);
 
     const stats: AdminStats = {
@@ -40,7 +54,11 @@ export async function GET() {
       totalContacts,
       newContacts,
       publishedArticles,
-      draftArticles: totalArticles - publishedArticles
+      draftArticles: totalArticles - publishedArticles,
+      totalVisits,
+      todayVisits,
+      weekVisits,
+      monthVisits,
     };
 
     return NextResponse.json({
@@ -54,4 +72,4 @@ export async function GET() {
       { status: 500 }
     );
   }
-} 
+} 

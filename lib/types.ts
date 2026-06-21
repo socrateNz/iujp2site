@@ -110,6 +110,10 @@ export interface AdminStats {
   newContacts: number;
   publishedArticles: number;
   draftArticles: number;
+  totalVisits: number;
+  todayVisits: number;
+  weekVisits: number;
+  monthVisits: number;
 }
 
 // Types pour les filtres et pagination

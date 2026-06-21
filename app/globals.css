@@ -120,3 +120,40 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* ── Article content (TipTap HTML output) ── */
+.article-content a {
+  color: #2563eb;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: color 0.15s ease, text-decoration-color 0.15s ease;
+}
+
+.article-content a:hover {
+  color: #1d4ed8;
+  text-decoration-color: #93c5fd;
+}
+
+.article-content a:visited {
+  color: #7c3aed;
+}
+
+/* Links open target visual hint */
+.article-content a[href^="http"]::after,
+.article-content a[href^="https"]::after {
+  content: " ↗";
+  font-size: 0.75em;
+  opacity: 0.7;
+  vertical-align: super;
+}
+
+/* ── No scrollbar utility ── */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+

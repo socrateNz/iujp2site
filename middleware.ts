@@ -41,7 +41,7 @@ export default withAuth(
 export const config = {
   matcher: [
     '/admin/:path*',
-    '/api/admin/:path((?!articles|filieres|ecoles).*)', 
+    '/api/admin/:path((?!articles|filieres|ecoles|visits).*)', 
   ],
 };
  

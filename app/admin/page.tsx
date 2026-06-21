@@ -1,8 +1,6 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import {
   Users,
   FileText,
@@ -10,7 +8,13 @@ import {
   Eye,
   Plus,
   TrendingUp,
-  Clock
+  ArrowUpRight,
+  Activity,
+  BarChart3,
+  Calendar,
+  CheckCircle2,
+  Clock,
+  Zap,
 } from 'lucide-react';
 import Link from 'next/link';
 import { AdminStats } from '@/lib/types';
@@ -18,16 +22,18 @@ import { AdminStats } from '@/lib/types';
 export default function AdminDashboard() {
   const [stats, setStats] = useState<AdminStats | null>(null);
   const [loading, setLoading] = useState(true);
+  const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
     fetchStats();
+    const timer = setInterval(() => setCurrentTime(new Date()), 60000);
+    return () => clearInterval(timer);
   }, []);
 
   const fetchStats = async () => {
     try {
       const response = await fetch('/api/admin/stats');
       const data = await response.json();
-
       if (data.success) {
         setStats(data.data);
       }
@@ -38,175 +44,354 @@ export default function AdminDashboard() {
     }
   };
 
+  const formatNumber = (n: number) => n.toLocaleString('fr-FR');
+
+  const greeting = () => {
+    const h = currentTime.getHours();
+    if (h < 12) return 'Bonjour';
+    if (h < 18) return 'Bon après-midi';
+    return 'Bonsoir';
+  };
+
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+      <div className="space-y-8 pb-8 animate-pulse">
+
+        {/* Hero skeleton */}
+        <div className="rounded-2xl bg-slate-200 h-52 w-full" />
+
+        {/* Stat cards skeleton */}
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm space-y-4">
+              <div className="flex items-start justify-between">
+                <div className="h-11 w-11 rounded-xl bg-slate-200" />
+                <div className="h-4 w-4 rounded bg-slate-100" />
+              </div>
+              <div className="space-y-2 pt-2">
+                <div className="h-3 w-24 rounded bg-slate-200" />
+                <div className="h-8 w-20 rounded-lg bg-slate-300" />
+                <div className="h-2.5 w-40 rounded bg-slate-100" />
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Quick actions + system status skeleton */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+          {/* Quick actions (2 cols) */}
+          <div className="lg:col-span-2 space-y-4">
+            <div className="h-5 w-36 rounded bg-slate-200" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {[...Array(4)].map((_, i) => (
+                <div key={i} className="rounded-2xl border border-slate-100 bg-white p-5 shadow-sm space-y-3">
+                  <div className="h-10 w-10 rounded-xl bg-slate-200" />
+                  <div className="h-4 w-32 rounded bg-slate-200" />
+                  <div className="h-3 w-full rounded bg-slate-100" />
+                  <div className="h-3 w-3/4 rounded bg-slate-100" />
+                  <div className="h-9 w-full rounded-xl bg-slate-200 mt-2" />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* System status (1 col) */}
+          <div className="space-y-4">
+            <div className="h-5 w-40 rounded bg-slate-200" />
+            <div className="rounded-2xl border border-slate-100 bg-white p-5 shadow-sm space-y-4">
+              {[...Array(4)].map((_, i) => (
+                <div key={i} className="flex items-center justify-between py-2 border-b border-slate-50 last:border-0">
+                  <div className="flex items-center gap-3">
+                    <div className="h-4 w-4 rounded-full bg-slate-200" />
+                    <div className="h-3 w-28 rounded bg-slate-200" />
+                  </div>
+                  <div className="h-5 w-24 rounded-full bg-slate-200" />
+                </div>
+              ))}
+              <div className="h-14 w-full rounded-xl bg-slate-100 mt-2" />
+              <div className="h-20 w-full rounded-xl bg-purple-50 mt-2" />
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
 
+  const statCards = [
+    {
+      label: 'Utilisateurs',
+      value: formatNumber(stats?.totalUsers || 0),
+      sub: 'Total inscrits',
+      icon: Users,
+      color: 'blue',
+      gradient: 'from-blue-500 to-blue-700',
+      bg: 'bg-blue-50',
+      text: 'text-blue-600',
+      border: 'border-blue-100',
+      ring: 'ring-blue-200',
+    },
+    {
+      label: 'Articles',
+      value: formatNumber(stats?.totalArticles || 0),
+      sub: `${stats?.publishedArticles || 0} publiés · ${stats?.draftArticles || 0} brouillons`,
+      icon: FileText,
+      color: 'emerald',
+      gradient: 'from-emerald-500 to-emerald-700',
+      bg: 'bg-emerald-50',
+      text: 'text-emerald-600',
+      border: 'border-emerald-100',
+      ring: 'ring-emerald-200',
+    },
+    {
+      label: 'Messages',
+      value: formatNumber(stats?.totalContacts || 0),
+      sub: `${stats?.newContacts || 0} nouveaux non lus`,
+      icon: MessageSquare,
+      color: 'amber',
+      gradient: 'from-amber-500 to-orange-600',
+      bg: 'bg-amber-50',
+      text: 'text-amber-600',
+      border: 'border-amber-100',
+      ring: 'ring-amber-200',
+      badge: stats?.newContacts,
+    },
+    {
+      label: 'Visites du site',
+      value: formatNumber(stats?.totalVisits || 0),
+      sub: `${formatNumber(stats?.todayVisits || 0)} aujourd'hui · ${formatNumber(stats?.weekVisits || 0)} cette semaine`,
+      icon: Eye,
+      color: 'purple',
+      gradient: 'from-purple-500 to-violet-700',
+      bg: 'bg-purple-50',
+      text: 'text-purple-600',
+      border: 'border-purple-100',
+      ring: 'ring-purple-200',
+    },
+  ];
+
   return (
-    <div className="space-y-8">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight text-slate-900">Tableau de bord</h1>
-          <p className="text-slate-500 mt-1">
-            Vue d'ensemble et statistiques de votre plateforme.
-          </p>
-        </div>
-        <div className="flex gap-2">
-          <Button variant="outline" className="border-slate-200">
-            <TrendingUp className="mr-2 h-4 w-4" />
-            Rapport
-          </Button>
-          <Button className="bg-blue-600 hover:bg-blue-700">
-            Télécharger PDF
-          </Button>
-        </div>
-      </div>
+    <div className="space-y-8 pb-8">
 
-      {/* Statistiques */}
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        <Card className="hover:shadow-lg transition-all duration-300 border-slate-200 hover:border-blue-500/20 group cursor-pointer">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-slate-600">Utilisateurs</CardTitle>
-            <div className="h-8 w-8 rounded-lg bg-blue-100 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-              <Users className="h-4 w-4 text-blue-600" />
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-slate-900">{stats?.totalUsers || 0}</div>
-            <p className="text-xs text-slate-500 mt-1">
-              +20.1% par rapport au mois dernier
+      {/* ── Hero Header ─────────────────────────────────────── */}
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 p-8 shadow-xl">
+        {/* decorative circles */}
+        <div className="pointer-events-none absolute -top-20 -right-20 h-72 w-72 rounded-full bg-blue-600/10 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-20 -left-10 h-60 w-60 rounded-full bg-violet-600/10 blur-3xl" />
+
+        <div className="relative flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+          <div>
+            <p className="text-blue-400 text-sm font-semibold tracking-widest uppercase mb-1">
+              {greeting()}, Administrateur 👋
             </p>
-          </CardContent>
-        </Card>
-
-        <Card className="hover:shadow-lg transition-all duration-300 border-slate-200 hover:border-emerald-500/20 group cursor-pointer">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-slate-600">Articles</CardTitle>
-            <div className="h-8 w-8 rounded-lg bg-emerald-100 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-              <FileText className="h-4 w-4 text-emerald-600" />
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-slate-900">{stats?.totalArticles || 0}</div>
-            <p className="text-xs text-slate-500 mt-1">
-              {stats?.publishedArticles || 0} publiés, {stats?.draftArticles || 0} brouillons
+            <h1 className="text-3xl font-bold text-white">Tableau de bord</h1>
+            <p className="mt-2 text-slate-400 text-sm">
+              Vue d&apos;ensemble de la plateforme UIJP II
             </p>
-          </CardContent>
-        </Card>
+          </div>
 
-        <Card className="hover:shadow-lg transition-all duration-300 border-slate-200 hover:border-amber-500/20 group cursor-pointer">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-slate-600">Messages</CardTitle>
-            <div className="h-8 w-8 rounded-lg bg-amber-100 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-              <MessageSquare className="h-4 w-4 text-amber-600" />
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-slate-900">{stats?.totalContacts || 0}</div>
-            <p className="text-xs text-slate-500 mt-1">
-              {stats?.newContacts || 0} nouveaux messages en attente
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card className="hover:shadow-lg transition-all duration-300 border-slate-200 hover:border-purple-500/20 group cursor-pointer">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-slate-600">Visites</CardTitle>
-            <div className="h-8 w-8 rounded-lg bg-purple-100 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-              <Eye className="h-4 w-4 text-purple-600" />
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-slate-900">12,345</div>
-            <p className="text-xs text-slate-500 mt-1">
-              +4% depuis la semaine dernière
-            </p>
-          </CardContent>
-        </Card>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-7 gap-6">
-        {/* Actions rapides */}
-        <div className="lg:col-span-4 space-y-6">
-          <h2 className="text-lg font-semibold text-slate-900">Actions Rapides</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Card className="border-slate-200 hover:border-blue-400 hover:shadow-md transition-all cursor-pointer group">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-base">
-                  <div className="p-2 bg-blue-50 rounded-lg group-hover:bg-blue-100 transition-colors">
-                    <Plus className="h-5 w-5 text-blue-600" />
-                  </div>
-                  Créer un article
-                </CardTitle>
-                <CardDescription className="pt-2">
-                  Rédigez et publiez un nouvel article pour le blog.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Link href="/admin/articles/new">
-                  <Button className="w-full bg-slate-900 text-white hover:bg-blue-600 transition-colors">
-                    Commencer
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
-
-            <Card className="border-slate-200 hover:border-amber-400 hover:shadow-md transition-all cursor-pointer group">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-base">
-                  <div className="p-2 bg-amber-50 rounded-lg group-hover:bg-amber-100 transition-colors">
-                    <MessageSquare className="h-5 w-5 text-amber-600" />
-                  </div>
-                  Consulter messages
-                </CardTitle>
-                <CardDescription className="pt-2">
-                  Voir les {stats?.newContacts || 0} messages non lus.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Link href="/admin/contacts">
-                  <Button variant="outline" className="w-full hover:bg-amber-50 hover:text-amber-700 hover:border-amber-200 transition-colors">
-                    Accéder
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
+          <div className="flex flex-wrap gap-3">
+            <Link href="/admin/articles/new">
+              <button className="inline-flex items-center gap-2 rounded-xl bg-blue-600 hover:bg-blue-500 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-900/30 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-blue-900/40">
+                <Plus className="h-4 w-4" />
+                Nouvel article
+              </button>
+            </Link>
+            <Link href="/admin/contacts">
+              <button className="inline-flex items-center gap-2 rounded-xl bg-white/10 hover:bg-white/20 backdrop-blur-sm px-5 py-2.5 text-sm font-semibold text-white border border-white/10 transition-all duration-200 hover:-translate-y-0.5">
+                <MessageSquare className="h-4 w-4" />
+                Messages
+                {(stats?.newContacts ?? 0) > 0 && (
+                  <span className="ml-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold">
+                    {stats?.newContacts}
+                  </span>
+                )}
+              </button>
+            </Link>
           </div>
         </div>
 
-        {/* Activité récente */}
-        <div className="lg:col-span-3">
-          <Card className="h-full border-slate-200">
-            <CardHeader>
-              <CardTitle className="text-lg">Activité du système</CardTitle>
-              <CardDescription>
-                Journal des dernières actions
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-6 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-300 before:to-transparent">
-                <div className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-                  <div className="flex items-center justify-center w-10 h-10 rounded-full border border-white bg-slate-50 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 relative z-10">
-                    <Clock className="h-4 w-4 text-slate-500" />
-                  </div>
-                  <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-xl border border-slate-200 bg-white shadow-sm">
-                    <div className="flex items-center justify-between space-x-2 mb-1">
-                      <div className="font-bold text-slate-900 text-sm">Système prêt</div>
-                      <time className="font-caveat font-medium text-indigo-500 text-xs">Maintenant</time>
-                    </div>
-                    <div className="text-slate-500 text-xs">Le back-office est initialisé et prêt à l'emploi.</div>
-                  </div>
-                </div>
+        {/* Quick visit strip */}
+        <div className="relative mt-6 flex flex-wrap gap-4">
+          {[
+            { label: "Aujourd'hui", value: formatNumber(stats?.todayVisits || 0), icon: Calendar },
+            { label: 'Cette semaine', value: formatNumber(stats?.weekVisits || 0), icon: BarChart3 },
+            { label: 'Ce mois', value: formatNumber(stats?.monthVisits || 0), icon: TrendingUp },
+          ].map(({ label, value, icon: Icon }) => (
+            <div key={label} className="flex items-center gap-3 rounded-xl bg-white/5 border border-white/10 px-4 py-3">
+              <Icon className="h-4 w-4 text-blue-400" />
+              <div>
+                <p className="text-[11px] text-slate-400">{label}</p>
+                <p className="text-sm font-bold text-white">{value} visites</p>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Stat Cards ──────────────────────────────────────── */}
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
+        {statCards.map((card) => {
+          const Icon = card.icon;
+          return (
+            <div
+              key={card.label}
+              className={`group relative rounded-2xl border ${card.border} bg-white p-6 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 overflow-hidden`}
+            >
+              {/* Gradient accent top bar */}
+              <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${card.gradient}`} />
+
+              <div className="flex items-start justify-between">
+                <div className={`rounded-xl ${card.bg} p-3 ring-1 ${card.ring} group-hover:scale-110 transition-transform duration-300`}>
+                  <Icon className={`h-5 w-5 ${card.text}`} />
+                </div>
+                {card.badge && card.badge > 0 ? (
+                  <span className="flex h-6 items-center gap-1 rounded-full bg-red-50 px-2 text-xs font-semibold text-red-600 border border-red-100">
+                    <span className="h-1.5 w-1.5 rounded-full bg-red-500 animate-pulse" />
+                    {card.badge} nouveau{card.badge > 1 ? 'x' : ''}
+                  </span>
+                ) : (
+                  <ArrowUpRight className="h-4 w-4 text-slate-300 group-hover:text-slate-500 transition-colors" />
+                )}
+              </div>
+
+              <div className="mt-4">
+                <p className="text-sm font-medium text-slate-500">{card.label}</p>
+                <p className="mt-1 text-3xl font-extrabold text-slate-900 tabular-nums">{card.value}</p>
+                <p className="mt-1.5 text-xs text-slate-400">{card.sub}</p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* ── Quick Actions + Activity ─────────────────────────── */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        {/* Quick Actions */}
+        <div className="lg:col-span-2 space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg font-bold text-slate-900">Actions rapides</h2>
+            <Zap className="h-4 w-4 text-amber-500" />
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+            {[
+              {
+                href: '/admin/articles/new',
+                icon: Plus,
+                iconBg: 'bg-blue-100',
+                iconColor: 'text-blue-600',
+                title: 'Créer un article',
+                desc: 'Rédigez et publiez un nouvel article sur la plateforme.',
+                cta: 'Commencer',
+                ctaStyle: 'bg-blue-600 hover:bg-blue-500 text-white shadow-blue-200',
+              },
+              {
+                href: '/admin/contacts',
+                icon: MessageSquare,
+                iconBg: 'bg-amber-100',
+                iconColor: 'text-amber-600',
+                title: 'Consulter les messages',
+                desc: `${stats?.newContacts || 0} message${(stats?.newContacts || 0) > 1 ? 's' : ''} en attente de réponse.`,
+                cta: 'Accéder',
+                ctaStyle: 'bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200',
+              },
+              {
+                href: '/admin/articles',
+                icon: FileText,
+                iconBg: 'bg-emerald-100',
+                iconColor: 'text-emerald-600',
+                title: 'Gérer les articles',
+                desc: `${stats?.totalArticles || 0} articles dont ${stats?.publishedArticles || 0} publiés.`,
+                cta: 'Voir tout',
+                ctaStyle: 'bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200',
+              },
+              {
+                href: '/admin/users',
+                icon: Users,
+                iconBg: 'bg-violet-100',
+                iconColor: 'text-violet-600',
+                title: 'Gérer les utilisateurs',
+                desc: `${stats?.totalUsers || 0} compte${(stats?.totalUsers || 0) > 1 ? 's' : ''} enregistré${(stats?.totalUsers || 0) > 1 ? 's' : ''}.`,
+                cta: 'Voir tout',
+                ctaStyle: 'bg-violet-50 hover:bg-violet-100 text-violet-700 border border-violet-200',
+              },
+            ].map((action) => {
+              const Icon = action.icon;
+              return (
+                <div key={action.href} className="group rounded-2xl border border-slate-100 bg-white p-5 shadow-sm hover:shadow-md hover:border-slate-200 transition-all duration-200">
+                  <div className={`inline-flex rounded-xl ${action.iconBg} p-2.5 mb-4 group-hover:scale-105 transition-transform`}>
+                    <Icon className={`h-5 w-5 ${action.iconColor}`} />
+                  </div>
+                  <h3 className="font-semibold text-slate-900">{action.title}</h3>
+                  <p className="mt-1 text-sm text-slate-500">{action.desc}</p>
+                  <Link href={action.href}>
+                    <button className={`mt-4 w-full rounded-xl px-4 py-2 text-sm font-semibold shadow-sm transition-all duration-200 ${action.ctaStyle}`}>
+                      {action.cta}
+                    </button>
+                  </Link>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Platform Status */}
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg font-bold text-slate-900">État du système</h2>
+            <Activity className="h-4 w-4 text-emerald-500" />
+          </div>
+          <div className="rounded-2xl border border-slate-100 bg-white p-5 shadow-sm h-full">
+
+            {/* Status items */}
+            <div className="space-y-4">
+              {[
+                { label: 'API Backend', status: 'Opérationnel', ok: true },
+                { label: 'Base de données', status: 'Connectée', ok: true },
+                { label: 'Stockage médias', status: 'Cloudinary actif', ok: true },
+                { label: 'Authentification', status: 'NextAuth actif', ok: true },
+              ].map((item) => (
+                <div key={item.label} className="flex items-center justify-between py-2.5 border-b border-slate-50 last:border-0">
+                  <div className="flex items-center gap-3">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+                    <span className="text-sm font-medium text-slate-700">{item.label}</span>
+                  </div>
+                  <span className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-100">
+                    {item.status}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            {/* Last refresh */}
+            <div className="mt-5 flex items-center gap-2 rounded-xl bg-slate-50 p-3">
+              <Clock className="h-4 w-4 text-slate-400" />
+              <div>
+                <p className="text-xs text-slate-400">Dernière mise à jour</p>
+                <p className="text-sm font-semibold text-slate-700">
+                  {currentTime.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
+                </p>
+              </div>
+            </div>
+
+            {/* Visits highlight */}
+            <div className="mt-4 rounded-xl bg-gradient-to-br from-purple-50 to-violet-50 border border-purple-100 p-4">
+              <div className="flex items-center gap-2 mb-2">
+                <Eye className="h-4 w-4 text-purple-600" />
+                <p className="text-xs font-semibold text-purple-700 uppercase tracking-wide">Visites totales</p>
+              </div>
+              <p className="text-3xl font-extrabold text-purple-900 tabular-nums">
+                {formatNumber(stats?.totalVisits || 0)}
+              </p>
+              <p className="text-xs text-purple-500 mt-1">
+                {formatNumber(stats?.monthVisits || 0)} ce mois-ci
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   );
-} 
+}

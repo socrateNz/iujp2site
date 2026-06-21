@@ -13,8 +13,18 @@ interface Article {
     article: News
 }
 
+/**
+ * Adds target="_blank" rel="noopener noreferrer" to all <a> tags in the
+ * HTML string so that links in TipTap content open in a new tab.
+ */
+function processArticleLinks(html: string): string {
+    return html.replace(/<a\s/gi, '<a target="_blank" rel="noopener noreferrer" ');
+}
+
 const DetailNews = ({ article }: Article) => {
     const router = useRouter();
+    const processedContent = processArticleLinks(article.content || '');
+
     return (
         <div className="min-h-screen bg-gray-50 font-sans">
             <main className="container mx-auto px-4 py-9 flex flex-col lg:flex-row gap-8">
@@ -61,7 +71,7 @@ const DetailNews = ({ article }: Article) => {
 
                         {/* Article Content */}
                         <div className="p-6 md:p-8">
-                            {/* Navigation */}
+                            {/* Sommaire */}
                             <div className="mb-8 p-4 bg-gray-50 rounded-lg">
                                 <h3 className='font-bold'>{"Sommaire"}</h3>
                                 <p>
@@ -74,35 +84,19 @@ const DetailNews = ({ article }: Article) => {
                                 <section id="introduction" className="mb-8">
                                     <h2 className="text-2xl font-serif font-bold text-gray-900 mb-4">Contenu</h2>
                                     <div
-                                        className="text-gray-700 leading-relaxed mb-4"
-                                        dangerouslySetInnerHTML={{ __html: article.content }}
+                                        className="article-content text-gray-700 leading-relaxed mb-4"
+                                        dangerouslySetInnerHTML={{ __html: processedContent }}
                                     />
                                 </section>
                             </div>
-
-                            {/* Social Sharing (Mobile) */}
-                            {/* <div className="mt-8 lg:hidden">
-                                <h3 className="text-lg font-medium text-gray-900 mb-4">Partager cet article</h3>
-                                <div className="flex space-x-3">
-                                    <Button variant="outline" className="flex-1 !rounded-button whitespace-nowrap cursor-pointer">
-                                        <i className="fab fa-facebook-f mr-2 text-blue-600"></i> Facebook
-                                    </Button>
-                                    <Button variant="outline" className="flex-1 !rounded-button whitespace-nowrap cursor-pointer">
-                                        <i className="fab fa-twitter mr-2 text-blue-400"></i> Twitter
-                                    </Button>
-                                    <Button variant="outline" className="flex-1 !rounded-button whitespace-nowrap cursor-pointer">
-                                        <i className="fab fa-linkedin-in mr-2 text-blue-700"></i> LinkedIn
-                                    </Button>
-                                </div>
-                            </div> */}
                         </div>
                     </article>
 
                     {/* Recommended Articles */}
                     <Similaire article={article} />
-
-                    {/* Newsletter (Mobile) */}
                 </div>
+
+                {/* Sidebar contact */}
                 <div className="hidden lg:flex lg:flex-col gap-5 fixed top-[60px] right-0 w-[30%] h-fit overflow-y-auto p-4 bg-white shadow-md z-50">
                     <div className='flex flex-col gap-1'>
                         <h1 className='text-4xl font-bold w-full text-center'>{"Contact"}</h1>
