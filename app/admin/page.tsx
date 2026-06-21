@@ -87,19 +87,29 @@ export default function AdminDashboard() {
         doc.rect(x, y, 3, h, 'F');
       };
 
-      // ── 👥 Utilisateurs ──
-      drawCard(15, 60, 85, 30, [59, 130, 246]); // Bleu
+      // // ── 👥 Utilisateurs ──
+      // drawCard(15, 60, 85, 30, [59, 130, 246]); // Bleu
+      // doc.setTextColor(100, 116, 139);
+      // doc.setFont('helvetica', 'bold');
+      // doc.setFontSize(8);
+      // doc.text('UTILISATEURS', 22, 68);
+      // doc.setTextColor(15, 23, 42);
+      // doc.setFontSize(22);
+      // doc.text(formatNumber(stats.totalUsers), 22, 78);
+      // doc.setTextColor(148, 163, 184);
+      // doc.setFont('helvetica', 'normal');
+      // doc.setFontSize(9);
+      // doc.text('Total utilisateurs inscrits', 22, 85);
+
+      // ── 💬 Messages de contact ──
+      drawCard(15, 100, 85, 45, [245, 158, 11]); // Orange
       doc.setTextColor(100, 116, 139);
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(8);
-      doc.text('UTILISATEURS', 22, 68);
+      doc.text('MESSAGES DE CONTACT', 22, 108);
       doc.setTextColor(15, 23, 42);
       doc.setFontSize(22);
-      doc.text(formatNumber(stats.totalUsers), 22, 78);
-      doc.setTextColor(148, 163, 184);
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(9);
-      doc.text('Total utilisateurs inscrits', 22, 85);
+      doc.text(formatNumber(stats.totalContacts), 22, 118);
 
       // ── 📰 Articles ──
       drawCard(110, 60, 85, 30, [16, 185, 129]); // Vert
@@ -114,16 +124,6 @@ export default function AdminDashboard() {
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(9);
       doc.text(`${stats.publishedArticles} publiés  ·  ${stats.draftArticles} brouillons`, 117, 85);
-
-      // ── 💬 Messages de contact ──
-      drawCard(15, 100, 85, 45, [245, 158, 11]); // Orange
-      doc.setTextColor(100, 116, 139);
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(8);
-      doc.text('MESSAGES DE CONTACT', 22, 108);
-      doc.setTextColor(15, 23, 42);
-      doc.setFontSize(22);
-      doc.text(formatNumber(stats.totalContacts), 22, 118);
 
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(10);
