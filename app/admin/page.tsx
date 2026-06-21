@@ -15,6 +15,8 @@ import {
   CheckCircle2,
   Clock,
   Zap,
+  Download,
+  FileSpreadsheet,
 } from 'lucide-react';
 import Link from 'next/link';
 import { AdminStats } from '@/lib/types';
@@ -45,6 +47,195 @@ export default function AdminDashboard() {
   };
 
   const formatNumber = (n: number) => n.toLocaleString('fr-FR');
+
+  // ── Export PDF (téléchargement direct) ───────────────────────────
+  const downloadPDF = async () => {
+    if (!stats) return;
+    try {
+      const { jsPDF } = await import('jspdf');
+      const doc = new jsPDF('p', 'mm', 'a4');
+      const dateStr = new Date().toLocaleDateString('fr-FR');
+      const timeStr = new Date().toLocaleTimeString('fr-FR');
+      const filenameDate = dateStr.replace(/\//g, '-');
+
+      // ── En-tête (Header) ──
+      // Rectangle bleu foncé
+      doc.setFillColor(30, 58, 95); // #1e3a5f
+      doc.rect(15, 15, 180, 35, 'F');
+
+      // Textes en-tête
+      doc.setTextColor(255, 255, 255);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(20);
+      doc.text('Statistique — UIJP II', 25, 28);
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(10);
+      doc.text('Université Internationale Jean Paul II de Bafang', 25, 35);
+
+      doc.setFont('helvetica', 'italic');
+      doc.setFontSize(9);
+      doc.text(`Rapport généré le ${dateStr} à ${timeStr}`, 25, 42);
+
+      // Helper pour dessiner une carte
+      const drawCard = (x: number, y: number, w: number, h: number, accentColor: [number, number, number]) => {
+        doc.setFillColor(255, 255, 255);
+        doc.setDrawColor(226, 232, 240);
+        doc.rect(x, y, w, h, 'FD');
+
+        doc.setFillColor(accentColor[0], accentColor[1], accentColor[2]);
+        doc.rect(x, y, 3, h, 'F');
+      };
+
+      // ── 👥 Utilisateurs ──
+      drawCard(15, 60, 85, 30, [59, 130, 246]); // Bleu
+      doc.setTextColor(100, 116, 139);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(8);
+      doc.text('UTILISATEURS', 22, 68);
+      doc.setTextColor(15, 23, 42);
+      doc.setFontSize(22);
+      doc.text(formatNumber(stats.totalUsers), 22, 78);
+      doc.setTextColor(148, 163, 184);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(9);
+      doc.text('Total utilisateurs inscrits', 22, 85);
+
+      // ── 📰 Articles ──
+      drawCard(110, 60, 85, 30, [16, 185, 129]); // Vert
+      doc.setTextColor(100, 116, 139);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(8);
+      doc.text('ARTICLES', 117, 68);
+      doc.setTextColor(15, 23, 42);
+      doc.setFontSize(22);
+      doc.text(formatNumber(stats.totalArticles), 117, 78);
+      doc.setTextColor(148, 163, 184);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(9);
+      doc.text(`${stats.publishedArticles} publiés  ·  ${stats.draftArticles} brouillons`, 117, 85);
+
+      // ── 💬 Messages de contact ──
+      drawCard(15, 100, 85, 45, [245, 158, 11]); // Orange
+      doc.setTextColor(100, 116, 139);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(8);
+      doc.text('MESSAGES DE CONTACT', 22, 108);
+      doc.setTextColor(15, 23, 42);
+      doc.setFontSize(22);
+      doc.text(formatNumber(stats.totalContacts), 22, 118);
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(10);
+      doc.setTextColor(51, 65, 85);
+      doc.text(`Nouveaux (non lus) : ${stats.newContacts}`, 22, 128);
+      doc.text(`Traités / Lus : ${stats.totalContacts - stats.newContacts}`, 22, 136);
+
+      // ── 👁️ Visites du site ──
+      drawCard(110, 100, 85, 45, [139, 92, 246]); // Violet
+      doc.setTextColor(100, 116, 139);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(8);
+      doc.text('VISITES DU SITE', 117, 108);
+      doc.setTextColor(15, 23, 42);
+      doc.setFontSize(22);
+      doc.text(formatNumber(stats.totalVisits), 117, 118);
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(9);
+      doc.setTextColor(51, 65, 85);
+      doc.text(`Aujourd'hui : ${formatNumber(stats.todayVisits)} visites`, 117, 126);
+      doc.text(`Cette semaine : ${formatNumber(stats.weekVisits)} visites`, 117, 132);
+      doc.text(`Ce mois-ci : ${formatNumber(stats.monthVisits)} visites`, 117, 138);
+
+      // ── 📊 Graphique des visites (Bar Chart) ──
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(10);
+      doc.setTextColor(30, 58, 95);
+      doc.text('GRAPHIQUE DES VISITES', 15, 160);
+
+      // Lignes de repère (Y grid lines)
+      doc.setDrawColor(226, 232, 240); // slate-200
+      doc.setLineWidth(0.2);
+      for (let i = 0; i <= 4; i++) {
+        const yGrid = 215 - (i * 10);
+        doc.line(15, yGrid, 195, yGrid);
+      }
+
+      // Axe X (ligne de base principale)
+      doc.setDrawColor(148, 163, 184); // slate-400
+      doc.setLineWidth(0.6);
+      doc.line(15, 215, 195, 215);
+
+      // Calcul des hauteurs des barres
+      const maxVal = Math.max(stats.todayVisits, stats.weekVisits, stats.monthVisits, 1);
+      const hToday = (stats.todayVisits / maxVal) * 40;
+      const hWeek = (stats.weekVisits / maxVal) * 40;
+      const hMonth = (stats.monthVisits / maxVal) * 40;
+
+      // Dessin des barres
+      // 1. Aujourd'hui
+      doc.setFillColor(59, 130, 246); // Bleu
+      doc.rect(35, 215 - hToday, 25, hToday, 'F');
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(9);
+      doc.setTextColor(15, 23, 42); // slate-900
+      doc.text(formatNumber(stats.todayVisits), 35 + 12.5, 210 - hToday, { align: 'center' });
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(9);
+      doc.setTextColor(71, 85, 105); // slate-600
+      doc.text("Aujourd'hui", 35 + 12.5, 222, { align: 'center' });
+
+      // 2. Cette semaine
+      doc.setFillColor(16, 185, 129); // Vert
+      doc.rect(90, 215 - hWeek, 25, hWeek, 'F');
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(9);
+      doc.setTextColor(15, 23, 42);
+      doc.text(formatNumber(stats.weekVisits), 90 + 12.5, 210 - hWeek, { align: 'center' });
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(9);
+      doc.setTextColor(71, 85, 105);
+      doc.text("Cette semaine", 90 + 12.5, 222, { align: 'center' });
+
+      // 3. Ce mois
+      doc.setFillColor(139, 92, 246); // Violet
+      doc.rect(145, 215 - hMonth, 25, hMonth, 'F');
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(9);
+      doc.setTextColor(15, 23, 42);
+      doc.text(formatNumber(stats.monthVisits), 145 + 12.5, 210 - hMonth, { align: 'center' });
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(9);
+      doc.setTextColor(71, 85, 105);
+      doc.text("Ce mois-ci", 145 + 12.5, 222, { align: 'center' });
+
+      // ── Ligne de séparation ──
+      doc.setDrawColor(241, 245, 249);
+      doc.line(15, 245, 195, 245);
+
+      // ── Pied de page (Footer) ──
+      doc.setTextColor(148, 163, 184);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+      doc.text('Université Internationale Jean Paul II de Bafang', 15, 275);
+      doc.text('Document confidentiel — Usage interne uniquement', 15, 280);
+      doc.text('Généré automatiquement par le système d\'administration UIJP II', 15, 285);
+
+      doc.text('Page 1 / 1', 180, 285);
+
+      // Télécharger directement le PDF
+      doc.save(`rapport-statistiques-uijp2-${filenameDate}.pdf`);
+    } catch (err) {
+      console.error('Erreur génération PDF:', err);
+    }
+  };
 
   const greeting = () => {
     const h = currentTime.getHours();
@@ -208,6 +399,14 @@ export default function AdminDashboard() {
                 )}
               </button>
             </Link>
+            <button
+              onClick={downloadPDF}
+              className="inline-flex items-center gap-2 rounded-xl bg-white/10 hover:bg-white/20 backdrop-blur-sm px-5 py-2.5 text-sm font-semibold text-white border border-white/10 transition-all duration-200 hover:-translate-y-0.5"
+              title="Générer un rapport PDF"
+            >
+              <Download className="h-4 w-4" />
+              Rapport PDF
+            </button>
           </div>
         </div>
 

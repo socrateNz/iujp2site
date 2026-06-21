@@ -15,9 +15,12 @@ export function usePageViewTracker() {
     // Une seule visite par session navigateur (sessionStorage vidé à la fermeture du tab)
     if (sessionStorage.getItem(SESSION_KEY)) return;
 
+    // Marquer la session comme déjà comptée immédiatement pour éviter le double-déclenchement (StrictMode, navigation rapide)
+    sessionStorage.setItem(SESSION_KEY, "1");
+
     const trackVisit = async () => {
       try {
-        const res = await fetch("/api/admin/visits", {
+        await fetch("/api/admin/visits", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -26,11 +29,6 @@ export function usePageViewTracker() {
             referrer: document.referrer,
           }),
         });
-
-        if (res.ok) {
-          // Marquer la session comme déjà comptée
-          sessionStorage.setItem(SESSION_KEY, "1");
-        }
       } catch {
         // Silently fail - tracking is not critical
       }
