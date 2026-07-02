@@ -25,7 +25,20 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const isCrash = process.env.CRASH === 'true';
 
+  if (isCrash) {
+    return (
+      <html lang="fr" className="dark">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased bg-slate-950 text-slate-100 min-h-screen`}
+        >
+          <Toaster />
+          {children}
+        </body>
+      </html>
+    );
+  }
 
   return (
     <html lang="en">

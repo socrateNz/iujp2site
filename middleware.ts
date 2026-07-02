@@ -3,9 +3,24 @@ import { NextResponse } from 'next/server';
 
 export default withAuth(
   function middleware(req) {
+    const isCrash = process.env.CRASH === 'true';
+    const { pathname } = req.nextUrl;
+
+    if (isCrash) {
+      // Si CRASH est true, rediriger toutes les pages vers /crash (sauf les API et /crash lui-même)
+      if (pathname !== '/crash' && !pathname.startsWith('/api')) {
+        return NextResponse.redirect(new URL('/crash', req.url));
+      }
+    } else {
+      // Si CRASH est false, rediriger /crash vers la page d'accueil
+      if (pathname === '/crash') {
+        return NextResponse.redirect(new URL('/', req.url));
+      }
+    }
+
     const token = req.nextauth.token;
-    const isAdminRoute = req.nextUrl.pathname.startsWith('/admin');
-    const isLoginRoute = req.nextUrl.pathname === '/admin/login';
+    const isAdminRoute = pathname.startsWith('/admin');
+    const isLoginRoute = pathname === '/admin/login';
 
     // Si c'est une route admin et que l'utilisateur n'est pas admin
     if (isAdminRoute && !isLoginRoute) {
@@ -28,11 +43,20 @@ export default withAuth(
   {
     callbacks: {
       authorized: ({ token, req }) => {
-        // Autoriser l'accès à /admin/login même sans token
-        if (req.nextUrl.pathname === '/admin/login') {
-          return true;
+        const { pathname } = req.nextUrl;
+        const isAdminRoute = pathname.startsWith('/admin');
+        const isApiAdminRoute = pathname.startsWith('/api/admin');
+
+        // Ne requérir d'authentification que pour les routes admin ou API admin
+        if (isAdminRoute || isApiAdminRoute) {
+          if (pathname === '/admin/login') {
+            return true;
+          }
+          return !!token;
         }
-        return !!token;
+
+        // Autoriser l'accès aux pages publiques et autres API
+        return true;
       },
     },
   }
@@ -40,8 +64,15 @@ export default withAuth(
 
 export const config = {
   matcher: [
-    '/admin/:path*',
-    '/api/admin/:path((?!articles|filieres|ecoles|visits).*)', 
+    /*
+     * Matcher toutes les requêtes sauf :
+     * - _next/static (fichiers statiques)
+     * - _next/image (optimisation d'images)
+     * - favicon.ico (icône du site)
+     * - images et autres ressources publiques (.svg, .png, etc.)
+     */
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)',
   ],
 };
+
  
