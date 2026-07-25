@@ -18,11 +18,16 @@ const Home = () => {
 
   useEffect(() => {
     const fetchArticles = async () => {
-      const res = await fetch("/api/admin/articles?published=true", {
-        method: "GET",
-      });
-      const data = await res.json();
-      setArticles(data.data.articles);
+      try {
+        const res = await fetch("/api/admin/articles?published=true", {
+          method: "GET",
+        });
+        const data = await res.json();
+        setArticles(data?.data?.articles || []);
+      } catch (error) {
+        console.error("Erreur fetchArticles:", error);
+        setArticles([]);
+      }
     };
 
     fetchArticles();

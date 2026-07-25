@@ -7,13 +7,22 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
-import { useState } from 'react'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { useState, useEffect } from 'react'
+import { Service } from '@/lib/types'
 
 // 1. Schema Zod
 const formSchema = z.object({
   name: z.string().min(2, 'Le nom est requis'),
   email: z.string().email('Email invalide'),
   subject: z.string().min(1, 'Le sujet est requis'),
+  serviceId: z.string().min(1, 'Veuillez sélectionner un service'),
   message: z.string().min(10, 'Le message doit contenir au moins 10 caractères'),
   privacy: z.boolean().refine(val => val === true, {
     message: 'Vous devez accepter la politique de confidentialité',
@@ -23,6 +32,25 @@ const formSchema = z.object({
 // 2. Formulaire
 export default function ContactForm() {
   const [submitted, setSubmitted] = useState(false)
+  const [services, setServices] = useState<Service[]>([])
+  const [loadingServices, setLoadingServices] = useState(true)
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const response = await fetch('/api/services')
+        const data = await response.json()
+        if (data.success) {
+          setServices(data.data)
+        }
+      } catch (error) {
+        console.error('Erreur lors du chargement des services', error)
+      } finally {
+        setLoadingServices(false)
+      }
+    }
+    fetchServices()
+  }, [])
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -30,6 +58,7 @@ export default function ContactForm() {
       name: '',
       email: '',
       subject: '',
+      serviceId: '',
       message: '',
       privacy: false,
     },
@@ -46,6 +75,7 @@ export default function ContactForm() {
           name: values.name,
           email: values.email,
           subject: values.subject,
+          serviceId: values.serviceId,
           message: values.message,
         }),
       });
@@ -98,19 +128,46 @@ export default function ContactForm() {
           />
         </div>
 
-        <FormField
-          control={form.control}
-          name="subject"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Objet</FormLabel>
-              <FormControl>
-                <Input placeholder="Objet de votre message" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <FormField
+            control={form.control}
+            name="subject"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Objet</FormLabel>
+                <FormControl>
+                  <Input placeholder="Objet de votre message" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="serviceId"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Service destinataire</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder={loadingServices ? "Chargement..." : "Sélectionner un service"} />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {services.map((service) => (
+                      <SelectItem key={service._id?.toString()} value={service._id?.toString() || ''}>
+                        {service.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
         <FormField
           control={form.control}
@@ -148,10 +205,12 @@ export default function ContactForm() {
           )}
         />
 
-        <Button type="submit" className="w-full bg-[#1B2A4A] hover:bg-[#0F1A30] text-white !rounded-button">
+        <button
+          type="submit"
+          className="btn-uijp w-full justify-center"
+        >
           Envoyer le message
-          <i className="fas fa-paper-plane ml-2"></i>
-        </Button>
+        </button>
 
         {submitted && <p className="text-green-600 text-sm text-center">Message envoyé avec succès !</p>}
       </form>

@@ -61,6 +61,8 @@ export interface ContactMessage {
   email: string;
   subject: string;
   message: string;
+  serviceId?: string;
+  serviceName?: string;
   status: 'new' | 'read' | 'replied';
   createdAt: Date;
   updatedAt: Date;
@@ -74,6 +76,7 @@ export interface CreateContactData {
   email: string;
   subject: string;
   message: string;
+  serviceId: string;
 }
 
 export interface ReplyContactData {
@@ -169,3 +172,13 @@ export interface Ecole {
   createdAt: Date;
   updatedAt: Date;
 } 
+
+// Types pour les services (Contact)
+export interface Service {
+  _id?: ObjectId;
+  name: string;
+  email: string;
+  description: string;
+  createdAt: Date;
+  updatedAt: Date;
+}

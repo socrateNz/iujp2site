@@ -2,14 +2,15 @@ import { NextRequest, NextResponse } from 'next/server';
 import clientPromise from '@/lib/mongodb';
 import { CreateContactData, ContactMessage } from '@/lib/types';
 import { sendContactNotification } from '@/lib/sendMail';
+import { ObjectId } from 'mongodb';
 
 // POST - Recevoir un message de contact
 export async function POST(request: NextRequest) {
   try {
-    const { name, email, subject, message }: CreateContactData = await request.json();
+    const { name, email, subject, message, serviceId }: CreateContactData = await request.json();
 
     // Validation des données
-    if (!name || !email || !subject || !message) {
+    if (!name || !email || !subject || !message || !serviceId) {
       return NextResponse.json(
         { success: false, error: 'Tous les champs sont requis' },
         { status: 400 }
@@ -28,12 +29,25 @@ export async function POST(request: NextRequest) {
     const client = await clientPromise;
     const db = client.db();
 
+    // Récupérer le service
+    let serviceName = '';
+    let serviceEmail = '';
+    if (ObjectId.isValid(serviceId)) {
+      const service = await db.collection('services').findOne({ _id: new ObjectId(serviceId) });
+      if (service) {
+        serviceName = service.name;
+        serviceEmail = service.email;
+      }
+    }
+
     // Créer le message de contact
     const newContact: Omit<ContactMessage, '_id'> = {
       name,
       email,
       subject,
       message,
+      serviceId,
+      serviceName,
       status: 'new',
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -48,7 +62,7 @@ export async function POST(request: NextRequest) {
       email,
       subject,
       message
-    });
+    }, serviceEmail);
 
     if (!emailResult.success) {
       console.error('Erreur envoi email notification:', emailResult.error);

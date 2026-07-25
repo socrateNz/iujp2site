@@ -47,6 +47,23 @@ export default withAuth(
         const isAdminRoute = pathname.startsWith('/admin');
         const isApiAdminRoute = pathname.startsWith('/api/admin');
 
+        // ── Routes API publiques (GET seulement) ─────────────────────────────
+        // Ces routes sont accessibles sans authentification par le front office.
+        // Seules les opérations d'écriture (POST/PUT/DELETE) restent protégées.
+        const publicGetApiPaths = [
+          '/api/admin/filieres',
+          '/api/admin/ecoles',
+          '/api/admin/articles',
+        ];
+
+        if (isApiAdminRoute && req.method === 'GET') {
+          const isPublicGet = publicGetApiPaths.some(
+            (path) => pathname === path || pathname.startsWith(path + '/')
+          );
+          if (isPublicGet) return true; // Autoriser sans token
+        }
+        // ─────────────────────────────────────────────────────────────────────
+
         // Ne requérir d'authentification que pour les routes admin ou API admin
         if (isAdminRoute || isApiAdminRoute) {
           if (pathname === '/admin/login') {

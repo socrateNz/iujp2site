@@ -3,90 +3,46 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence, useMotionValue, useTransform, useSpring, Variants } from "framer-motion";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight, Sparkles, GraduationCap, BookOpen, Users } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const items = [
   {
     image: '/Images/hero.webp',
-    title: "Université Internationale Jean Paul II de Bafang",
-    subtitle: "Science et conscience",
-    highlight: "pour un monde meilleur",
-    description: "Une institution d'excellence dédiée à la formation des leaders de demain, alliant rigueur académique et valeurs humaines.",
-    textButton: "Télécharger le catalogue",
-    url: "/catalogue.pdf",
-    icon: GraduationCap,
-    color: "from-blue-600/50 to-purple-600/50",
-    textColor: "from-blue-600 to-purple-600"
+    tag: "BAFANG · CAMEROUN",
+    title: <>L'UNIVERSITÉ OÙ VOTRE AVENIR <span className="text-[#E3A402]"> SE DESSINE!</span> </>,
+    subtitle: "Science et conscience pour un monde meilleur",
+    ctaPrimary: { text: "Candidature", href: "/contacts" },
+    ctaSecondary: { text: "Découvrir l'université", href: "/nos-ecoles" },
+    color: "from-[#205C03]/60 to-[#0B30BB]/40",
   },
   {
     image: '/Images/campus.webp',
-    title: "Des écoles de qualité",
-    subtitle: "Pour un avenir",
-    highlight: "prometteur",
-    description: "Découvrez des établissements reconnus pour leur excellence académique, offrant un environnement propice à l'épanouissement et à la réussite de chaque élève.",
-    textButton: "Voir les écoles",
-    url: "/nos-ecoles",
-    icon: BookOpen,
-    color: "from-emerald-600/50 to-teal-600/50",
-    textColor: "from-emerald-600 to-teal-600"
+    tag: "NOS ÉCOLES",
+    title: <>DES ÉTABLISSEMENTS <span className="text-[#E3A402]">D'EXCELLENCE</span></>,
+    subtitle: "Un environnement propice à l'épanouissement et à la réussite",
+    ctaPrimary: { text: "Voir les écoles", href: "/nos-ecoles" },
+    ctaSecondary: { text: "Nos formations", href: "/formations" },
+    color: "from-[#011636]/70 to-[#205C03]/40",
   },
   {
     image: '/Images/etudiants.webp',
-    title: "Un avenir assuré",
-    subtitle: "Formez-vous aux",
-    highlight: "métiers de demain",
-    description: "Nos programmes sont conçus pour développer vos compétences, vous préparer aux défis du marché et garantir un apprentissage pratique et efficace.",
-    textButton: "Voir les formations",
-    url: "/formations",
-    icon: Sparkles,
-    color: "from-amber-600/50 to-orange-600/50",
-    textColor: "from-amber-600 to-orange-600"
-  },
-  {
-    image: '/Images/admin.webp',
-    title: "Un personnel qualifié",
-    subtitle: "et spécialisé",
-    highlight: "pour votre réussite",
-    description: "Nos établissements recrutent un personnel hautement qualifié pour accompagner les étudiants vers l'excellence.",
-    textButton: "Nos écoles",
-    url: "/nos-ecoles",
-    icon: Users,
-    color: "from-rose-600/50 to-pink-600/50",
-    textColor: "from-rose-600 to-pink-600"
+    tag: "FORMATIONS",
+    title: <>FORMEZ-VOUS AUX MÉTIERS<span className="text-[#E3A402]"> DE DEMAIN !</span></>,
+    subtitle: "Des programmes conçus pour développer vos compétences professionnelles",
+    ctaPrimary: { text: "Voir les formations", href: "/formations" },
+    ctaSecondary: { text: "Télécharger le catalogue", href: "/catalogue.pdf" },
+    color: "from-[#0B30BB]/60 to-[#205C03]/40",
   },
   {
     image: '/Images/laureats.webp',
-    title: "Élevez vos compétences",
-    subtitle: "Boostez",
-    highlight: "votre futur",
-    description: "Nos programmes sont conçus pour développer vos compétences, vous préparer aux défis du marché et garantir un apprentissage pratique et efficace.",
-    textButton: "Consulter les formations",
-    url: "/formations",
-    icon: Sparkles,
-    color: "from-indigo-600/50 to-violet-600/50",
-    textColor: "from-indigo-600 to-violet-600"
+    tag: "RÉUSSITE",
+    title: <>ÉLEVEZ VOS COMPÉTENCES, <span className="text-[#E3A402]">BOOSTEZ VOTRE FUTUR !</span></>,
+    subtitle: "98% de taux de réussite — rejoignez nos lauréats d'excellence",
+    ctaPrimary: { text: "S'inscrire", href: "/contacts" },
+    ctaSecondary: { text: "Actualités", href: "/actualites" },
+    color: "from-[#011636]/70 to-[#0B30BB]/40",
   },
 ];
-
-// Composant pour le texte avec effet de révélation
-const RevealText = ({ children, delay = 0, className = "" }: { children: string; delay?: number; className?: string }) => {
-  return (
-    <span className="relative inline-block overflow-hidden">
-      <motion.span
-        initial={{ y: "100%" }}
-        animate={{ y: 0 }}
-        transition={{
-          duration: 0.8,
-          delay,
-          ease: [0.22, 1, 0.36, 1]
-        }}
-        className={className}
-      >
-        {children}
-      </motion.span>
-    </span>
-  );
-};
 
 export default function HeroSection() {
   const [index, setIndex] = useState(0);
@@ -94,30 +50,25 @@ export default function HeroSection() {
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
-  // Mouse move handler pour effet parallax
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       const { clientX, clientY } = e;
       const { innerWidth, innerHeight } = window;
       setMousePosition({
-        x: (clientX - innerWidth / 2) / 50,
-        y: (clientY - innerHeight / 2) / 50
+        x: (clientX - innerWidth / 2) / 60,
+        y: (clientY - innerHeight / 2) / 60,
       });
     };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
-  // Auto-slide avec pause au survol
   useEffect(() => {
     if (!isAutoPlaying) return;
-
     const interval = setInterval(() => {
       setDirection(1);
       setIndex((prev) => (prev + 1) % items.length);
-    }, 8000);
-
+    }, 7000);
     return () => clearInterval(interval);
   }, [isAutoPlaying]);
 
@@ -133,109 +84,42 @@ export default function HeroSection() {
     setIndex((prev) => (prev + 1) % items.length);
   }, []);
 
-  // Animation variants avec types corrects
   const pageTransition: Variants = {
-    initial: (direction: number) => ({
-      opacity: 0,
-      scale: 1.2,
-      filter: "blur(10px)",
-    }),
+    initial: { opacity: 0, scale: 1.15, filter: "blur(8px)" },
     animate: {
-      opacity: 1,
-      scale: 1,
-      filter: "blur(0px)",
-      transition: {
-        duration: 1.5,
-        ease: [0.22, 1, 0.36, 1],
-        scale: {
-          duration: 1.8,
-          ease: [0.22, 1, 0.36, 1]
-        }
-      }
+      opacity: 1, scale: 1, filter: "blur(0px)",
+      transition: { duration: 1.4, ease: [0.22, 1, 0.36, 1] },
     },
-    exit: (direction: number) => ({
-      opacity: 0,
-      scale: 0.8,
-      filter: "blur(10px)",
-      transition: {
-        duration: 1.2,
-        ease: [0.22, 1, 0.36, 1]
-      }
-    })
+    exit: {
+      opacity: 0, scale: 0.9, filter: "blur(8px)",
+      transition: { duration: 1, ease: [0.22, 1, 0.36, 1] },
+    },
   };
 
   const contentVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.3,
-      }
+      transition: { staggerChildren: 0.12, delayChildren: 0.3 },
     },
     exit: {
       opacity: 0,
-      transition: {
-        staggerChildren: 0.05,
-        staggerDirection: -1,
-      }
-    }
+      transition: { staggerChildren: 0.06, staggerDirection: -1 },
+    },
   };
 
   const itemVariants: Variants = {
     hidden: { y: 40, opacity: 0 },
     visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.8,
-        ease: [0.22, 1, 0.36, 1]
-      }
+      y: 0, opacity: 1,
+      transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
     },
     exit: {
-      y: -20,
-      opacity: 0,
-      transition: {
-        duration: 0.5,
-        ease: [0.22, 1, 0.36, 1]
-      }
-    }
+      y: -20, opacity: 0,
+      transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
+    },
   };
 
-  const buttonVariants: Variants = {
-    hidden: { scale: 0.8, opacity: 0 },
-    visible: {
-      scale: 1,
-      opacity: 1,
-      transition: {
-        duration: 0.6,
-        ease: [0.22, 1, 0.36, 1],
-        delay: 0.8
-      }
-    },
-    exit: {
-      scale: 0.8,
-      opacity: 0,
-      transition: {
-        duration: 0.4
-      }
-    },
-    hover: {
-      scale: 1.05,
-      boxShadow: "0 20px 30px -10px rgba(0,0,0,0.3)",
-      transition: {
-        duration: 0.3,
-        ease: "easeOut"
-      }
-    },
-    tap: {
-      scale: 0.95
-    }
-  };
-
-  const CurrentIcon = items[index].icon;
-
-  // Valeurs animées pour le parallax
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
@@ -244,23 +128,17 @@ export default function HeroSection() {
     y.set(mousePosition.y);
   }, [mousePosition, x, y]);
 
-  const springX = useSpring(useTransform(x, [-1, 1], [-20, 20]), {
-    stiffness: 100,
-    damping: 30
-  });
-
-  const springY = useSpring(useTransform(y, [-1, 1], [-20, 20]), {
-    stiffness: 100,
-    damping: 30
-  });
+  const springX = useSpring(useTransform(x, [-1, 1], [-15, 15]), { stiffness: 80, damping: 25 });
+  const springY = useSpring(useTransform(y, [-1, 1], [-15, 15]), { stiffness: 80, damping: 25 });
 
   return (
     <div
-      className="relative w-full h-screen overflow-hidden"
+      className="relative w-full overflow-hidden"
+      style={{ height: "calc(100vh - 100px)", minHeight: "580px" }}
       onMouseEnter={() => setIsAutoPlaying(false)}
       onMouseLeave={() => setIsAutoPlaying(true)}
     >
-      {/* Background avec effet de zoom et parallax */}
+      {/* ── Background ── */}
       <AnimatePresence initial={false} custom={direction} mode="wait">
         <motion.div
           key={items[index].image}
@@ -271,237 +149,127 @@ export default function HeroSection() {
           exit="exit"
           className="absolute inset-0"
         >
-          {/* Image avec effet parallax */}
           <motion.div
             className="absolute inset-0 bg-cover bg-center"
-            style={{
-              backgroundImage: `url(${items[index].image})`,
-              x: springX,
-              y: springY,
-              scale: 1.1
-            }}
+            style={{ backgroundImage: `url(${items[index].image})`, x: springX, y: springY, scale: 1.08 }}
           />
-
-          {/* Overlay dynamique */}
-          <div className={`absolute inset-0 bg-gradient-to-r ${items[index].color} mix-blend-multiply opacity-60`} />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+          {/* Overlay dynamique couleur UIJP */}
+          <div className={`absolute inset-0 bg-gradient-to-r ${items[index].color}`} />
+          {/* Overlay sombre bas */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/30 to-transparent" />
         </motion.div>
       </AnimatePresence>
 
-      {/* Particules animées - version corrigée avec vérification de window */}
-      {typeof window !== 'undefined' && (
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {[...Array(20)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-1 h-1 bg-white/20 rounded-full"
-              initial={{
-                x: Math.random() * window.innerWidth,
-                y: Math.random() * window.innerHeight,
-              }}
-              animate={{
-                y: [null, -100],
-                opacity: [0, 1, 0],
-              }}
-              transition={{
-                duration: 3 + Math.random() * 2,
-                repeat: Infinity,
-                delay: Math.random() * 2,
-                ease: "linear"
-              }}
-            />
-          ))}
-        </div>
-      )}
-
-      {/* Contenu principal */}
-      <div className="relative z-10 flex flex-col items-start justify-center h-full px-4 md:px-20 text-white max-w-7xl mx-auto">
+      {/* ── Contenu principal ── */}
+      <div className="relative z-10 flex flex-col justify-center h-full px-4 md:px-16 max-w-7xl mx-auto">
         <AnimatePresence mode="wait">
           <motion.div
-            key={items[index].title}
+            key={items[index].tag}
             variants={contentVariants}
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="space-y-8 max-w-4xl"
+            className="max-w-3xl"
           >
-            {/* Badge avec icône */}
-            <motion.div
-              variants={itemVariants}
-              className="inline-flex items-center gap-3 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20"
-            >
-              {/* <CurrentIcon className="w-5 h-5" /> */}
-              <span className="text-sm font-medium tracking-wider uppercase">
-                {items[index].subtitle}
-              </span>
+            {/* Tag UIJP */}
+            <motion.div variants={itemVariants} className="mb-6">
+              <span className="tag-uijp">{items[index].tag}</span>
             </motion.div>
 
-            {/* Titre */}
+            {/* Titre UIJP : massif, condensé, uppercase */}
             <motion.h1
               variants={itemVariants}
-              className="text-6xl md:text-8xl font-bold leading-[1.1]"
+              className="text-white mb-4"
+              style={{
+                fontFamily: "var(--font-montserrat), Montserrat, sans-serif",
+                fontWeight: 800,
+                fontSize: "clamp(2.5rem, 6vw, 5rem)",
+                lineHeight: 1.0,
+                letterSpacing: "0.02em",
+                textTransform: "uppercase",
+              }}
             >
               {items[index].title}
             </motion.h1>
 
-            {/* Highlight avec animation séparée */}
-            <motion.div
-              variants={itemVariants}
-              className="overflow-hidden"
-            >
-              <motion.span
-                initial={{ y: "100%" }}
-                animate={{ y: 0 }}
-                transition={{
-                  duration: 0.8,
-                  delay: 0.3,
-                  ease: [0.22, 1, 0.36, 1]
-                }}
-                className={`inline-block text-5xl md:text-7xl font-bold bg-gradient-to-r ${items[index].textColor} bg-clip-text text-transparent`}
-              >
-                {items[index].highlight}
-              </motion.span>
-            </motion.div>
-
-            {/* Description */}
+            {/* Sous-titre */}
             <motion.p
               variants={itemVariants}
-              className="text-lg md:text-xl text-gray-200 leading-relaxed max-w-2xl"
+              className="text-white/85 text-lg md:text-xl mb-10 max-w-2xl leading-relaxed"
+              style={{ fontFamily: "var(--font-inter), Inter, sans-serif" }}
             >
-              {items[index].description}
+              {items[index].subtitle}
             </motion.p>
 
-            {/* Bouton */}
-            <motion.div
-              variants={buttonVariants}
-            >
-              <Link href={items[index].url}>
-                <motion.button
-                  whileHover="hover"
-                  whileTap="tap"
-                  variants={buttonVariants}
-                  className="px-10 py-5 bg-white text-gray-900 rounded-2xl font-semibold inline-flex items-center gap-3 group relative overflow-hidden"
-                >
-                  <motion.span
-                    className="absolute inset-0 bg-gradient-to-r from-gray-100 to-white"
-                    initial={{ x: "-100%" }}
-                    animate={{ x: 0 }}
-                    transition={{ duration: 0.4, ease: "easeOut" }}
-                  />
-                  <span className="relative z-10">{items[index].textButton}</span>
-                  <motion.div
-                    className="relative z-10"
-                    animate={{ x: [0, 5, 0] }}
-                    transition={{
-                      duration: 1.5,
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }}
-                  >
-                    <ChevronRight className="w-5 h-5" />
-                  </motion.div>
-                </motion.button>
+            {/* CTA Buttons UIJP */}
+            <motion.div variants={itemVariants} className="flex flex-wrap gap-4">
+              <Link href={items[index].ctaPrimary.href} className="btn-uijp text-base">
+                {items[index].ctaPrimary.text}
+              </Link>
+              <Link href={items[index].ctaSecondary.href} className="btn-uijp-outline text-base">
+                {items[index].ctaSecondary.text}
               </Link>
             </motion.div>
           </motion.div>
         </AnimatePresence>
       </div>
 
-      {/* Navigation avec effets modernes */}
-      <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 flex items-center gap-6">
-        {/* Flèches */}
+      {/* ── Navigation flèches ── */}
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex items-center gap-5">
         <motion.button
           onClick={handlePrevious}
-          whileHover={{ scale: 1.1, x: -5 }}
+          whileHover={{ scale: 1.1, x: -3 }}
           whileTap={{ scale: 0.9 }}
-          className="p-4 bg-white/10 backdrop-blur-md rounded-full text-white border border-white/20 hover:bg-white/20 transition-colors"
+          className="p-3 bg-white/10 backdrop-blur-md rounded-full text-white border border-white/25 hover:bg-white/20 transition-colors"
           aria-label="Précédent"
         >
-          <ChevronLeft className="w-6 h-6" />
+          <ChevronLeft className="w-5 h-5" />
         </motion.button>
 
-        {/* Dots animés */}
-        <div className="flex gap-3">
-          {items.map((item, i) => (
-            <motion.button
+        {/* Dots */}
+        <div className="flex gap-2">
+          {items.map((_, i) => (
+            <button
               key={i}
-              onClick={() => {
-                setDirection(i > index ? 1 : -1);
-                setIndex(i);
-                setIsAutoPlaying(false);
-              }}
-              className="relative group"
-              whileHover={{ scale: 1.2 }}
-              whileTap={{ scale: 0.9 }}
+              onClick={() => { setDirection(i > index ? 1 : -1); setIndex(i); setIsAutoPlaying(false); }}
+              className="relative"
             >
               <motion.div
-                className={`w-3 h-3 rounded-full transition-colors duration-300 ${i === index ? 'bg-white' : 'bg-white/40 group-hover:bg-white/60'
+                className={`h-2 rounded-full transition-all duration-300 ${i === index ? "w-8" : "w-2 bg-white/40 hover:bg-white/60"
                   }`}
-                animate={i === index ? {
-                  scale: [1, 1.2, 1],
-                } : {}}
-                transition={i === index ? {
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                } : {}}
+                style={i === index ? { background: "linear-gradient(90deg, #205C03, #0B30BB)" } : {}}
               />
-              {i === index && (
-                <motion.div
-                  className="absolute inset-0 rounded-full bg-white/30"
-                  animate={{
-                    scale: [1, 2],
-                    opacity: [0.5, 0],
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "easeOut"
-                  }}
-                />
-              )}
-            </motion.button>
+            </button>
           ))}
         </div>
 
-        {/* Flèche droite */}
         <motion.button
           onClick={handleNext}
-          whileHover={{ scale: 1.1, x: 5 }}
+          whileHover={{ scale: 1.1, x: 3 }}
           whileTap={{ scale: 0.9 }}
-          className="p-4 bg-white/10 backdrop-blur-md rounded-full text-white border border-white/20 hover:bg-white/20 transition-colors"
+          className="p-3 bg-white/10 backdrop-blur-md rounded-full text-white border border-white/25 hover:bg-white/20 transition-colors"
           aria-label="Suivant"
         >
-          <ChevronRight className="w-6 h-6" />
+          <ChevronRight className="w-5 h-5" />
         </motion.button>
       </div>
 
-      {/* Barre de progression créative */}
+      {/* ── Barre de progression ── */}
       <motion.div
+        key={`progress-${index}`}
         className="absolute bottom-0 left-0 h-1 z-20"
-        style={{
-          background: `linear-gradient(45deg, ${items[index].color.split(' ')[1]} 0%, ${items[index].color.split(' ')[3]} 20%)`
-        }}
-        initial={{ width: '0%' }}
-        animate={{ width: '100%' }}
-        transition={{
-          duration: 8,
-          ease: "linear",
-          repeat: isAutoPlaying ? Infinity : 0,
-          repeatType: "loop"
-        }}
-        key={index}
+        style={{ background: "linear-gradient(90deg, #205C03 0%, #0B30BB 100%)" }}
+        initial={{ width: "0%" }}
+        animate={{ width: "100%" }}
+        transition={{ duration: 7, ease: "linear" }}
       />
 
-      {/* Indicateur de slide */}
-      <motion.div
-        className="absolute top-12 right-12 z-20 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-white text-sm font-mono"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
+      {/* ── Compteur slide ── */}
+      <div
+        className="absolute top-6 right-6 md:top-8 md:right-8 z-20 px-3 py-1.5 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-white text-xs font-mono"
       >
-        {String(index + 1).padStart(2, '0')} / {String(items.length).padStart(2, '0')}
-      </motion.div>
+        {String(index + 1).padStart(2, "0")} / {String(items.length).padStart(2, "0")}
+      </div>
     </div>
   );
 }

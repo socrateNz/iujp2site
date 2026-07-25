@@ -1,127 +1,174 @@
 "use client"
 
-// The exported code uses Tailwind CSS. Install Tailwind CSS in your dev environment to ensure all styles work.
-
 import React from 'react';
-import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
-import { Formation } from '@/data/data';
 import Admission from './Tabs/Admission';
 import Debouches from './Tabs/Debouches';
 import Presentation from './Tabs/Presentation';
 import Link from 'next/link';
 import { Filiere } from '@/lib/types';
-import { LucideTimer } from 'lucide-react';
+import { Clock, Download, Send, ChevronLeft } from 'lucide-react';
 
 interface Props {
-    formation: Filiere | undefined
-    ecole: string | undefined
+    formation: Filiere | undefined;
+    ecole: string | undefined;
 }
 
 const Details = ({ formation, ecole }: Props) => {
     return (
-        <div className="min-h-screen bg-white">
-            <main className="pt-16">
-                {/* Bannière de formation */}
-                <section className="relative h-[400px] overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#1B2A4A]/90 to-[#1B2A4A]/70 z-10" />
-                    <div
-                        className="absolute inset-0 bg-cover bg-center"
+        <div className="min-h-screen" style={{ background: "#f5f6fa" }}>
+
+            {/* ── Bannière formation UIJP ── */}
+            <div
+                className="relative w-full overflow-hidden flex flex-col justify-end"
+                style={{ minHeight: "380px" }}
+            >
+                {/* Background image */}
+                <div
+                    className="absolute inset-0 bg-cover bg-center"
+                    style={{ backgroundImage: `url(${formation?.image})` }}
+                />
+                {/* Overlay dégradé UIJP */}
+                <div
+                    className="absolute inset-0"
+                    style={{
+                        background: "linear-gradient(135deg, rgba(32,92,3,0.85) 0%, rgba(11,48,187,0.65) 100%)",
+                    }}
+                />
+                <div
+                    className="absolute inset-0"
+                    style={{
+                        background: "linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 60%)",
+                    }}
+                />
+
+                {/* Contenu */}
+                <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 pb-12 pt-8 w-full">
+                    {/* Retour */}
+                    <Link
+                        href="/formations"
+                        className="inline-flex items-center gap-2 text-white/75 hover:text-white text-xs font-bold uppercase tracking-widest mb-6 transition-colors"
+                        style={{ fontFamily: "var(--font-montserrat), Montserrat, sans-serif" }}
+                    >
+                        <ChevronLeft size={14} />
+                        Retour aux formations
+                    </Link>
+
+                    {/* Badges durée + examens */}
+                    <div className="flex flex-wrap gap-2 mb-4">
+                        <span
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-white bg-white/15 backdrop-blur-sm border border-white/25"
+                            style={{
+                                fontFamily: "var(--font-montserrat), Montserrat, sans-serif",
+                                borderRadius: "2px",
+                            }}
+                        >
+                            <Clock size={11} />
+                            {formation?.duration} an{Number(formation?.duration) > 1 ? 's' : ''}
+                        </span>
+                        {formation?.examen.map((x, i) => (
+                            <span
+                                key={i}
+                                className="px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-white bg-white/15 backdrop-blur-sm border border-white/25"
+                                style={{
+                                    fontFamily: "var(--font-montserrat), Montserrat, sans-serif",
+                                    borderRadius: "2px",
+                                }}
+                            >
+                                {x}
+                            </span>
+                        ))}
+                    </div>
+
+                    {/* Titre */}
+                    <h1
+                        className="text-white font-black uppercase mb-6"
                         style={{
-                            backgroundImage: `url(${formation?.image})`
+                            fontFamily: "var(--font-montserrat), Montserrat, sans-serif",
+                            fontSize: "clamp(2rem, 5vw, 3.5rem)",
+                            lineHeight: 1.05,
+                            letterSpacing: "0.03em",
+                            textShadow: "0 2px 20px rgba(0,0,0,0.3)",
+                            maxWidth: "800px",
                         }}
-                    />
+                    >
+                        {formation?.title}
+                    </h1>
 
-                    <div className="container mx-auto px-4 h-full flex items-center relative z-20">
-                        <div className="max-w-3xl text-white">
-                            <div className="flex items-center mb-4">
-                                <a href="https://readdy.ai/home/b810b447-bdd3-4c3f-8f2a-b8c2991aa67d/a087413a-f905-43cf-b8f6-3797ade6f8f4" data-readdy="true" className="text-gray-200 hover:text-[#34773D] transition-colors cursor-pointer">
-                                    <i className="fas fa-arrow-left mr-2" />
-                                    Retour aux formations
-                                </a>
-                            </div>
-                            <h1 className="text-4xl md:text-5xl font-serif font-bold mb-4">{formation?.title}</h1>
-                            <div className="flex flex-wrap gap-3 mb-6">
-                                <Badge className="bg-white text-[#1B2A4A] px-3 py-1">
-                                    <LucideTimer />
-                                    {`${formation?.duration} ans`}
-                                </Badge>
-                                {formation?.examen.map((x, i) => (
-                                    <Badge key={i} className="bg-[#1B2A4A] text-white border border-white px-3 py-1">{x}</Badge>
-                                ))
-                                }
-                            </div>
-                            {/* description */}
-                            <div className="flex flex-col sm:flex-row gap-4">
-                                <Link target='_blank' href={"https://docs.google.com/forms/d/e/1FAIpQLScseIhBG54CVcHykTt43ErddcuebewPz2NLNDTd48EWsUeRag/viewform?usp=header"}>
-                                    <Button className="bg-[#34773D] hover:bg-[#34773D]/80 text-white px-6 py-5 text-lg !rounded-button whitespace-nowrap">
-                                        Postuler maintenant
-                                        <i className="fas fa-user-edit ml-2"></i>
-                                    </Button>
-                                </Link>
-                                <Link href="/catalogue.pdf" target="_blank" rel="noopener noreferrer">
-                                    <Button variant="outline" className="cursor-pointer text-white hover:text-white bg-[#1B2A4A]/80 hover:bg-[#1B2A4A]/30 px-8 text-lg !rounded-button whitespace-nowrap">
-                                        Télécharger la brochure
-                                        <i className="fas fa-download ml-2"></i>
-                                    </Button>
-                                </Link>
-                            </div>
+                    {/* CTA Buttons */}
+                    <div className="flex flex-wrap gap-4">
+                        <Link
+                            target='_blank'
+                            href="https://docs.google.com/forms/d/e/1FAIpQLScseIhBG54CVcHykTt43ErddcuebewPz2NLNDTd48EWsUeRag/viewform?usp=header"
+                            className="btn-uijp text-sm"
+                        >
+                            <Send size={14} />
+                            Postuler maintenant
+                        </Link>
+                        <Link
+                            href="/catalogue.pdf"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="btn-uijp-outline text-sm"
+                        >
+                            <Download size={14} />
+                            Télécharger la brochure
+                        </Link>
+                    </div>
+                </div>
+            </div>
+
+            {/* ── Onglets de contenu ── */}
+            <div className="max-w-7xl mx-auto px-4 md:px-8 py-12">
+                <Tabs defaultValue="presentation" className="w-full">
+                    <TabsList
+                        className="bg-transparent h-auto flex flex-wrap gap-2 mb-10 p-0 justify-start"
+                    >
+                        {[
+                            { value: "presentation", label: "Présentation des objectifs" },
+                            // { value: "debouches", label: "Débouchés professionnels" },
+                            // { value: "admission", label: "Admission et coûts" },
+                        ].map(({ value, label }) => (
+                            <TabsTrigger
+                                key={value}
+                                value={value}
+                                className="rounded-none border-2 border-[#2D2F2B] text-[#2D2F2B] font-bold text-xs uppercase tracking-widest px-5 py-2.5
+                                    data-[state=active]:border-transparent data-[state=active]:text-white data-[state=active]:shadow-none
+                                    hover:border-[#205C03] hover:text-[#205C03] transition-all duration-200"
+                                style={{
+                                    fontFamily: "var(--font-montserrat), Montserrat, sans-serif",
+                                }}
+                            >
+                                {label}
+                            </TabsTrigger>
+                        ))}
+                    </TabsList>
+
+                    <TabsContent value="presentation">
+                        <div
+                            className="bg-white p-8"
+                            style={{
+                                borderLeft: "4px solid #205C03",
+                                borderBottom: "4px solid #0B30BB",
+                                boxShadow: "0 2px 16px rgba(0,0,0,0.07)",
+                                borderRadius: "2px",
+                            }}
+                        >
+                            <Presentation formation={formation} ecole={ecole} />
                         </div>
-                    </div>
-                </section>
-
-                {/* Navigation par onglets */}
-                <section className="bg-white border-b">
-                    <div className="container mx-auto px-4">
-                        <Tabs defaultValue="presentation" className="w-full">
-                            <div className="overflow-x-auto mt-5">
-                                <TabsList className="bg-transparent border-b w-full justify-start rounded-none h-16">
-                                    <TabsTrigger
-                                        value="presentation"
-                                        className="data-[state=active]:bg-[#34773D] data-[state=active]:border-[#34773D] data-[state=active]:text-white rounded-none h-16 px-6"
-                                    >
-                                        {"Présentation de nos objectifs"}
-                                    </TabsTrigger>
-                                    {/* <TabsTrigger
-                                        value="debouches"
-                                        className="data-[state=active]:bg-[#34773D] data-[state=active]:border-[#34773D] data-[state=active]:text-white rounded-none h-16 px-6"
-                                    >
-                                        Débouchés professionnels
-                                    </TabsTrigger> */}
-                                    {/* <TabsTrigger
-                                        value="admission"
-                                        className="data-[state=active]:bg-[#34773D] data-[state=active]:border-[#34773D] data-[state=active]:text-white rounded-none h-16 px-6"
-                                    >
-                                        Admission et coûts
-                                    </TabsTrigger> */}
-                                </TabsList>
-                            </div>
-
-                            {/* Contenu des onglets */}
-                            <div className="py-12">
-                                {/* Présentation */}
-                                <TabsContent value="presentation" className="mt-0">
-                                    <Presentation formation={formation} ecole={ecole} />
-                                </TabsContent>
-
-                                {/* Débouchés professionnels */}
-                                <TabsContent value="debouches" className="mt-0">
-                                    <Debouches />
-                                </TabsContent>
-
-                                {/* Admission et coûts */}
-                                <TabsContent value="admission" className="mt-0">
-                                    <Admission />
-                                </TabsContent>
-                            </div>
-                        </Tabs>
-                    </div>
-                </section>
-
-                {/* Formations similaires */}
-
-            </main>
+                    </TabsContent>
+                    <TabsContent value="debouches">
+                        <div className="bg-white p-8" style={{ borderLeft: "4px solid #0B30BB", borderBottom: "4px solid #205C03", borderRadius: "2px" }}>
+                            <Debouches />
+                        </div>
+                    </TabsContent>
+                    <TabsContent value="admission">
+                        <div className="bg-white p-8" style={{ borderLeft: "4px solid #205C03", borderBottom: "4px solid #E3A402", borderRadius: "2px" }}>
+                            <Admission />
+                        </div>
+                    </TabsContent>
+                </Tabs>
+            </div>
         </div>
     );
 }

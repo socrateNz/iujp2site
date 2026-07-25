@@ -12,10 +12,10 @@ import {
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
-import { useState, ChangeEvent } from "react"
+import { useState, ChangeEvent, useRef } from "react"
 import { Ecole } from "@/lib/types"
 import { Textarea } from "@/components/ui/textarea"
-
+import { Loader2, Image as ImageIcon } from "lucide-react"
 
 interface EditArticleDialogProps {
     ecole: Ecole
@@ -34,7 +34,9 @@ export default function EditEcoleDialog({
     const [imageFile, setImageFile] = useState<File | null>(null)
     const [imageUrl, setImageUrl] = useState(ecole.image || "")
     const [loading, setLoading] = useState(false)
+    const [uploading, setUploading] = useState(false)
     const [open, setOpen] = useState(false)
+    const fileInputRef = useRef<HTMLInputElement>(null)
 
     const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
@@ -45,6 +47,7 @@ export default function EditEcoleDialog({
 
     const handleUploadImage = async () => {
         if (!imageFile) return imageUrl
+        setUploading(true)
         const formData = new FormData()
         formData.append("file", imageFile)
         const res = await fetch("/api/upload", {
@@ -52,6 +55,7 @@ export default function EditEcoleDialog({
             body: formData,
         })
         const data = await res.json()
+        setUploading(false)
         if (data.success && data.url) {
             return data.url
         } else {
@@ -80,7 +84,7 @@ export default function EditEcoleDialog({
 
             const data = await res.json()
             if (data.success) {
-                toast.success("Article mis à jour avec succès")
+                toast.success("École mise à jour avec succès")
                 onUpdate(data.article)
                 setOpen(false)
             } else {
@@ -96,52 +100,92 @@ export default function EditEcoleDialog({
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>{children}</DialogTrigger>
-            <DialogContent className="sm:max-w-lg max-h-[700px] overflow-auto">
-                <DialogHeader>
-                    <DialogTitle>Modifier l’article</DialogTitle>
+            <DialogContent className="sm:max-w-2xl border-l-[4px] border-l-[#205C03] border-b-[4px] border-b-[#0B30BB] rounded-[2px] p-0 overflow-hidden">
+                <DialogHeader className="bg-slate-50 border-b border-slate-100 p-6">
+                    <DialogTitle className="text-2xl font-black uppercase tracking-widest text-[#111111]" style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif" }}>Modifier l'école</DialogTitle>
                 </DialogHeader>
-                <div className="space-y-4 pt-2">
-                    <div>
-                        <p>Titre</p>
-                        <Input
-                            placeholder="Titre"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            required />
-                    </div>
-                    <div>
-                        <p>Description</p>
-                        <Textarea
-                            placeholder="Description"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                            required />
-                    </div>
-                    <div>
-                        <label className="block mb-1 text-sm font-medium">Image</label>
-                        <Input type="file" accept="image/*" onChange={handleImageChange} />
-                        {imageUrl && (
-                            <img
-                                src={imageUrl}
-                                alt="Aperçu"
-                                className="mt-2 max-h-40 rounded"
+                <div className="p-6 space-y-6 max-h-[70vh] overflow-y-auto" style={{ fontFamily: "var(--font-inter), Inter, sans-serif" }}>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="space-y-6">
+                            <div>
+                                <label className="block mb-2 text-sm font-bold uppercase tracking-wider text-slate-700" style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif" }}>Nom de l'école</label>
+                                <Input
+                                    placeholder="Ex: IUT de Bandjoun"
+                                    value={title}
+                                    onChange={(e) => setTitle(e.target.value)}
+                                    className="rounded-[2px] focus:ring-[#205C03] focus:border-[#205C03] font-semibold"
+                                    required 
+                                />
+                            </div>
+                            
+                            <div>
+                                <label className="block mb-2 text-sm font-bold uppercase tracking-wider text-slate-700" style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif" }}>Nom du Directeur</label>
+                                <Input
+                                    placeholder="Pr. Jean Dupont"
+                                    value={directeur}
+                                    onChange={(e) => setDirecteur(e.target.value)}
+                                    className="rounded-[2px] focus:ring-[#205C03] focus:border-[#205C03]"
+                                    required 
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block mb-2 text-sm font-bold uppercase tracking-wider text-slate-700" style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif" }}>Image</label>
+                                <div 
+                                  className={`border-2 border-dashed rounded-[2px] p-4 text-center cursor-pointer transition-colors ${imageUrl ? 'border-[#205C03] bg-[#205C03]/5' : 'border-slate-300 hover:border-[#0B30BB] hover:bg-slate-50'}`}
+                                  onClick={() => fileInputRef.current?.click()}
+                                >
+                                  <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleImageChange}
+                                    ref={fileInputRef}
+                                    className="hidden"
+                                  />
+                                  {uploading ? (
+                                    <div className="flex flex-col items-center py-6">
+                                      <Loader2 className="animate-spin text-[#205C03] mb-2" size={24} />
+                                      <p className="text-xs text-slate-500 uppercase tracking-widest font-bold">Upload...</p>
+                                    </div>
+                                  ) : imageUrl ? (
+                                    <div className="relative">
+                                      <img src={imageUrl} alt="Aperçu" className="w-full max-h-32 object-contain rounded-[2px] shadow-sm bg-white" />
+                                      <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity rounded-[2px]">
+                                        <p className="text-white text-xs font-bold uppercase tracking-widest">Changer l'image</p>
+                                      </div>
+                                    </div>
+                                  ) : (
+                                    <div className="flex flex-col items-center justify-center py-6 text-slate-400">
+                                      <ImageIcon className="h-10 w-10 mb-3 text-slate-300" />
+                                      <p className="text-sm font-bold uppercase tracking-widest text-slate-500" style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif" }}>Parcourir les fichiers</p>
+                                    </div>
+                                  )}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="flex flex-col">
+                            <label className="block mb-2 text-sm font-bold uppercase tracking-wider text-slate-700" style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif" }}>Description complète</label>
+                            <Textarea
+                                placeholder="Décrivez l'école, sa mission, ses valeurs..."
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                                className="flex-1 min-h-[200px] rounded-[2px] focus:ring-[#0B30BB] focus:border-[#0B30BB] resize-none"
+                                required 
                             />
-                        )}
-                    </div>
-                    <div>
-                        <p>Directeur</p>
-                        <Input
-                            placeholder="Directeur"
-                            value={directeur}
-                            onChange={(e) => setDirecteur(e.target.value)}
-                            required />
+                        </div>
                     </div>
                 </div>
-                <DialogFooter className="pt-4">
-                    <Button onClick={() => setOpen(false)} variant="outline">Annuler</Button>
-                    <Button onClick={handleSubmit} disabled={loading}>
-                        {loading ? "Modification..." : "Mettre à jour"}
-                    </Button>
+                <DialogFooter className="p-6 bg-slate-50 border-t border-slate-100">
+                    <Button onClick={() => setOpen(false)} variant="outline" className="rounded-[2px] font-bold uppercase tracking-widest text-slate-600 bg-white" style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif" }}>Annuler</Button>
+                    <button 
+                      onClick={handleSubmit} 
+                      disabled={loading || uploading}
+                      className="btn-eemi min-w-[150px] flex justify-center items-center gap-2"
+                    >
+                        {(loading || uploading) && <Loader2 className="animate-spin h-4 w-4" />}
+                        {(loading || uploading) ? "Modification..." : "Mettre à jour"}
+                    </button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

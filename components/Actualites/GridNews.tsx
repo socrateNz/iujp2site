@@ -1,64 +1,108 @@
-import React from 'react'
+"use client";
 
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { News, news } from "@/data/data";
+import React from 'react';
+import { News } from "@/data/data";
 import { useRouter } from "next/navigation";
+import { Calendar, ArrowRight } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 interface GridNewsProps {
   articles?: News[];
 }
 
+const cardStyles = [
+  { borderLeft: "#205C03", borderBottom: "#0B30BB" },
+  { borderLeft: "#0B30BB", borderBottom: "#E3A402" },
+  { borderLeft: "#E3A402", borderBottom: "#205C03" },
+];
+
 const GridNews: React.FC<GridNewsProps> = ({ articles }) => {
   const router = useRouter();
-  // On utilise les articles passés en props ou les données statiques par défaut
   const data = articles && articles.length > 0 ? articles : [];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-7 py-10">
-      {data.map((article) => {
-        console.log(article);
-        
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4 md:px-8 py-6">
+      {data.map((article, index) => {
+        const style = cardStyles[index % cardStyles.length];
         return (
-            <Card
-              key={article._id}
-              className="overflow-hidden flex flex-col cursor-pointer hover:shadow-lg transition-shadow"
+          <motion.div
+            key={article._id}
+            className="group"
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: (index % 3) * 0.1 }}
+          >
+            <div
+              className="bg-white flex flex-col h-full cursor-pointer transition-all duration-300 hover:-translate-y-1"
+              style={{
+                borderLeft: `4px solid ${style.borderLeft}`,
+                borderBottom: `4px solid ${style.borderBottom}`,
+                boxShadow: "0 2px 16px rgba(0,0,0,0.07)",
+                borderRadius: "2px",
+              }}
+              onClick={() => router.push(`/actualites/${article._id}`)}
             >
-              <div
-                className="h-48 w-full overflow-hidden"
-                onClick={() => router.push(`/actualites/${article._id}`)}
-                style={{ cursor: "pointer" }}
-              >
+              {/* Image */}
+              <div className="h-52 w-full overflow-hidden">
                 <img
                   src={article.image}
                   alt={article.title}
-                  className="w-full h-full object-cover object-top"
+                  className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
-              <div className="p-4 flex flex-col flex-1">
-                <Badge className="mb-2 w-fit bg-[#34773D]">{article.category}</Badge>
+
+              {/* Contenu */}
+              <div className="flex flex-col flex-1 p-6">
+                {/* Badge catégorie + Date */}
+                <div className="flex items-center justify-between mb-4">
+                  <span
+                    className="px-3 py-1 text-xs font-bold uppercase tracking-widest text-white"
+                    style={{
+                      background: `linear-gradient(135deg, ${style.borderLeft} 0%, ${style.borderBottom} 100%)`,
+                      fontFamily: "var(--font-montserrat), Montserrat, sans-serif",
+                      borderRadius: "2px",
+                    }}
+                  >
+                    {article.category}
+                  </span>
+                  <span
+                    className="flex items-center gap-1.5 text-xs text-gray-400"
+                    style={{ fontFamily: "var(--font-inter), Inter, sans-serif" }}
+                  >
+                    <Calendar size={12} />
+                    {article.date}
+                  </span>
+                </div>
+
+                {/* Titre */}
                 <h3
-                  className="font-bold text-lg mb-2 line-clamp-2"
-                  onClick={() => router.push(`/actualites/${article._id}`)}
-                  style={{ cursor: "pointer" }}
+                  className="font-bold text-[#2D2F2B] mb-3 text-base leading-snug uppercase flex-1"
+                  style={{
+                    fontFamily: "var(--font-montserrat), Montserrat, sans-serif",
+                    letterSpacing: "0.03em",
+                  }}
                 >
                   {article.title}
                 </h3>
-                <p className="text-gray-600 text-sm mb-4 line-clamp-3">{article.description}</p>
-                <div className="flex items-center justify-between mt-auto">
-                  <span className="text-xs text-gray-500">{article.date}</span>
-                  <Button
-                    variant="link"
-                    className="p-0 h-auto !rounded-button whitespace-nowrap cursor-pointer"
-                    onClick={() => router.push(`/actualites/${article._id}`)}
-                  >
-                    Lire l'article <i className="fas fa-arrow-right ml-2"></i>
-                  </Button>
-                </div>
+
+                {/* Description */}
+                <p
+                  className="text-gray-500 text-sm leading-relaxed mb-5 line-clamp-2"
+                  style={{ fontFamily: "var(--font-inter), Inter, sans-serif" }}
+                >
+                  {article.description}
+                </p>
+
+                {/* Lien UIJP */}
+                <span className="link-uijp inline-flex items-center gap-2 self-start">
+                  LIRE L'ARTICLE
+                  <ArrowRight size={14} />
+                </span>
               </div>
-            </Card>
-          )
+            </div>
+          </motion.div>
+        );
       })}
     </div>
   );

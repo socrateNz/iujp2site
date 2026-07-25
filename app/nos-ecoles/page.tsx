@@ -6,58 +6,45 @@ import Head from '@/components/ui/head'
 import { Ecole, Filiere } from '@/lib/types'
 import React, { useEffect, useState } from 'react'
 
-const Page = () => {
-
-
+const NosEcolesPage = () => {
   const [ecoles, setEcoles] = useState<Ecole[]>([]);
+  const [filieres, setFilieres] = useState<Filiere[]>([]);
   const [loading, setLoading] = useState(true);
-  const [loadingFiliere, setLoadingFiliere] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [errorFiliere, setErrorFiliere] = useState<string | null>(null);
-   const [filieres, setFilieres] = useState<Filiere[]>([]);
 
   useEffect(() => {
-    fetchEcoles()
-    fetchFiliere()
-  }, [])
+    Promise.all([
+      fetch('/api/admin/ecoles?limit=100').then(r => r.json()),
+      fetch('/api/admin/filieres?limit=100').then(r => r.json()),
+    ]).then(([ecolesData, filieresData]) => {
+      setEcoles(ecolesData.data?.ecoles || []);
+      setFilieres(filieresData.data?.filieres || []);
+      setLoading(false);
+    }).catch(() => {
+      setError('Erreur lors du chargement');
+      setLoading(false);
+    });
+  }, []);
 
-  const fetchEcoles = async () => {
-    fetch('/api/admin/ecoles')
-      .then(res => res.json())
-      .then(data => {
-        setEcoles(data.data?.ecoles || []);
-        setLoading(false);
-      })
-      .catch(() => {
-        setError('Erreur lors du chargement des écoles');
-        setLoading(false);
-      });
-  }
-
-  const fetchFiliere = async () => {
-    fetch('/api/admin/filieres')
-      .then(res => res.json())
-      .then(data => {
-        setFilieres(data.data?.filieres || []);
-        setLoadingFiliere(false);
-      })
-      .catch(() => {
-        setErrorFiliere('Erreur lors du chargement des filières');
-        setLoadingFiliere(false);
-      });
-  }
-
-  if (loading || loadingFiliere) return <Loading />;
-  if (error || errorFiliere) return <div>{"Une erreur est survenue lors du chargement des données. Veuillez recharger la page."}</div>;
+  if (loading) return <Loading />;
+  if (error) return (
+    <div className="py-24 text-center text-gray-500" style={{ fontFamily: "var(--font-inter), Inter, sans-serif" }}>
+      Une erreur est survenue. Veuillez recharger la page.
+    </div>
+  );
 
   return (
-    <div className='py-10'>
-      <Head title='Nos Ecoles' description="Nos Ecoles au service de nos etudiants et de la communauté universitaire" />
+    <div style={{ background: "#f5f6fa", minHeight: "100vh" }}>
+      <Head
+        title="Nos Écoles"
+        description="Des établissements d'excellence au service de vos ambitions académiques et professionnelles."
+        tag="ÉTABLISSEMENTS"
+      />
       <div className='max-w-7xl mx-auto'>
         <GridEcole ecoles={ecoles} filieres={filieres} />
       </div>
     </div>
-  )
+  );
 }
 
-export default Page
+export default NosEcolesPage

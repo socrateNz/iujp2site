@@ -13,18 +13,14 @@ const ActualitesPage = () => {
   const [query, setQuery] = useState('');
   const [debouncedQuery, setDebouncedQuery] = useState('');
 
-  // Debounce : attend 350ms après la dernière frappe
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedQuery(query);
-    }, 350);
+    const timer = setTimeout(() => setDebouncedQuery(query), 350);
     return () => clearTimeout(timer);
   }, [query]);
 
   const fetchArticles = useCallback(async (search: string) => {
     if (search) setSearching(true);
     else setLoading(true);
-
     try {
       const url = `/api/admin/articles?published=true${search ? `&search=${encodeURIComponent(search)}` : ''}`;
       const res = await fetch(url);
@@ -38,83 +34,108 @@ const ActualitesPage = () => {
     }
   }, []);
 
-  // Chargement initial
-  useEffect(() => {
-    fetchArticles('');
-  }, [fetchArticles]);
-
-  // Recherche déclenchée par le debounce
-  useEffect(() => {
-    fetchArticles(debouncedQuery);
-  }, [debouncedQuery, fetchArticles]);
+  useEffect(() => { fetchArticles(''); }, [fetchArticles]);
+  useEffect(() => { fetchArticles(debouncedQuery); }, [debouncedQuery, fetchArticles]);
 
   if (loading) return <Loading />;
 
   return (
-    <div className='py-10'>
+    <div style={{ background: "#f5f6fa", minHeight: "100vh" }}>
       <Head
-        title="Toute L'actualité"
-        description="Informez vous à propos de l'actualité universitaire"
+        title="Actualités"
+        description="Restez informés des dernières nouvelles, événements et réalisations de notre communauté universitaire."
+        tag="VIE UNIVERSITAIRE"
       />
 
-      <div className='max-w-7xl mx-auto px-4'>
+      <div className='max-w-7xl mx-auto px-4 md:px-8 py-10'>
 
-        {/* Barre de recherche */}
-        <div className="mb-8 max-w-xl mx-auto">
-          <div className="relative group">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-blue-500 transition-colors" />
+        {/* ── Barre de recherche EEMI ── */}
+        <div className="mb-10 max-w-2xl mx-auto">
+          <div className="relative">
+            <Search
+              className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 transition-colors"
+              style={{ color: "#205C03" }}
+            />
             <input
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Rechercher un article, une catégorie…"
-              className="w-full rounded-2xl border border-slate-200 bg-white pl-11 pr-10 py-3.5 text-sm text-slate-800 placeholder-slate-400 shadow-sm outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-100 transition-all"
+              className="w-full bg-white pl-11 pr-10 py-4 text-sm text-[#111111] placeholder-gray-400 outline-none transition-all"
+              style={{
+                fontFamily: "var(--font-inter), Inter, sans-serif",
+                border: "2px solid #e5e7eb",
+                borderRadius: "2px",
+                boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
+              }}
+              onFocus={(e) => { e.currentTarget.style.borderColor = "#205C03"; }}
+              onBlur={(e) => { e.currentTarget.style.borderColor = "#e5e7eb"; }}
             />
             {query && (
               <button
                 onClick={() => setQuery('')}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 rounded-full p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors"
-                aria-label="Effacer la recherche"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#205C03] transition-colors"
+                aria-label="Effacer"
               >
                 <X className="h-4 w-4" />
               </button>
             )}
           </div>
 
-          {/* Résultats / état */}
+          {/* Résultats */}
           {debouncedQuery && (
-            <p className="mt-2.5 text-center text-sm text-slate-500">
+            <p
+              className="mt-3 text-center text-sm text-gray-500"
+              style={{ fontFamily: "var(--font-inter), Inter, sans-serif" }}
+            >
               {searching ? (
-                <span className="inline-flex items-center gap-1.5">
-                  <span className="h-3.5 w-3.5 rounded-full border-2 border-blue-500 border-t-transparent animate-spin inline-block" />
+                <span className="inline-flex items-center gap-2">
+                  <span
+                    className="h-3.5 w-3.5 rounded-full border-2 border-t-transparent animate-spin inline-block"
+                    style={{ borderColor: "#205C03", borderTopColor: "transparent" }}
+                  />
                   Recherche en cours…
                 </span>
               ) : (
                 <span>
-                  <strong className="text-slate-700">{articles.length}</strong>{' '}
+                  <strong className="text-[#111111]">{articles.length}</strong>{' '}
                   résultat{articles.length !== 1 ? 's' : ''} pour «{' '}
-                  <span className="text-blue-600 font-medium">{debouncedQuery}</span> »
+                  <span style={{ color: "#205C03", fontWeight: 600 }}>{debouncedQuery}</span> »
                 </span>
               )}
             </p>
           )}
         </div>
 
-        {/* Grille ou message vide */}
+        {/* Grille ou état vide */}
         {!searching && articles.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24 text-center">
-            <div className="h-16 w-16 rounded-2xl bg-slate-100 flex items-center justify-center mb-4">
-              <Search className="h-7 w-7 text-slate-400" />
+            <div
+              className="w-16 h-16 flex items-center justify-center mb-5"
+              style={{
+                background: "linear-gradient(135deg, #205C03 0%, #0B30BB 100%)",
+                borderRadius: "2px",
+              }}
+            >
+              <Search className="h-7 w-7 text-white" />
             </div>
-            <h2 className="text-lg font-semibold text-slate-700 mb-1">Aucun article trouvé</h2>
-            <p className="text-sm text-slate-400 max-w-xs">
+            <h2
+              className="font-bold text-[#2D2F2B] mb-2 uppercase"
+              style={{ fontFamily: "var(--font-montserrat), Montserrat, sans-serif", fontSize: "1.25rem" }}
+            >
+              Aucun article trouvé
+            </h2>
+            <p
+              className="text-sm text-gray-500 max-w-xs mb-6"
+              style={{ fontFamily: "var(--font-inter), Inter, sans-serif" }}
+            >
               Aucun article ne correspond à «{' '}
-              <span className="font-medium text-slate-600">{debouncedQuery}</span> ».
+              <span className="font-medium text-[#111111]">{debouncedQuery}</span> ».
               <br />Essayez un autre mot-clé.
             </p>
             <button
               onClick={() => setQuery('')}
-              className="mt-5 rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 transition-colors"
+              className="btn-uijp-outline-dark"
             >
               Voir tous les articles
             </button>

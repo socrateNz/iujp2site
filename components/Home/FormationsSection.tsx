@@ -1,16 +1,15 @@
-"use client"
+"use client";
 
-import { Button } from "../ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import FormationGrid from "./FormationGrid";
 import Loading from "../loading";
 import { Filiere } from "@/lib/types";
+import { Download } from "lucide-react";
+import { motion } from "framer-motion";
 
 const FormationsSection = () => {
-  const router = useRouter();
   const [filieres, setFilieres] = useState<Filiere[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -22,64 +21,121 @@ const FormationsSection = () => {
 
   const fetchFiliere = async () => {
     try {
-      const res = await fetch('/api/admin/filieres');
+      const res = await fetch("/api/admin/filieres?limit=100");
       const data = await res.json();
       const list: Filiere[] = data.data?.filieres || [];
-
       setFilieres(list);
-
-      // Extraire les examens uniques
-      const allExamens = list.flatMap(filiere => filiere.examen);
+      const allExamens = list.flatMap((f) => f.examen);
       const uniqueExamens = Array.from(new Set(allExamens));
       setExamens(uniqueExamens);
-
       setLoading(false);
-    } catch (err) {
-      setError('Erreur lors du chargement des filières');
+    } catch {
+      setError("Erreur lors du chargement des filières");
       setLoading(false);
     }
   };
 
   if (loading) return <Loading />;
-  if (error) return <div>{"Une erreur est survenue lors du chargement des données. Veuillez recharger la page."}</div>;
+  if (error) return (
+    <div className="py-20 text-center text-gray-500" style={{ fontFamily: "var(--font-inter), Inter, sans-serif" }}>
+      Une erreur est survenue. Veuillez recharger la page.
+    </div>
+  );
 
   return (
-    <section id="formations" className="py-20 bg-white">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#1B2A4A] mb-4">Nos formations</h2>
-          <div className="w-20 h-1 bg-[#34773D] mx-auto"></div>
-          <p className="mt-6 text-gray-600 max-w-2xl mx-auto">
-            {"Découvrez notre large éventail de programmes académiques conçus pour vous préparer aux défis professionnels et intellectuels du monde contemporain."}
-          </p>
-        </div>
+    <section id="formations" className="py-24" style={{ background: "#f5f6fa" }}>
+      <div className="max-w-7xl mx-auto px-4 md:px-8">
 
+        {/* ── En-tête de section UIJP ── */}
+        <motion.div
+          className="mb-12"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 className="uijp-section-title">
+            Nos formations
+            <span>qui vous attendent</span>
+          </h2>
+          <div
+            className="mt-3 h-1 w-16 rounded-full"
+            style={{ background: "linear-gradient(90deg, #205C03, #0B30BB)" }}
+          />
+          <p
+            className="mt-5 text-gray-500 max-w-2xl text-base leading-relaxed"
+            style={{ fontFamily: "var(--font-inter), Inter, sans-serif" }}
+          >
+            Découvrez notre large éventail de programmes académiques conçus pour vous préparer aux défis
+            professionnels et intellectuels du monde contemporain.
+          </p>
+        </motion.div>
+
+        {/* ── Onglets de filtres UIJP (pilules colorées) ── */}
         {examens.length > 0 && (
           <Tabs defaultValue="tous" className="w-full">
-            <div className="flex justify-center mb-8">
-              <TabsList className="bg-gray-100 max-w-[90vw] gap-1 px-2 flex flex-wrap">
-                <TabsTrigger key="tous" value="tous" className="cursor-pointer data-[state=active]:bg-[#1B2A4A] data-[state=active]:text-white px-3 py-1">
-                  TOUS
-                </TabsTrigger>
-                {examens.map((examen) => (
-                  <TabsTrigger key={examen} value={examen} className="cursor-pointer data-[state=inactive]:text-[#1B2A4A] data-[state=active]:bg-[#1B2A4A] data-[state=active]:text-white px-3 py-1 w-fit">
-                    {examen}
-                  </TabsTrigger>
-                ))}
-                {/* <Button onClick={() => router.push("/formations")} variant="ghost" className="cursor-pointer">
-                  Toutes les formations
-                </Button> */}
-              </TabsList>
+            {/* Label filtre */}
+            <div className="mb-3">
+              <span
+                className="text-xs font-bold uppercase tracking-widest text-gray-400"
+                style={{ fontFamily: "var(--font-montserrat), Montserrat, sans-serif" }}
+              >
+                Filtrer par niveau
+              </span>
             </div>
 
-            {/* Tous les filieres */}
+            {/* Liste d'onglets style UIJP */}
+            <TabsList
+              className="bg-transparent h-auto flex flex-wrap gap-2 mb-10 p-0 justify-start"
+            >
+              <TabsTrigger
+                value="tous"
+                className="rounded-none border-2 border-[#2D2F2B] text-[#2D2F2B] font-bold text-xs uppercase tracking-widest px-5 py-2.5
+                  data-[state=active]:border-transparent data-[state=active]:text-white
+                  data-[state=active]:shadow-none transition-all duration-200"
+                style={{
+                  fontFamily: "var(--font-montserrat), Montserrat, sans-serif",
+                }}
+              >
+                <style>{`
+                  [data-state="active"][value="tous"] {
+                    background: linear-gradient(135deg, #205C03 0%, #0B30BB 100%);
+                  }
+                `}</style>
+                TOUS
+              </TabsTrigger>
+
+              {examens.map((examen, i) => {
+                // Alternance de couleurs UIJP pour les onglets actifs
+                const gradients = [
+                  "linear-gradient(135deg, #205C03 0%, #0B30BB 100%)",
+                  "linear-gradient(135deg, #0B30BB 0%, #069CC5 100%)",
+                  "linear-gradient(135deg, #E3A402 0%, #205C03 100%)",
+                ];
+                const bg = gradients[i % gradients.length];
+                return (
+                  <TabsTrigger
+                    key={examen}
+                    value={examen}
+                    className="rounded-none border-2 border-[#2D2F2B] text-[#2D2F2B] font-bold text-xs uppercase tracking-widest px-5 py-2.5
+                      data-[state=active]:border-transparent data-[state=active]:text-white
+                      data-[state=active]:shadow-none hover:border-[#205C03] hover:text-[#205C03] transition-all duration-200"
+                    style={{
+                      fontFamily: "var(--font-montserrat), Montserrat, sans-serif",
+                    }}
+                  >
+                    {examen}
+                  </TabsTrigger>
+                );
+              })}
+            </TabsList>
+
             <TabsContent value="tous" className="w-full">
               <FormationGrid formationsList={filieres} />
             </TabsContent>
 
-            {/* Filieres par examen */}
             {examens.map((examen) => {
-              const filieresParExamen = filieres.filter(filiere => filiere.examen.includes(examen));
+              const filieresParExamen = filieres.filter((f) => f.examen.includes(examen));
               return (
                 <TabsContent key={examen} value={examen} className="w-full">
                   <FormationGrid formationsList={filieresParExamen} />
@@ -88,12 +144,17 @@ const FormationsSection = () => {
             })}
           </Tabs>
         )}
+
+        {/* ── CTA catalogue ── */}
         <div className="mt-16 text-center">
-          <Link href="/catalogue.pdf" target="_blank" rel="noopener noreferrer">
-            <Button className="bg-[#1B2A4A] hover:bg-[#0F1A30] text-white px-8 py-6 text-lg !rounded-button whitespace-nowrap">
-              {"Télécharger notre catalogue complet"}
-              <i className="fas fa-download ml-2"></i>
-            </Button>
+          <Link
+            href="/catalogue.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-uijp text-base"
+          >
+            <Download size={16} />
+            Télécharger notre catalogue complet
           </Link>
         </div>
       </div>

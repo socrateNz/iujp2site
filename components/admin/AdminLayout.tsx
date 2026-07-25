@@ -15,6 +15,7 @@ import {
   School,
   ChevronRight,
   Bell,
+  Briefcase,
 } from 'lucide-react';
 import Link from 'next/link';
 import { SessionProvider } from "next-auth/react";
@@ -39,6 +40,7 @@ const navigation: NavigationItem[] = [
   { name: 'Articles', href: '/admin/articles', icon: FileText, description: 'Actualités & blog' },
   { name: 'Ecoles', href: '/admin/ecoles', icon: School, description: 'Établissements' },
   { name: 'Filieres', href: '/admin/filieres', icon: FileText, description: 'Programmes' },
+  { name: 'Services', href: '/admin/services', icon: Briefcase, description: 'Services de contact' },
   { name: 'Messages', href: '/admin/contacts', icon: MessageSquare, description: 'Contacts' },
 ];
 
@@ -176,7 +178,7 @@ function MobileSidebar({
         onClick={() => setSidebarOpen(false)}
         aria-hidden="true"
       />
-      <div className="fixed inset-y-0 left-0 flex w-72 flex-col bg-slate-950 shadow-2xl">
+      <div className="fixed inset-y-0 left-0 flex w-72 flex-col bg-white border-r border-slate-200 shadow-2xl">
         <SidebarContent
           isActive={isActive}
           newMessagesCount={newMessagesCount}
@@ -202,7 +204,7 @@ function DesktopSidebar({
 }) {
   return (
     <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-72 lg:flex-col z-30">
-      <div className="flex flex-col flex-grow bg-slate-950 shadow-2xl overflow-hidden">
+      <div className="flex flex-col flex-grow bg-white border-r border-slate-200 shadow-xl overflow-hidden">
         <SidebarContent
           isActive={isActive}
           newMessagesCount={newMessagesCount}
@@ -229,15 +231,15 @@ function SidebarContent({
   return (
     <>
       {/* Logo */}
-      <div className="flex h-16 shrink-0 items-center justify-between px-6 border-b border-slate-800/60">
+      <div className="flex h-16 shrink-0 items-center justify-between px-6 border-b border-slate-100">
         <div className="flex items-center gap-3">
-          <div className="relative h-9 w-9 rounded-xl bg-gradient-to-br from-blue-500 to-violet-600 flex items-center justify-center shadow-lg shadow-blue-900/30">
+          <div className="relative h-9 w-9 rounded-[2px] bg-gradient-to-br from-[#205C03] to-[#0B30BB] flex items-center justify-center shadow-lg">
             <School className="h-5 w-5 text-white" />
-            <div className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-emerald-500 border-2 border-slate-950" />
+            <div className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-emerald-500 border-2 border-white" />
           </div>
           <div>
-            <h1 className="text-sm font-bold text-white tracking-tight">UIJP II</h1>
-            <p className="text-[10px] text-slate-400 font-medium tracking-wider uppercase">Administration</p>
+            <h1 className="text-sm font-bold text-slate-900 tracking-widest uppercase" style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif" }}>UIJP II</h1>
+            <p className="text-[10px] text-slate-500 font-medium tracking-wider uppercase" style={{ fontFamily: "var(--font-inter), Inter, sans-serif" }}>Administration</p>
           </div>
         </div>
         {onClose && (
@@ -259,24 +261,25 @@ function SidebarContent({
                 <Link
                   href={item.href}
                   onClick={onClose}
-                  className={`group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200 ${
+                  className={`group relative flex items-center gap-3 px-3 py-2.5 text-sm font-medium transition-all duration-200 ${
                     active
-                      ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/30'
-                      : 'text-slate-400 hover:bg-slate-800/70 hover:text-white'
+                      ? 'bg-gradient-to-r from-[#205C03] to-[#0B30BB] text-white shadow-lg shadow-[#205C03]/30 rounded-[2px]'
+                      : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900 rounded-[2px]'
                   }`}
+                  style={{ fontFamily: active ? "var(--font-oswald), Oswald, sans-serif" : "var(--font-inter), Inter, sans-serif", textTransform: active ? "uppercase" : "none", letterSpacing: active ? "0.05em" : "normal" }}
                 >
                   {active && (
-                    <div className="absolute inset-y-0 left-0 w-0.5 rounded-r-full bg-blue-300" />
+                    <div className="absolute inset-y-0 left-0 w-1 rounded-r-[2px] bg-[#205C03]" />
                   )}
-                  <Icon className={`h-4.5 w-4.5 flex-shrink-0 transition-colors ${active ? 'text-white' : 'text-slate-500 group-hover:text-slate-300'}`} />
+                  <Icon className={`h-4.5 w-4.5 flex-shrink-0 transition-colors ${active ? 'text-white' : 'text-slate-500 group-hover:text-slate-700'}`} />
                   <div className="flex-1 min-w-0">
                     <p className="truncate">{item.name}</p>
                     {item.description && (
-                      <p className={`text-[10px] truncate mt-0.5 ${active ? 'text-blue-200' : 'text-slate-500 group-hover:text-slate-400'}`}>{item.description}</p>
+                      <p className={`text-[10px] truncate mt-0.5 ${active ? 'text-white/80 lowercase tracking-normal' : 'text-slate-500 group-hover:text-slate-600'}`} style={{ fontFamily: "var(--font-inter), Inter, sans-serif" }}>{item.description}</p>
                     )}
                   </div>
                   {item.name === 'Messages' && newMessagesCount > 0 && (
-                    <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500 text-[10px] text-white font-bold px-1 shadow-sm">
+                    <span className="flex h-5 min-w-5 items-center justify-center rounded-[2px] bg-red-500 text-[10px] text-white font-bold px-1 shadow-sm">
                       {newMessagesCount}
                     </span>
                   )}
@@ -289,29 +292,28 @@ function SidebarContent({
       </nav>
 
       {/* Bottom Section */}
-      <div className="shrink-0 border-t border-slate-800/60">
+      <div className="shrink-0 border-t border-slate-100">
         {/* Support */}
         <div className="px-4 py-3">
-          <div className="rounded-xl bg-gradient-to-br from-blue-600/20 to-violet-600/20 border border-blue-500/20 p-3">
-            <p className="text-xs font-semibold text-slate-300 mb-0.5">Besoin d&apos;aide ?</p>
+          <div className="rounded-[2px] bg-slate-50 border border-slate-200 p-3">
+            <p className="text-xs font-semibold text-slate-700 mb-0.5" style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif", letterSpacing: "0.05em", textTransform: "uppercase" }}>Besoin d&apos;aide ?</p>
             <Link
               href="https://portfolio-socrate.vercel.app/fr#contact"
               target="_blank"
-              className="text-xs text-blue-400 hover:text-blue-300 transition-colors"
+              className="text-xs text-[#0B30BB] hover:text-[#205C03] transition-colors"
             >
               Contacter le support →
             </Link>
           </div>
         </div>
 
-        {/* User */}
         <div className="px-4 pb-4 flex items-center gap-3">
-          <div className="h-9 w-9 rounded-full bg-gradient-to-br from-blue-500 to-violet-600 flex items-center justify-center text-white text-xs font-bold shadow-md flex-shrink-0">
+          <div className="h-9 w-9 rounded-[2px] bg-gradient-to-br from-[#205C03] to-[#0B30BB] flex items-center justify-center text-white text-xs font-bold shadow-md flex-shrink-0">
             {userInitials}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-semibold text-white truncate">{userName}</p>
-            <p className="text-xs text-slate-400">Administrateur</p>
+            <p className="text-sm font-semibold text-slate-900 truncate">{userName}</p>
+            <p className="text-xs text-slate-500">Administrateur</p>
           </div>
           <button
             onClick={handleSignOut}
@@ -334,6 +336,7 @@ function getPageTitle(pathname: string | null): string {
   if (pathname.startsWith('/admin/articles')) return 'Articles';
   if (pathname.startsWith('/admin/ecoles')) return 'Écoles';
   if (pathname.startsWith('/admin/filieres')) return 'Filières';
+  if (pathname.startsWith('/admin/services')) return 'Services';
   if (pathname.startsWith('/admin/contacts')) return 'Messages';
   if (pathname.startsWith('/admin/parametres')) return 'Paramètres';
   return 'Administration';
@@ -361,8 +364,8 @@ function TopBar({
 
       <div className="flex flex-1 items-center justify-between">
         <div>
-          <h2 className="text-base font-bold text-slate-900 leading-none">{getPageTitle(pathname)}</h2>
-          <p className="text-xs text-slate-400 mt-0.5 hidden sm:block">
+          <h2 className="text-base font-black text-slate-900 uppercase tracking-widest" style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif" }}>{getPageTitle(pathname)}</h2>
+          <p className="text-xs text-slate-400 mt-0.5 hidden sm:block" style={{ fontFamily: "var(--font-inter), Inter, sans-serif" }}>
             {new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
           </p>
         </div>
@@ -388,7 +391,7 @@ function TopBar({
               <p className="text-sm font-semibold text-slate-900 leading-none">{userName}</p>
               <p className="text-xs text-slate-400 mt-0.5">Administrateur</p>
             </div>
-            <div className="h-8 w-8 rounded-full bg-gradient-to-br from-blue-500 to-violet-600 flex items-center justify-center text-white text-xs font-bold shadow-sm cursor-pointer">
+            <div className="h-8 w-8 rounded-[2px] bg-gradient-to-br from-[#205C03] to-[#0B30BB] flex items-center justify-center text-white text-xs font-bold shadow-sm cursor-pointer">
               {userInitials}
             </div>
           </div>

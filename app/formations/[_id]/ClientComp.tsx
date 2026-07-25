@@ -19,7 +19,7 @@ const ClientComp = ({formationId}: {formationId: string}) => {
   }, []);
 
   const fetchFiliere = async () => {
-    fetch('/api/admin/filieres')
+    fetch('/api/admin/filieres?limit=100')
       .then(res => res.json())
       .then(data => {
         setFilieres(data.data?.filieres || []);
@@ -32,7 +32,7 @@ const ClientComp = ({formationId}: {formationId: string}) => {
   }
 
   const fetchEcoles = async () => {
-    fetch('/api/admin/ecoles')
+    fetch('/api/admin/ecoles?limit=100')
       .then(res => res.json())
       .then(data => {
         setEcoles(data.data?.ecoles || []);

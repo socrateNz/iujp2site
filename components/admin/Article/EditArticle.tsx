@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -10,6 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogFooter,
 } from "@/components/ui/dialog";
 import {
   Form,
@@ -22,7 +23,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
+import { Loader2, Image as ImageIcon } from "lucide-react";
 import { Article } from "@/lib/types";
 import { EditorContent, useEditor, type Editor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
@@ -35,7 +36,6 @@ import TableCell from "@tiptap/extension-table-cell";
 import TableHeader from "@tiptap/extension-table-header";
 import TiptapMenu from "@/app/admin/articles/new/TiptapMenu";
 
-// Schéma de validation
 const articleFormSchema = z.object({
   title: z.string().min(2, {
     message: "Le titre doit contenir au moins 2 caractères.",
@@ -71,6 +71,7 @@ export function EditArticleDialog({ article, onSuccess, children }: EditArticleD
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const form = useForm<ArticleFormValues>({
     resolver: zodResolver(articleFormSchema),
@@ -153,10 +154,8 @@ export function EditArticleDialog({ article, onSuccess, children }: EditArticleD
         throw new Error(uploadData?.error || "Erreur lors de l'upload de l'image");
       }
 
-      // Met à jour le champ image avec la nouvelle URL
       form.setValue("image", uploadData.url, { shouldValidate: true });
 
-      // Supprime l'ancienne image si elle existe et est différente
       if (previousUrl && previousUrl !== uploadData.url) {
         try {
           await fetch("/api/delete-image", {
@@ -167,7 +166,6 @@ export function EditArticleDialog({ article, onSuccess, children }: EditArticleD
             body: JSON.stringify({ url: previousUrl }),
           });
         } catch (err) {
-          // On ne bloque pas l'édition si la suppression échoue
           console.error("Erreur lors de la suppression de l'ancienne image", err);
         }
       }
@@ -178,7 +176,6 @@ export function EditArticleDialog({ article, onSuccess, children }: EditArticleD
       toast.error("Erreur lors de la mise à jour de l'image.");
     } finally {
       setUploadingImage(false);
-      // reset de l'input fichier pour pouvoir re-upload la même image si besoin
       e.target.value = "";
     }
   };
@@ -215,176 +212,194 @@ export function EditArticleDialog({ article, onSuccess, children }: EditArticleD
       <DialogTrigger asChild>
         {children}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-3xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle>Modifier l'article</DialogTitle>
+      <DialogContent className="sm:max-w-4xl border-l-[4px] border-l-[#205C03] border-b-[4px] border-b-[#0B30BB] rounded-[2px] p-0 overflow-hidden">
+        <DialogHeader className="bg-slate-50 border-b border-slate-100 p-6">
+          <DialogTitle className="text-2xl font-black uppercase tracking-widest text-[#111111]" style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif" }}>Modifier l'article</DialogTitle>
         </DialogHeader>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <FormField
-                control={form.control}
-                name="title"
-                render={({ field }) => (
-                  <FormItem className="md:col-span-2">
-                    <FormLabel>Titre</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Titre de l'article" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              
-              <FormField
-                control={form.control}
-                name="description"
-                render={({ field }) => (
-                  <FormItem className="md:col-span-2">
-                    <FormLabel>Description</FormLabel>
-                    <FormControl>
-                      <textarea
-                        placeholder="Description courte de l'article"
-                        className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="content"
-                render={({ field }) => (
-                  <FormItem className="md:col-span-2">
-                    <FormLabel>Contenu</FormLabel>
-                    <FormControl>
-                      <div className="border rounded">
-                        <input type="hidden" {...field} />
-                        <TiptapMenu editor={editor} />
-                        <div className="min-h-[200px] p-2">
-                          <EditorContent editor={editor} />
-                        </div>
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="category"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Catégorie</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Catégorie" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="author"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Auteur</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Auteur" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="readTime"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Temps de lecture</FormLabel>
-                    <FormControl>
-                      <Input placeholder="5 min" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="image"
-                render={({ field }) => (
-                  <FormItem className="md:col-span-2">
-                    <FormLabel>Image</FormLabel>
-                    <FormControl>
-                      <div className="space-y-2">
-                        {/* Aperçu de l'image actuelle */}
-                        {field.value ? (
-                          <div className="mt-2">
-                            <img
-                              src={field.value}
-                              alt="Aperçu"
-                              className="max-h-40 rounded border"
+        
+        <div className="p-6 max-h-[75vh] overflow-y-auto">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6" style={{ fontFamily: "var(--font-inter), Inter, sans-serif" }}>
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                {/* Colonne gauche */}
+                <div className="lg:col-span-1 space-y-6">
+                  <FormField
+                    control={form.control}
+                    name="image"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="font-bold uppercase tracking-wider text-slate-700" style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif" }}>Image à la une</FormLabel>
+                        <div 
+                          className={`border-2 border-dashed rounded-[2px] p-4 text-center cursor-pointer transition-colors ${field.value ? 'border-[#205C03] bg-[#205C03]/5' : 'border-slate-300 hover:border-[#0B30BB] hover:bg-slate-50'}`}
+                          onClick={() => fileInputRef.current?.click()}
+                        >
+                          <FormControl>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={handleImageChange}
+                              ref={fileInputRef}
+                              className="hidden"
                             />
-                          </div>
-                        ) : <Loader2 className="h-4 w-4 animate-spin" />}
-
-                        {/* Input fichier pour remplacer l'image */}
-                        <Input
-                          type="file"
-                          accept="image/*"
-                          onChange={handleImageChange}
-                        />
-
-                        {uploadingImage && (
-                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                            <Loader2 className="h-4 w-4 animate-spin" />
-                            <span>Mise à jour de l'image...</span>
-                          </div>
-                        )}
-
-                        {/* Champ caché pour conserver l'URL dans le formulaire */}
+                          </FormControl>
+                          {uploadingImage ? (
+                            <div className="flex flex-col items-center py-8">
+                              <Loader2 className="animate-spin text-[#205C03] mb-2" size={24} />
+                              <p className="text-xs text-slate-500 uppercase tracking-widest font-bold">Upload...</p>
+                            </div>
+                          ) : field.value ? (
+                            <div className="relative">
+                              <img src={field.value} alt="Aperçu" className="w-full h-auto rounded-[2px] shadow-sm" />
+                              <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity rounded-[2px]">
+                                <p className="text-white text-xs font-bold uppercase tracking-widest">Changer l'image</p>
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="flex flex-col items-center justify-center py-10 text-slate-400">
+                              <ImageIcon className="h-10 w-10 mb-3 text-slate-300" />
+                              <p className="text-sm font-bold uppercase tracking-widest text-slate-500" style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif" }}>Parcourir</p>
+                            </div>
+                          )}
+                        </div>
                         <input type="hidden" {...field} />
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-            <div className="flex justify-between items-center">
-              <FormField
-                control={form.control}
-                name="published"
-                render={({ field }) => (
-                  <FormItem className="flex items-center space-x-2">
-                    <FormControl>
-                      <input
-                        type="checkbox"
-                        checked={field.value}
-                        onChange={field.onChange}
-                        className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                      />
-                    </FormControl>
-                    <FormLabel className="!mt-0">Publier l'article</FormLabel>
-                  </FormItem>
-                )}
-              />
+                  <FormField
+                    control={form.control}
+                    name="category"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="font-bold uppercase tracking-wider text-slate-700" style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif" }}>Catégorie</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Catégorie" className="rounded-[2px] focus:ring-[#205C03] focus:border-[#205C03]" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-              <Button type="submit" disabled={loading}>
-                {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                {loading ? "Enregistrement..." : "Enregistrer"}
-              </Button>
-            </div>
-          </form>
-        </Form>
+                  <FormField
+                    control={form.control}
+                    name="author"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="font-bold uppercase tracking-wider text-slate-700" style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif" }}>Auteur</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Auteur" className="rounded-[2px] focus:ring-[#205C03] focus:border-[#205C03]" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="readTime"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="font-bold uppercase tracking-wider text-slate-700" style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif" }}>Temps de lecture</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Ex: 5 min" className="rounded-[2px] focus:ring-[#205C03] focus:border-[#205C03]" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={form.control}
+                    name="published"
+                    render={({ field }) => (
+                      <FormItem className="flex items-center space-x-3 bg-slate-50 p-4 rounded-[2px] border border-slate-100">
+                        <FormControl>
+                          <input
+                            type="checkbox"
+                            checked={field.value}
+                            onChange={field.onChange}
+                            className="h-5 w-5 rounded-[2px] border-gray-300 text-[#205C03] focus:ring-[#205C03]"
+                          />
+                        </FormControl>
+                        <FormLabel className="!mt-0 font-bold uppercase tracking-widest text-slate-700" style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif" }}>Publier l'article</FormLabel>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                {/* Colonne droite */}
+                <div className="lg:col-span-2 space-y-6">
+                  <FormField
+                    control={form.control}
+                    name="title"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="font-bold uppercase tracking-wider text-slate-700" style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif" }}>Titre de l'article</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Titre de l'article" className="rounded-[2px] focus:ring-[#0B30BB] focus:border-[#0B30BB] font-semibold text-lg" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={form.control}
+                    name="description"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="font-bold uppercase tracking-wider text-slate-700" style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif" }}>Description courte</FormLabel>
+                        <FormControl>
+                          <textarea
+                            placeholder="Description courte de l'article"
+                            className="flex min-h-[100px] w-full rounded-[2px] border border-input bg-background px-3 py-2 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B30BB]/20 focus-visible:border-[#0B30BB] disabled:cursor-not-allowed disabled:opacity-50"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="content"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="font-bold uppercase tracking-wider text-slate-700" style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif" }}>Contenu</FormLabel>
+                        <FormControl>
+                          <div className="border border-slate-200 rounded-[2px] focus-within:ring-2 focus-within:ring-[#205C03]/20 focus-within:border-[#205C03] transition-all overflow-hidden bg-slate-50">
+                            <input type="hidden" {...field} />
+                            <div className="bg-white border-b border-slate-200 p-1">
+                              <TiptapMenu editor={editor} />
+                            </div>
+                            <div className="min-h-[300px] p-4 bg-white prose prose-sm sm:prose-base max-w-none focus:outline-none">
+                              <EditorContent editor={editor} />
+                            </div>
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+
+              <DialogFooter className="pt-6 border-t border-slate-100">
+                <Button type="button" onClick={() => setOpen(false)} variant="outline" className="rounded-[2px] font-bold uppercase tracking-widest text-slate-600 bg-white" style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif" }}>Annuler</Button>
+                <button 
+                  type="submit" 
+                  disabled={loading || uploadingImage}
+                  className="btn-eemi min-w-[150px] flex justify-center items-center gap-2"
+                >
+                  {(loading || uploadingImage) && <Loader2 className="animate-spin h-4 w-4" />}
+                  {(loading || uploadingImage) ? "Mise à jour..." : "Mettre à jour"}
+                </button>
+              </DialogFooter>
+            </form>
+          </Form>
+        </div>
       </DialogContent>
     </Dialog>
   );

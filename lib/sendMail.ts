@@ -26,7 +26,7 @@ export interface ReplyData {
 }
 
 // ── Notification admin : nouveau message de contact ───────────────────────────
-export async function sendContactNotification(contactData: ContactData) {
+export async function sendContactNotification(contactData: ContactData, toEmail?: string) {
   const adminUrl = `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/admin/contacts`;
 
   const html = `
@@ -120,6 +120,9 @@ export async function sendContactNotification(contactData: ContactData) {
                 <strong style="color:#64748b;">l'Université Internationale Jean Paul II de Bafang</strong><br/>
                 Ne répondez pas à cet email.
               </p>
+              <p style="margin:10px 0 0;font-size:11px;color:#94a3b8;font-weight:bold;">
+                ce mail provient du site web uijp2-bafang
+              </p>
             </td>
           </tr>
 
@@ -133,7 +136,8 @@ export async function sendContactNotification(contactData: ContactData) {
 
   const mailOptions = {
     from: `"UIJP II — Notifications" <${process.env.EMAIL_USER}>`,
-    to: process.env.EMAIL_TO || process.env.EMAIL_USER,
+    to: toEmail || process.env.EMAIL_TO || process.env.EMAIL_USER,
+    replyTo: contactData.email,
     subject: `📬 Nouveau message : ${contactData.subject}`,
     html,
   };

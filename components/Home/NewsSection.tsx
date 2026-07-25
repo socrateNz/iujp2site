@@ -1,64 +1,147 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { News } from "@/data/data";
 import { useRouter } from "next/navigation";
-import { Calendar } from "lucide-react";
+import { Calendar, ArrowRight, Newspaper } from "lucide-react";
+import { motion } from "framer-motion";
+import Link from "next/link";
 
 interface Article {
-  articles: News[]
+  articles: News[];
 }
+
+const cardAccents = [
+  { borderLeft: "#205C03", borderBottom: "#0B30BB" },
+  { borderLeft: "#0B30BB", borderBottom: "#E3A402" },
+  { borderLeft: "#E3A402", borderBottom: "#205C03" },
+];
+
 const NewsSection = ({ articles }: Article) => {
   const router = useRouter();
+
   return (
-    <section id="blog" className="py-20 bg-white">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#1B2A4A] mb-4">{"Actualités"}</h2>
-          <div className="w-20 h-1 bg-[#34773D] mx-auto"></div>
-          <p className="mt-6 text-gray-600 max-w-2xl mx-auto">{"Restez informés des dernières nouvelles, événements et réalisations de notre communauté universitaire."}</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {articles.map((article, index) => (
-            <Card key={index} className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
-              <div className="h-[250px] overflow-hidden">
-                <img
-                  src={article.image}
-                  alt={article.title}
-                  className="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105"
-                />
-              </div>
-              <CardHeader>
-                <div className="flex justify-between items-center mb-2">
-                  <Badge className="bg-[#1B2A4A]">{article.category}</Badge>
-                  <span className="text-sm text-gray-500 flex flex-row items-center gap-1">
-                    <Calendar size={16} />
-                    {article.date}
-                    </span>
+    <section id="blog" className="py-24" style={{ background: "#f5f6fa" }}>
+      <div className="max-w-7xl mx-auto px-4 md:px-8">
+
+        {/* ── En-tête UIJP ── */}
+        <motion.div
+          className="mb-12"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 className="uijp-section-title">
+            Actualités
+            <span>de l'université</span>
+          </h2>
+          <div
+            className="mt-3 h-1 w-16 rounded-full"
+            style={{ background: "linear-gradient(90deg, #205C03, #0B30BB)" }}
+          />
+          <p
+            className="mt-5 text-gray-500 max-w-2xl text-base leading-relaxed"
+            style={{ fontFamily: "var(--font-inter), Inter, sans-serif" }}
+          >
+            Restez informés des dernières nouvelles, événements et réalisations de notre communauté universitaire.
+          </p>
+        </motion.div>
+
+        {/* ── Grille d'articles ── */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {articles?.map((article, index) => {
+            const accent = cardAccents[index % cardAccents.length];
+            return (
+              <motion.div
+                key={index}
+                className="group"
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
+                <div
+                  className="bg-white flex flex-col h-full transition-all duration-300 hover:-translate-y-1"
+                  style={{
+                    borderLeft: `4px solid ${accent.borderLeft}`,
+                    borderBottom: `4px solid ${accent.borderBottom}`,
+                    boxShadow: "0 2px 16px rgba(0,0,0,0.07)",
+                    borderRadius: "2px",
+                  }}
+                >
+                  {/* Image */}
+                  <div className="h-52 overflow-hidden">
+                    <img
+                      src={article.image}
+                      alt={article.title}
+                      className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+
+                  {/* Contenu */}
+                  <div className="flex flex-col flex-1 p-6">
+                    {/* Badge + Date */}
+                    <div className="flex items-center justify-between mb-4">
+                      <span
+                        className="px-3 py-1 text-xs font-bold uppercase tracking-widest text-white rounded-sm"
+                        style={{
+                          background: `linear-gradient(135deg, ${accent.borderLeft} 0%, ${accent.borderBottom} 100%)`,
+                          fontFamily: "var(--font-montserrat), Montserrat, sans-serif",
+                        }}
+                      >
+                        {article.category}
+                      </span>
+                      <span
+                        className="flex items-center gap-1.5 text-xs text-gray-400"
+                        style={{ fontFamily: "var(--font-inter), Inter, sans-serif" }}
+                      >
+                        <Calendar size={12} />
+                        {article.date}
+                      </span>
+                    </div>
+
+                    {/* Titre */}
+                    <h3
+                      className="font-bold text-[#2D2F2B] mb-3 text-base leading-snug uppercase flex-1"
+                      style={{
+                        fontFamily: "var(--font-montserrat), Montserrat, sans-serif",
+                        letterSpacing: "0.03em",
+                      }}
+                    >
+                      {article.title}
+                    </h3>
+
+                    {/* Description */}
+                    <p
+                      className="text-gray-500 text-sm leading-relaxed mb-5 line-clamp-2"
+                      style={{ fontFamily: "var(--font-inter), Inter, sans-serif" }}
+                    >
+                      {article.description}
+                    </p>
+
+                    {/* Lien UIJP */}
+                    <button
+                      onClick={() => router.push(`/actualites/${article._id}`)}
+                      className="link-uijp inline-flex items-center gap-2 self-start"
+                    >
+                      LIRE L'ARTICLE
+                      <ArrowRight size={14} />
+                    </button>
+                  </div>
                 </div>
-                <CardTitle className="text-xl font-serif text-[#1B2A4A]">{article.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-600">{article.description}</p>
-              </CardContent>
-              <CardFooter>
-                <Button
-                onClick={() => router.push(`/actualites/${article._id}`)}
-                 variant="outline" className="w-full border-[#1B2A4A] text-[#1B2A4A] hover:bg-[#1B2A4A] hover:text-white !rounded-button whitespace-nowrap">
-                  {"Lire l'article complet"}
-                  <i className="fas fa-arrow-right ml-2"></i>
-                </Button>
-              </CardFooter>
-            </Card>
-          ))}
+              </motion.div>
+            );
+          })}
         </div>
-        <div className="mt-12 text-center">
-          <Button className="bg-[#1B2A4A] hover:bg-[#0F1A30] text-white !rounded-button whitespace-nowrap">
+
+        {/* ── CTA ── */}
+        <div className="mt-14 text-center">
+          <Link href="/actualites" className="btn-uijp">
+            <Newspaper size={16} />
             Voir toutes les actualités
-            <i className="fas fa-newspaper ml-2"></i>
-          </Button>
+          </Link>
         </div>
       </div>
     </section>

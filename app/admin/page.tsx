@@ -203,7 +203,7 @@ export default function AdminDashboard() {
       doc.text("Cette semaine", 90 + 12.5, 222, { align: 'center' });
 
       // 3. Ce mois
-      doc.setFillColor(139, 92, 246); // Violet
+      doc.setFillColor(32, 92, 3); // Vert UIJP II
       doc.rect(145, 215 - hMonth, 25, hMonth, 'F');
 
       doc.setFont('helvetica', 'bold');
@@ -315,36 +315,36 @@ export default function AdminDashboard() {
       value: formatNumber(stats?.totalUsers || 0),
       sub: 'Total inscrits',
       icon: Users,
-      color: 'blue',
-      gradient: 'from-blue-500 to-blue-700',
-      bg: 'bg-blue-50',
-      text: 'text-blue-600',
-      border: 'border-blue-100',
-      ring: 'ring-blue-200',
+      color: '#205C03',
+      gradient: 'from-[#205C03] to-[#0B30BB]',
+      bg: 'bg-[#205C03]/10',
+      text: 'text-[#205C03]',
+      border: 'border-[#205C03]/20',
+      ring: 'ring-[#205C03]/20',
     },
     {
       label: 'Articles',
       value: formatNumber(stats?.totalArticles || 0),
       sub: `${stats?.publishedArticles || 0} publiés · ${stats?.draftArticles || 0} brouillons`,
       icon: FileText,
-      color: 'emerald',
-      gradient: 'from-emerald-500 to-emerald-700',
-      bg: 'bg-emerald-50',
-      text: 'text-emerald-600',
-      border: 'border-emerald-100',
-      ring: 'ring-emerald-200',
+      color: '#0B30BB',
+      gradient: 'from-[#0B30BB] to-[#205C03]',
+      bg: 'bg-[#0B30BB]/10',
+      text: 'text-[#0B30BB]',
+      border: 'border-[#0B30BB]/20',
+      ring: 'ring-[#0B30BB]/20',
     },
     {
       label: 'Messages',
       value: formatNumber(stats?.totalContacts || 0),
       sub: `${stats?.newContacts || 0} nouveaux non lus`,
       icon: MessageSquare,
-      color: 'amber',
-      gradient: 'from-amber-500 to-orange-600',
-      bg: 'bg-amber-50',
-      text: 'text-amber-600',
-      border: 'border-amber-100',
-      ring: 'ring-amber-200',
+      color: '#E3A402',
+      gradient: 'from-[#E3A402] to-[#205C03]',
+      bg: 'bg-[#E3A402]/10',
+      text: 'text-[#E3A402]',
+      border: 'border-[#E3A402]/20',
+      ring: 'ring-[#E3A402]/20',
       badge: stats?.newContacts,
     },
     {
@@ -352,12 +352,12 @@ export default function AdminDashboard() {
       value: formatNumber(stats?.totalVisits || 0),
       sub: `${formatNumber(stats?.todayVisits || 0)} aujourd'hui · ${formatNumber(stats?.weekVisits || 0)} cette semaine`,
       icon: Eye,
-      color: 'purple',
-      gradient: 'from-purple-500 to-violet-700',
-      bg: 'bg-purple-50',
-      text: 'text-purple-600',
-      border: 'border-purple-100',
-      ring: 'ring-purple-200',
+      color: '#069CC5',
+      gradient: 'from-[#069CC5] to-[#0B30BB]',
+      bg: 'bg-[#069CC5]/10',
+      text: 'text-[#069CC5]',
+      border: 'border-[#069CC5]/20',
+      ring: 'ring-[#069CC5]/20',
     },
   ];
 
@@ -365,35 +365,35 @@ export default function AdminDashboard() {
     <div className="space-y-8 pb-8">
 
       {/* ── Hero Header ─────────────────────────────────────── */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 p-8 shadow-xl">
+      <div className="relative overflow-hidden bg-gradient-to-br from-[#011636] via-[#205C03] to-[#0B30BB] p-8 shadow-xl" style={{ borderRadius: "2px" }}>
         {/* decorative circles */}
-        <div className="pointer-events-none absolute -top-20 -right-20 h-72 w-72 rounded-full bg-blue-600/10 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-20 -left-10 h-60 w-60 rounded-full bg-violet-600/10 blur-3xl" />
+        <div className="pointer-events-none absolute -top-20 -right-20 h-72 w-72 rounded-full bg-white/10 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-20 -left-10 h-60 w-60 rounded-full bg-black/20 blur-3xl" />
 
         <div className="relative flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
           <div>
-            <p className="text-blue-400 text-sm font-semibold tracking-widest uppercase mb-1">
+            <p className="text-white/70 text-sm font-semibold tracking-widest uppercase mb-1" style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif" }}>
               {greeting()}, Administrateur 👋
             </p>
-            <h1 className="text-3xl font-bold text-white">Tableau de bord</h1>
-            <p className="mt-2 text-slate-400 text-sm">
+            <h1 className="text-3xl font-black text-white uppercase tracking-wider" style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif" }}>Tableau de bord</h1>
+            <p className="mt-2 text-white/80 text-sm" style={{ fontFamily: "var(--font-inter), Inter, sans-serif" }}>
               Vue d&apos;ensemble de la plateforme UIJP II
             </p>
           </div>
 
           <div className="flex flex-wrap gap-3">
             <Link href="/admin/articles/new">
-              <button className="inline-flex items-center gap-2 rounded-xl bg-blue-600 hover:bg-blue-500 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-900/30 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-blue-900/40">
+              <button className="btn-eemi flex items-center gap-2 shadow-lg shadow-[#205C03]/30 hover:shadow-[#0B30BB]/40">
                 <Plus className="h-4 w-4" />
                 Nouvel article
               </button>
             </Link>
             <Link href="/admin/contacts">
-              <button className="inline-flex items-center gap-2 rounded-xl bg-white/10 hover:bg-white/20 backdrop-blur-sm px-5 py-2.5 text-sm font-semibold text-white border border-white/10 transition-all duration-200 hover:-translate-y-0.5">
+              <button className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm px-5 py-2.5 text-sm font-semibold text-white border border-white/10 transition-all duration-200 hover:-translate-y-0.5" style={{ borderRadius: "2px", textTransform: "uppercase", fontFamily: "var(--font-oswald), Oswald, sans-serif", letterSpacing: "0.05em" }}>
                 <MessageSquare className="h-4 w-4" />
                 Messages
                 {(stats?.newContacts ?? 0) > 0 && (
-                  <span className="ml-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold">
+                  <span className="ml-1 flex h-5 w-5 items-center justify-center rounded-[2px] bg-red-500 text-[10px] font-bold">
                     {stats?.newContacts}
                   </span>
                 )}
@@ -401,7 +401,8 @@ export default function AdminDashboard() {
             </Link>
             <button
               onClick={downloadPDF}
-              className="inline-flex items-center gap-2 rounded-xl bg-white/10 hover:bg-white/20 backdrop-blur-sm px-5 py-2.5 text-sm font-semibold text-white border border-white/10 transition-all duration-200 hover:-translate-y-0.5"
+              className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm px-5 py-2.5 text-sm font-semibold text-white border border-white/10 transition-all duration-200 hover:-translate-y-0.5"
+              style={{ borderRadius: "2px", textTransform: "uppercase", fontFamily: "var(--font-oswald), Oswald, sans-serif", letterSpacing: "0.05em" }}
               title="Générer un rapport PDF"
             >
               <Download className="h-4 w-4" />
@@ -435,13 +436,15 @@ export default function AdminDashboard() {
           return (
             <div
               key={card.label}
-              className={`group relative rounded-2xl border ${card.border} bg-white p-6 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 overflow-hidden`}
+              className={`group relative bg-white p-6 shadow-[0_2px_12px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] transition-all duration-300 hover:-translate-y-1 overflow-hidden`}
+              style={{
+                borderLeft: `4px solid ${card.color}`,
+                borderBottom: `4px solid ${card.color === '#205C03' ? '#E3A402' : '#205C03'}`,
+                borderRadius: "2px"
+              }}
             >
-              {/* Gradient accent top bar */}
-              <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${card.gradient}`} />
-
               <div className="flex items-start justify-between">
-                <div className={`rounded-xl ${card.bg} p-3 ring-1 ${card.ring} group-hover:scale-110 transition-transform duration-300`}>
+                <div className={`rounded-[2px] ${card.bg} p-3 ring-1 ${card.ring} group-hover:scale-110 transition-transform duration-300`}>
                   <Icon className={`h-5 w-5 ${card.text}`} />
                 </div>
                 {card.badge && card.badge > 0 ? (
@@ -455,9 +458,9 @@ export default function AdminDashboard() {
               </div>
 
               <div className="mt-4">
-                <p className="text-sm font-medium text-slate-500">{card.label}</p>
+                <p className="text-sm font-bold text-slate-500 uppercase tracking-widest" style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif" }}>{card.label}</p>
                 <p className="mt-1 text-3xl font-extrabold text-slate-900 tabular-nums">{card.value}</p>
-                <p className="mt-1.5 text-xs text-slate-400">{card.sub}</p>
+                <p className="mt-1.5 text-xs text-slate-400" style={{ fontFamily: "var(--font-inter), Inter, sans-serif" }}>{card.sub}</p>
               </div>
             </div>
           );
@@ -470,8 +473,8 @@ export default function AdminDashboard() {
         {/* Quick Actions */}
         <div className="lg:col-span-2 space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-bold text-slate-900">Actions rapides</h2>
-            <Zap className="h-4 w-4 text-amber-500" />
+            <h2 className="text-lg font-black text-[#111111] uppercase tracking-wider" style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif" }}>Actions rapides</h2>
+            <div className="h-1 w-10 rounded-full" style={{ background: "linear-gradient(90deg, #205C03, #0B30BB)" }} />
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
@@ -519,14 +522,14 @@ export default function AdminDashboard() {
             ].map((action) => {
               const Icon = action.icon;
               return (
-                <div key={action.href} className="group rounded-2xl border border-slate-100 bg-white p-5 shadow-sm hover:shadow-md hover:border-slate-200 transition-all duration-200">
-                  <div className={`inline-flex rounded-xl ${action.iconBg} p-2.5 mb-4 group-hover:scale-105 transition-transform`}>
+                <div key={action.href} className="group bg-white p-5 shadow-[0_2px_12px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] transition-all duration-200" style={{ borderLeft: "4px solid #205C03", borderBottom: "4px solid #0B30BB", borderRadius: "2px" }}>
+                  <div className={`inline-flex rounded-[2px] ${action.iconBg} p-2.5 mb-4 group-hover:scale-105 transition-transform`}>
                     <Icon className={`h-5 w-5 ${action.iconColor}`} />
                   </div>
                   <h3 className="font-semibold text-slate-900">{action.title}</h3>
                   <p className="mt-1 text-sm text-slate-500">{action.desc}</p>
                   <Link href={action.href}>
-                    <button className={`mt-4 w-full rounded-xl px-4 py-2 text-sm font-semibold shadow-sm transition-all duration-200 ${action.ctaStyle}`}>
+                    <button className={`mt-4 w-full rounded-[2px] px-4 py-2 text-sm font-bold uppercase tracking-widest shadow-sm transition-all duration-200 ${action.ctaStyle}`} style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif" }}>
                       {action.cta}
                     </button>
                   </Link>
@@ -539,10 +542,10 @@ export default function AdminDashboard() {
         {/* Platform Status */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-bold text-slate-900">État du système</h2>
-            <Activity className="h-4 w-4 text-emerald-500" />
+            <h2 className="text-lg font-black text-[#111111] uppercase tracking-wider" style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif" }}>État du système</h2>
+            <Activity className="h-4 w-4 text-[#205C03]" />
           </div>
-          <div className="rounded-2xl border border-slate-100 bg-white p-5 shadow-sm h-full">
+          <div className="bg-white p-5 shadow-[0_2px_12px_rgba(0,0,0,0.04)] h-full" style={{ borderLeft: "4px solid #0B30BB", borderBottom: "4px solid #205C03", borderRadius: "2px" }}>
 
             {/* Status items */}
             <div className="space-y-4">
@@ -565,7 +568,7 @@ export default function AdminDashboard() {
             </div>
 
             {/* Last refresh */}
-            <div className="mt-5 flex items-center gap-2 rounded-xl bg-slate-50 p-3">
+            <div className="mt-5 flex items-center gap-2 rounded-[2px] bg-slate-50 p-3">
               <Clock className="h-4 w-4 text-slate-400" />
               <div>
                 <p className="text-xs text-slate-400">Dernière mise à jour</p>
@@ -576,15 +579,15 @@ export default function AdminDashboard() {
             </div>
 
             {/* Visits highlight */}
-            <div className="mt-4 rounded-xl bg-gradient-to-br from-purple-50 to-violet-50 border border-purple-100 p-4">
+            <div className="mt-4 rounded-[2px] bg-gradient-to-br from-[#205C03]/5 to-[#0B30BB]/5 border border-[#205C03]/10 p-4">
               <div className="flex items-center gap-2 mb-2">
-                <Eye className="h-4 w-4 text-purple-600" />
-                <p className="text-xs font-semibold text-purple-700 uppercase tracking-wide">Visites totales</p>
+                <Eye className="h-4 w-4 text-[#205C03]" />
+                <p className="text-xs font-semibold text-[#205C03] uppercase tracking-wide">Visites totales</p>
               </div>
-              <p className="text-3xl font-extrabold text-purple-900 tabular-nums">
+              <p className="text-3xl font-extrabold text-[#111111] tabular-nums">
                 {formatNumber(stats?.totalVisits || 0)}
               </p>
-              <p className="text-xs text-purple-500 mt-1">
+              <p className="text-xs text-[#0B30BB] mt-1">
                 {formatNumber(stats?.monthVisits || 0)} ce mois-ci
               </p>
             </div>

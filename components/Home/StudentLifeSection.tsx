@@ -1,106 +1,202 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { activities, testimonials } from "@/data/data";
 import Autoplay from "embla-carousel-autoplay";
+import { motion } from "framer-motion";
+import { Quote } from "lucide-react";
 
 const StudentLifeSection = () => {
+  return (
+    <section id="vie-etudiante" className="py-24" style={{ background: "#ffffff" }}>
+      <div className="max-w-7xl mx-auto px-4 md:px-8">
 
+        {/* ── En-tête UIJP ── */}
+        <motion.div
+          className="mb-12"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 className="uijp-section-title">
+            Vie estudiantine
+            <span>sur notre campus</span>
+          </h2>
+          <div
+            className="mt-3 h-1 w-16 rounded-full"
+            style={{ background: "linear-gradient(90deg, #205C03, #0B30BB)" }}
+          />
+          <p
+            className="mt-5 text-gray-500 max-w-2xl text-base leading-relaxed"
+            style={{ fontFamily: "var(--font-inter), Inter, sans-serif" }}
+          >
+            Découvrez la richesse de la vie sur notre campus, où l'apprentissage se poursuit bien
+            au-delà des salles de cours.
+          </p>
+        </motion.div>
 
-    return (
-        <section id="vie-etudiante" className="py-20 bg-gray-50">
-            <div className="container mx-auto px-4">
-                <div className="text-center mb-16">
-                    <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#1B2A4A] mb-4">{"Vie estudiantine"}</h2>
-                    <div className="w-20 h-1 bg-[#34773D] mx-auto"></div>
-                    <p className="mt-6 text-gray-600 max-w-2xl mx-auto">{"Découvrez la richesse de la vie sur notre campus, où l'apprentissage se poursuit bien au-delà des salles de cours."}</p>
-                </div>
+        {/* ── Carousel activités ── */}
+        <div className="mb-20">
+          <Carousel
+            opts={{ align: "start", loop: true }}
+            plugins={[Autoplay({ delay: 3000 })]}
+            className="w-full"
+          >
+            <CarouselContent className="-ml-2 md:-ml-4">
+              {activities.map((activity, index) => (
+                <CarouselItem key={index} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
+                  <div
+                    className="group h-full bg-white transition-all duration-300 hover:-translate-y-1 overflow-hidden"
+                    style={{
+                      borderLeft: `4px solid ${index % 2 === 0 ? "#205C03" : "#0B30BB"}`,
+                      borderBottom: `4px solid ${index % 2 === 0 ? "#0B30BB" : "#E3A402"}`,
+                      boxShadow: "0 2px 16px rgba(0,0,0,0.07)",
+                      borderRadius: "2px",
+                    }}
+                  >
+                    <div className="h-56 overflow-hidden">
+                      <img
+                        src={activity.image}
+                        alt={activity.title}
+                        className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </div>
+                    <div className="p-5">
+                      <h3
+                        className="font-bold text-[#2D2F2B] mb-2 uppercase text-sm leading-snug"
+                        style={{ fontFamily: "var(--font-montserrat), Montserrat, sans-serif", letterSpacing: "0.04em" }}
+                      >
+                        {activity.title}
+                      </h3>
+                      <p
+                        className="text-gray-500 text-sm leading-relaxed"
+                        style={{ fontFamily: "var(--font-inter), Inter, sans-serif" }}
+                      >
+                        {activity.description}
+                      </p>
+                    </div>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="hidden md:flex border-2 border-[#205C03] text-[#205C03] hover:bg-[#205C03] hover:text-white" />
+            <CarouselNext className="hidden md:flex border-2 border-[#205C03] text-[#205C03] hover:bg-[#205C03] hover:text-white" />
+          </Carousel>
+        </div>
 
-                <div className="mb-16">
-                    <Carousel
-                        opts={{
-                            align: "start",
-                            loop: true,
-                        }}
-                        plugins={[
-                            Autoplay({
-                                delay: 2000,
-                            }),
-                        ]}
-                        className="w-full"
-                    >
-                        <CarouselContent className="-ml-2 md:-ml-4">
-                            {activities.map((activity, index) => (
-                                <CarouselItem key={index} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
-                                    <Card className="h-full overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
-                                        <div className="h-[300px] overflow-hidden">
-                                            <img
-                                                src={activity.image}
-                                                alt={activity.title}
-                                                className="w-full h-full object-cover object-top transition-transform duration-300 hover:scale-105"
-                                            />
-                                        </div>
-                                        <CardContent className="p-6">
-                                            <h3 className="text-xl font-serif font-bold text-[#1B2A4A] mb-3">{activity.title}</h3>
-                                            <p className="text-gray-600">{activity.description}</p>
-                                        </CardContent>
-                                    </Card>
-                                </CarouselItem>
-                            ))}
-                        </CarouselContent>
-                        <CarouselPrevious className="hidden md:flex" />
-                        <CarouselNext className="hidden md:flex" />
-                    </Carousel>
-                </div>
+        {/* ── Témoignages + Campus ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          {/* Témoignages */}
+          <div>
+            <h3
+              className="font-bold text-[#2D2F2B] mb-6 uppercase text-xl"
+              style={{ fontFamily: "var(--font-montserrat), Montserrat, sans-serif", letterSpacing: "0.05em" }}
+            >
+              Témoignages d'étudiants
+            </h3>
+            <div className="space-y-5 max-h-[450px] overflow-y-auto pr-2 no-scrollbar">
+              {testimonials.map((testimonial, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1, duration: 0.5 }}
+                  className="bg-white p-5 relative"
+                  style={{
+                    borderLeft: `4px solid ${index % 2 === 0 ? "#205C03" : "#0B30BB"}`,
+                    borderBottom: `4px solid ${index % 2 === 0 ? "#0B30BB" : "#E3A402"}`,
+                    boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
+                    borderRadius: "2px",
+                  }}
+                >
+                  <Quote
+                    className="absolute top-4 right-4 opacity-10"
+                    size={28}
+                    style={{ color: "#205C03" }}
+                  />
+                  <div className="flex items-center gap-3 mb-3">
+                    <Avatar className="h-10 w-10 ring-2 ring-[#205C03]/30">
+                      <AvatarImage src={testimonial.avatar} alt={testimonial.name} />
+                      <AvatarFallback style={{ background: "linear-gradient(135deg, #205C03, #0B30BB)", color: "#fff" }}>
+                        {testimonial.name.charAt(0)}
+                      </AvatarFallback>
+                    </Avatar>
                     <div>
-                        <h3 className="text-2xl font-serif font-bold text-[#1B2A4A] mb-6">{"Témoignages d'étudiants"}</h3>
-                        <ScrollArea className="h-[400px] rounded-md border p-6 bg-white">
-                            {testimonials.map((testimonial, index) => (
-                                <div key={index} className="mb-8 pb-8 border-b last:border-b-0">
-                                    <div className="flex items-start mb-4">
-                                        <Avatar className="h-12 w-12 mr-4">
-                                            <AvatarImage src={testimonial.avatar} alt={testimonial.name} />
-                                            <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
-                                        </Avatar>
-                                        <div>
-                                            <h4 className="font-bold text-[#1B2A4A]">{testimonial.name}</h4>
-                                            <p className="text-sm text-gray-600">{testimonial.program}, {testimonial.year}</p>
-                                        </div>
-                                    </div>
-                                    <p className="text-gray-700 italic">{testimonial.testimonial}</p>
-                                </div>
-                            ))}
-                        </ScrollArea>
+                      <h4
+                        className="font-bold text-[#2D2F2B] text-sm uppercase"
+                        style={{ fontFamily: "var(--font-montserrat), Montserrat, sans-serif" }}
+                      >
+                        {testimonial.name}
+                      </h4>
+                      <p
+                        className="text-xs text-gray-400"
+                        style={{ fontFamily: "var(--font-inter), Inter, sans-serif" }}
+                      >
+                        {testimonial.program}, {testimonial.year}
+                      </p>
                     </div>
-                    <div className="relative">
-                        <img
-                            src="/campus.webp"
-                            alt="Campus de l'Université Internationale Jean Paul II de Bafang"
-                            className="rounded-lg shadow-xl object-cover w-full h-[500px] object-top"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#1B2A4A]/50 to-transparent flex items-end rounded-lg">
-                            <div className="p-8 text-white">
-                                <h3 className="text-2xl font-serif font-bold mb-2">{"Notre campus"}</h3>
-                                <p className="mb-4">{"Un environnement d'apprentissage exceptionnel au cœur de la ville."}</p>
-                                <Button className="bg-[#34773D] hover:bg-[#34773D]/80 text-white rounded-md">
-                                    {"Visite virtuelle"}
-                                    <svg className="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                    </svg>
-                                </Button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                  </div>
+                  <p
+                    className="text-gray-600 text-sm leading-relaxed italic"
+                    style={{ fontFamily: "var(--font-inter), Inter, sans-serif" }}
+                  >
+                    "{testimonial.testimonial}"
+                  </p>
+                </motion.div>
+              ))}
             </div>
-        </section>
-    );
+          </div>
+
+          {/* Image Campus */}
+          <div className="relative">
+            <div
+              className="overflow-hidden"
+              style={{
+                borderLeft: "6px solid #205C03",
+                borderBottom: "6px solid #0B30BB",
+                borderRadius: "2px",
+              }}
+            >
+              <img
+                src="/Images/campus.webp"
+                alt="Campus UIJP2"
+                className="w-full object-cover object-top"
+                style={{ height: "480px" }}
+              />
+              <div
+                className="absolute inset-0 flex flex-col justify-end p-8"
+                style={{
+                  background: "linear-gradient(to top, rgba(1,22,54,0.85) 0%, transparent 60%)",
+                }}
+              >
+                <h3
+                  className="text-white font-bold uppercase mb-2 text-2xl"
+                  style={{ fontFamily: "var(--font-montserrat), Montserrat, sans-serif", letterSpacing: "0.04em" }}
+                >
+                  Notre campus
+                </h3>
+                <p
+                  className="text-white/80 mb-5 text-sm"
+                  style={{ fontFamily: "var(--font-inter), Inter, sans-serif" }}
+                >
+                  Un environnement d'apprentissage exceptionnel au cœur de Bafang.
+                </p>
+                <button className="btn-uijp self-start">
+                  Visite virtuelle
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 };
 
 export default StudentLifeSection;
