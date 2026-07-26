@@ -5,12 +5,13 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Loading from "./loading";
-import { Ecole } from "@/lib/types";
-import { MapPin, Phone, Mail } from "lucide-react";
+import { Ecole, Service } from "@/lib/types";
+import { Phone, Mail } from "lucide-react";
 
 const Footer = () => {
   const pathname = usePathname();
   const [ecoles, setEcoles] = useState<Ecole[]>([]);
+  const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -21,6 +22,15 @@ const Footer = () => {
         setLoading(false);
       })
       .catch(() => setLoading(false));
+
+    fetch("/api/services")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && Array.isArray(data.data)) {
+          setServices(data.data);
+        }
+      })
+      .catch(console.error);
   }, []);
 
   if (pathname.startsWith("/admin")) return null;
@@ -179,16 +189,7 @@ const Footer = () => {
             >
               Contact
             </h4>
-            <ul className="space-y-4 mt-1">
-              <li className="flex items-start gap-3">
-                <MapPin size={16} className="shrink-0 mt-0.5" style={{ color: "#E3A402" }} />
-                <span
-                  className="text-white/60 text-sm leading-relaxed"
-                  style={{ fontFamily: "var(--font-inter), Inter, sans-serif" }}
-                >
-                  Diocèse de Bafang<br />558Q+7R5, Bafang
-                </span>
-              </li>
+            <ul className="space-y-3 mt-1">
               <li className="flex items-center gap-3">
                 <Phone size={16} className="shrink-0" style={{ color: "#E3A402" }} />
                 <Link
@@ -200,18 +201,31 @@ const Footer = () => {
                   +237 6 87 65 24 67<br />+237 6 52 99 23 01
                 </Link>
               </li>
-              <li className="flex items-center gap-3">
-                <Mail size={16} className="shrink-0" style={{ color: "#E3A402" }} />
-                <Link
-                  href="mailto:infos@uijpbafang.org"
-                  target="_blank"
-                  className="text-white/60 hover:text-white text-sm transition-colors"
-                  style={{ fontFamily: "var(--font-inter), Inter, sans-serif" }}
-                >
-                  infos@uijpbafang.org
-                </Link>
-              </li>
             </ul>
+
+            {/* Services (Nom + Email) */}
+            {services.length > 0 && (
+              <div className="mt-5 pt-4 border-t border-white/10 space-y-3">
+                <p
+                  className="text-xs font-bold uppercase tracking-wider text-[#E3A402]"
+                  style={{ fontFamily: "var(--font-montserrat), Montserrat, sans-serif" }}
+                >
+                  Services & Emails :
+                </p>
+                {services.map((service) => (
+                  <div key={service._id?.toString() || service.name} className="text-xs">
+                    <p className="text-white/90 font-semibold">{service.name}</p>
+                    <a
+                      href={`mailto:${service.email}`}
+                      className="text-white/60 hover:text-white transition-colors text-[11px] block truncate"
+                      style={{ fontFamily: "var(--font-inter), Inter, sans-serif" }}
+                    >
+                      {service.email}
+                    </a>
+                  </div>
+                ))}
+              </div>
+            )}
 
             {/* CTA Candidature */}
             <div className="mt-6">

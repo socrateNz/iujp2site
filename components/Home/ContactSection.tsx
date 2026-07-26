@@ -19,7 +19,6 @@ const socialLinks = [
 const contactItems = [
   { icon: <MapPin size={18} />, label: "Adresse", value: "Diocèse de Bafang, 558Q+7R5, Bafang", href: undefined },
   { icon: <Phone size={18} />, label: "Téléphone", value: "+237 6 87 65 24 67 / +237 6 52 99 23 01", href: "https://wa.me/message/42RBUTP466X5I1" },
-  { icon: <Mail size={18} />, label: "Email", value: "infos@uijpbafang.org", href: "mailto:infos@uijpbafang.org" },
   { icon: <Clock size={18} />, label: "Horaires", value: "Lun – Ven : 8h00 – 17h00", href: undefined },
 ];
 
@@ -43,7 +42,7 @@ const ContactSection = () => {
 
   return (
     <section id="contact" className="py-24" style={{ background: "#f5f6fa" }}>
-      <div className="max-w-7xl mx-auto px-4 md:px-8">
+      <div className="max-w-7xl mx-auto px-4 md:px-8 flex flex-col gap-4">
 
         {/* ── En-tête UIJP ── */}
         <motion.div
@@ -125,7 +124,7 @@ const ContactSection = () => {
               />
             </div>
 
-            {/* Infos de contact */}
+            {/* Carte 1 : Infos de contact générales */}
             <div
               className="bg-white p-6"
               style={{
@@ -220,45 +219,52 @@ const ContactSection = () => {
                   />
                 </div>
               </div>
-
-              {/* ── Services & Contacts Directs ── */}
-              {services.length > 0 && (
-                <div className="mt-6 pt-6 border-t border-gray-100">
-                  <h4
-                    className="font-bold text-[#2D2F2B] mb-4 uppercase text-xs tracking-wider flex items-center gap-2"
-                    style={{ fontFamily: "var(--font-montserrat), Montserrat, sans-serif" }}
-                  >
-                    <Building2 size={16} className="text-[#205C03]" />
-                    Services & Contacts Directs
-                  </h4>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {services.map((service) => (
-                      <div
-                        key={service._id?.toString() || service.name}
-                        className="p-3 rounded bg-slate-50 border border-slate-100 flex flex-col justify-between transition-all hover:border-[#205C03]/30"
-                      >
-                        <div>
-                          <p className="text-xs font-bold text-[#2D2F2B] mb-0.5">{service.name}</p>
-                          {service.description && (
-                            <p className="text-[11px] text-gray-500 line-clamp-1 mb-1">{service.description}</p>
-                          )}
-                        </div>
-                        <a
-                          href={`mailto:${service.email}`}
-                          className="text-xs text-[#0B30BB] hover:text-[#205C03] font-medium flex items-center gap-1.5 transition-colors mt-1"
-                          style={{ fontFamily: "var(--font-inter), Inter, sans-serif" }}
-                        >
-                          <Mail size={13} className="shrink-0" />
-                          <span className="truncate">{service.email}</span>
-                        </a>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
             </div>
           </motion.div>
         </div>
+        {/* Carte 2 : Card séparée pour Services & Contacts Directs */}
+        {services.length > 0 && (
+          <div
+            className="bg-white p-6"
+            style={{
+              borderLeft: "4px solid #205C03",
+              borderBottom: "4px solid #0B30BB",
+              boxShadow: "0 2px 16px rgba(0,0,0,0.07)",
+              borderRadius: "2px",
+            }}
+          >
+            <h4
+              className="font-bold text-[#2D2F2B] mb-4 uppercase text-xs tracking-wider flex items-center gap-2"
+              style={{ fontFamily: "var(--font-montserrat), Montserrat, sans-serif" }}
+            >
+              <Building2 size={16} className="text-[#205C03]" />
+              Services & Contacts Directs
+            </h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {services.map((service) => (
+                <a
+                  href={`mailto:${service.email}`}
+                  key={service._id?.toString() || service.name}
+                  className="p-3 rounded bg-slate-50 border border-slate-100 flex flex-col justify-between transition-all hover:border-[#205C03]/30"
+
+                >
+                  <div>
+                    <p className="text-xs font-bold text-[#2D2F2B] mb-0.5">{service.name}</p>
+                    {service.description && (
+                      <p className="text-[11px] text-gray-500 line-clamp-1 mb-1">{service.description}</p>
+                    )}
+                  </div>
+                  <div
+                    className="text-xs text-[#0B30BB] hover:text-[#205C03] font-medium flex items-center gap-1.5 transition-colors mt-1"
+                    style={{ fontFamily: "var(--font-inter), Inter, sans-serif" }}>
+                    <Mail size={13} className="shrink-0" />
+                    <span className="truncate">{service.email}</span>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );
