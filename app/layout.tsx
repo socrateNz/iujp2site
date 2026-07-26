@@ -64,13 +64,46 @@ export default async function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "WebSite",
-              "name": "UIJP2 - Université Internationale Jean Paul II",
-              "alternateName": ["UIJP Bafang", "UIJP2"],
-              "url": "https://www.uijpbafang.org/"
-            })
+            __html: JSON.stringify([
+              {
+                "@context": "https://schema.org",
+                "@type": "WebSite",
+                "name": "UIJP2 - Université Internationale Jean Paul II",
+                "alternateName": ["UIJP Bafang", "UIJP2"],
+                "url": "https://www.uijpbafang.org/"
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "ItemList",
+                "name": "Navigation Principale UIJP2",
+                "itemListElement": [
+                  {
+                    "@type": "SiteNavigationElement",
+                    "position": 1,
+                    "name": "Nos Écoles",
+                    "url": "https://www.uijpbafang.org/nos-ecoles"
+                  },
+                  {
+                    "@type": "SiteNavigationElement",
+                    "position": 2,
+                    "name": "Formations",
+                    "url": "https://www.uijpbafang.org/formations"
+                  },
+                  {
+                    "@type": "SiteNavigationElement",
+                    "position": 3,
+                    "name": "Actualités",
+                    "url": "https://www.uijpbafang.org/actualites"
+                  },
+                  {
+                    "@type": "SiteNavigationElement",
+                    "position": 4,
+                    "name": "Contacts",
+                    "url": "https://www.uijpbafang.org/contacts"
+                  }
+                ]
+              }
+            ])
           }}
         />
         <Toaster />
