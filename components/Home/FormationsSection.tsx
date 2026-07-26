@@ -91,34 +91,22 @@ const FormationsSection = () => {
               <TabsTrigger
                 value="tous"
                 className="rounded-none border-2 border-[#2D2F2B] text-[#2D2F2B] font-bold text-xs uppercase tracking-widest px-5 py-2.5
-                  data-[state=active]:border-transparent data-[state=active]:text-white
-                  data-[state=active]:shadow-none transition-all duration-200"
+                  data-[state=active]:bg-[#205C03] data-[state=active]:text-black data-[state=active]:border-[#205C03]
+                  data-[state=active]:shadow-none hover:border-[#205C03] hover:text-[#205C03] transition-all duration-200"
                 style={{
                   fontFamily: "var(--font-montserrat), Montserrat, sans-serif",
                 }}
               >
-                <style>{`
-                  [data-state="active"][value="tous"] {
-                    background: linear-gradient(135deg, #205C03 0%, #0B30BB 100%);
-                  }
-                `}</style>
                 TOUS
               </TabsTrigger>
 
-              {examens.map((examen, i) => {
-                // Alternance de couleurs UIJP pour les onglets actifs
-                const gradients = [
-                  "linear-gradient(135deg, #205C03 0%, #0B30BB 100%)",
-                  "linear-gradient(135deg, #0B30BB 0%, #069CC5 100%)",
-                  "linear-gradient(135deg, #E3A402 0%, #205C03 100%)",
-                ];
-                const bg = gradients[i % gradients.length];
+              {examens.map((examen) => {
                 return (
                   <TabsTrigger
                     key={examen}
                     value={examen}
                     className="rounded-none border-2 border-[#2D2F2B] text-[#2D2F2B] font-bold text-xs uppercase tracking-widest px-5 py-2.5
-                      data-[state=active]:border-transparent data-[state=active]:text-white
+                      data-[state=active]:bg-[#205C03] data-[state=active]:text-black data-[state=active]:border-[#205C03]
                       data-[state=active]:shadow-none hover:border-[#205C03] hover:text-[#205C03] transition-all duration-200"
                     style={{
                       fontFamily: "var(--font-montserrat), Montserrat, sans-serif",
