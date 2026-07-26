@@ -1,11 +1,12 @@
 "use client";
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ContactForm from './ContactForm';
 import { FaFacebookF, FaInstagram, FaTiktok, FaTwitter, FaWhatsapp } from 'react-icons/fa';
 import Link from 'next/link';
-import { MapPin, Phone, Mail, Clock } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, Building2 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { Service } from '@/lib/types';
 
 const socialLinks = [
   { url: "https://www.facebook.com/share/1JL9TaknAV/?mibextid=wwXIfr", icon: <FaFacebookF size={16} /> },
@@ -23,6 +24,23 @@ const contactItems = [
 ];
 
 const ContactSection = () => {
+  const [services, setServices] = useState<Service[]>([]);
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const res = await fetch('/api/services');
+        const data = await res.json();
+        if (data.success && Array.isArray(data.data)) {
+          setServices(data.data);
+        }
+      } catch (error) {
+        console.error('Erreur chargement services:', error);
+      }
+    };
+    fetchServices();
+  }, []);
+
   return (
     <section id="contact" className="py-24" style={{ background: "#f5f6fa" }}>
       <div className="max-w-7xl mx-auto px-4 md:px-8">
@@ -202,6 +220,42 @@ const ContactSection = () => {
                   />
                 </div>
               </div>
+
+              {/* ── Services & Contacts Directs ── */}
+              {services.length > 0 && (
+                <div className="mt-6 pt-6 border-t border-gray-100">
+                  <h4
+                    className="font-bold text-[#2D2F2B] mb-4 uppercase text-xs tracking-wider flex items-center gap-2"
+                    style={{ fontFamily: "var(--font-montserrat), Montserrat, sans-serif" }}
+                  >
+                    <Building2 size={16} className="text-[#205C03]" />
+                    Services & Contacts Directs
+                  </h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {services.map((service) => (
+                      <div
+                        key={service._id?.toString() || service.name}
+                        className="p-3 rounded bg-slate-50 border border-slate-100 flex flex-col justify-between transition-all hover:border-[#205C03]/30"
+                      >
+                        <div>
+                          <p className="text-xs font-bold text-[#2D2F2B] mb-0.5">{service.name}</p>
+                          {service.description && (
+                            <p className="text-[11px] text-gray-500 line-clamp-1 mb-1">{service.description}</p>
+                          )}
+                        </div>
+                        <a
+                          href={`mailto:${service.email}`}
+                          className="text-xs text-[#0B30BB] hover:text-[#205C03] font-medium flex items-center gap-1.5 transition-colors mt-1"
+                          style={{ fontFamily: "var(--font-inter), Inter, sans-serif" }}
+                        >
+                          <Mail size={13} className="shrink-0" />
+                          <span className="truncate">{service.email}</span>
+                        </a>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </motion.div>
         </div>
