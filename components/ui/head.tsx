@@ -44,7 +44,7 @@ const Head = ({ title, description, tag }: HeadProps) => {
                 <h1
                     className='font-black uppercase text-white text-center'
                     style={{
-                        fontFamily: "var(--font-montserrat), Montserrat, sans-serif",
+                        fontFamily: "var(--font-oswald), Oswald, sans-serif",
                         fontSize: "clamp(2rem, 5vw, 3.5rem)",
                         lineHeight: 1.05,
                         letterSpacing: "0.03em",

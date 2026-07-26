@@ -68,7 +68,7 @@ const Home = () => {
           }}
         />
         <div className=" flec items-center justify-center bg-white px-3 py-1 rounded-md shadow-md">
-          <h3 className="text-xl font-serif font-bold text-[#1B2A4A] text-center">
+          <h3 className="text-xl font-bold text-[#1B2A4A] text-center">
             {"Contactez nous"}
           </h3>
         </div>

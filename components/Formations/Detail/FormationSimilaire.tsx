@@ -15,7 +15,7 @@ const FormationSimilaire = ({ formation }: Props) => {
     return (
         <section className="py-16 bg-gray-50">
             <div className="container mx-auto px-4">
-                <h2 className="text-3xl font-serif font-bold text-[#1B2A4A] mb-10 text-center">Formations similaires</h2>
+                <h2 className="text-3xl font-bold text-[#1B2A4A] mb-10 text-center">Formations similaires</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {similaires.map((formation, index) => (
                         <Card key={index} className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
@@ -28,7 +28,7 @@ const FormationSimilaire = ({ formation }: Props) => {
                             </div>
                             <CardHeader>
                                 <div className="flex justify-between items-start">
-                                    <CardTitle className="text-xl font-serif text-[#1B2A4A]">{formation.title}</CardTitle>
+                                    <CardTitle className="text-xl text-[#1B2A4A]">{formation.title}</CardTitle>
                                     <Badge className="bg-[#D4AF37]">2 ans</Badge>
                                 </div>
                             </CardHeader>

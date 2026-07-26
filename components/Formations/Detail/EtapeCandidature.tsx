@@ -6,7 +6,7 @@ const EtapeCandidature = () => {
     return (
 
         <div className="mb-12">
-            <h3 className="text-2xl font-serif font-bold text-[#1B2A4A] mb-6">Processus de candidature</h3>
+            <h3 className="text-2xl font-bold text-[#1B2A4A] mb-6">Processus de candidature</h3>
             <div className="relative">
                 <div className="absolute left-8 top-0 bottom-0 w-1 bg-gray-200"></div>
                 <div className="space-y-8 relative">

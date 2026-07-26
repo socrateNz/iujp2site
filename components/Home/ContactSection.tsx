@@ -87,7 +87,7 @@ const ContactSection = () => {
           >
             <h3
               className="font-bold text-[#2D2F2B] mb-6 uppercase text-lg"
-              style={{ fontFamily: "var(--font-montserrat), Montserrat, sans-serif", letterSpacing: "0.05em" }}
+              style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif", letterSpacing: "0.05em" }}
             >
               Formulaire de contact
             </h3>
@@ -138,7 +138,7 @@ const ContactSection = () => {
                 <div>
                   <h3
                     className="font-bold text-[#2D2F2B] mb-5 uppercase text-sm tracking-wider"
-                    style={{ fontFamily: "var(--font-montserrat), Montserrat, sans-serif" }}
+                    style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif" }}
                   >
                     Informations de contact
                   </h3>
@@ -235,7 +235,7 @@ const ContactSection = () => {
           >
             <h4
               className="font-bold text-[#2D2F2B] mb-4 uppercase text-xs tracking-wider flex items-center gap-2"
-              style={{ fontFamily: "var(--font-montserrat), Montserrat, sans-serif" }}
+              style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif" }}
             >
               <Building2 size={16} className="text-[#205C03]" />
               Services & Contacts Directs

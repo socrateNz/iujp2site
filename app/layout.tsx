@@ -1,4 +1,4 @@
-import { Montserrat, Inter } from "next/font/google";
+import { Montserrat, Oswald } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
@@ -11,8 +11,8 @@ const montserrat = Montserrat({
   weight: ["400", "500", "600", "700", "800", "900"],
 });
 
-const inter = Inter({
-  variable: "--font-inter",
+const oswald = Oswald({
+  variable: "--font-oswald",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
@@ -47,7 +47,7 @@ export default async function RootLayout({
     return (
       <html lang="fr" className="dark">
         <body
-          className={`${montserrat.variable} ${inter.variable} antialiased bg-slate-950 text-slate-100 min-h-screen`}
+          className={`${montserrat.variable} ${oswald.variable} antialiased bg-slate-950 text-slate-100 min-h-screen`}
         >
           <Toaster />
           {children}
@@ -59,7 +59,7 @@ export default async function RootLayout({
   return (
     <html lang="fr">
       <body
-        className={`${montserrat.variable} ${inter.variable} antialiased`}
+        className={`${montserrat.variable} ${oswald.variable} antialiased`}
       >
         <script
           type="application/ld+json"

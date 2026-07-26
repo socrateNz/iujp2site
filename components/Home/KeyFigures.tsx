@@ -83,7 +83,7 @@ const KeyFigures = () => {
           <h2
             className="font-black uppercase leading-tight mb-4"
             style={{
-              fontFamily: "var(--font-montserrat), Montserrat, sans-serif",
+              fontFamily: "var(--font-oswald), Oswald, sans-serif",
               fontSize: "clamp(2rem, 4vw, 3rem)",
               letterSpacing: "0.03em",
               color: "#ffffff",
@@ -137,7 +137,7 @@ const KeyFigures = () => {
               <h3
                 className="font-black text-white mb-1"
                 style={{
-                  fontFamily: "var(--font-montserrat), Montserrat, sans-serif",
+                  fontFamily: "var(--font-oswald), Oswald, sans-serif",
                   fontSize: "2.25rem",
                   lineHeight: 1,
                 }}
@@ -167,7 +167,7 @@ const KeyFigures = () => {
           >
             <h3
               className="font-bold text-white mb-4 uppercase text-sm tracking-wider"
-              style={{ fontFamily: "var(--font-montserrat), Montserrat, sans-serif" }}
+              style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif" }}
             >
               Taux de réussite par année
             </h3>
@@ -184,7 +184,7 @@ const KeyFigures = () => {
           >
             <h3
               className="font-bold text-white mb-4 uppercase text-sm tracking-wider"
-              style={{ fontFamily: "var(--font-montserrat), Montserrat, sans-serif" }}
+              style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif" }}
             >
               Répartition des étudiants
             </h3>

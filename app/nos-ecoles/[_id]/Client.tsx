@@ -100,7 +100,7 @@ const Client = ({ filiereId }: { filiereId: string }) => {
                             <h2
                                 className="font-black uppercase mb-4"
                                 style={{
-                                    fontFamily: "var(--font-montserrat), Montserrat, sans-serif",
+                                    fontFamily: "var(--font-oswald), Oswald, sans-serif",
                                     fontSize: "clamp(1.5rem, 3vw, 2.25rem)",
                                     letterSpacing: "0.03em",
                                     color: "#2D2F2B",
@@ -148,7 +148,7 @@ const Client = ({ filiereId }: { filiereId: string }) => {
                             <h2
                                 className="font-black uppercase"
                                 style={{
-                                    fontFamily: "var(--font-montserrat), Montserrat, sans-serif",
+                                    fontFamily: "var(--font-oswald), Oswald, sans-serif",
                                     fontSize: "clamp(1.75rem, 3.5vw, 2.5rem)",
                                     letterSpacing: "0.03em",
                                     color: "#2D2F2B",

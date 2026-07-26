@@ -50,7 +50,7 @@ const DemandeInscription = () => {
 
     return (
         <div id="contact">
-            <h3 className="text-2xl font-serif font-bold text-[#1B2A4A] mb-6">{"Formulaire de demande d'information"}</h3>
+            <h3 className="text-2xl font-bold text-[#1B2A4A] mb-6">{"Formulaire de demande d'information"}</h3>
             <div className="bg-white rounded-lg shadow-md p-8">
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

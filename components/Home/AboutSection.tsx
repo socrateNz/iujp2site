@@ -137,7 +137,7 @@ const AboutSection = () => {
                   <div>
                     <h4
                       className="font-bold text-[#2D2F2B] mb-1 uppercase tracking-wide text-sm"
-                      style={{ fontFamily: "var(--font-montserrat), Montserrat, sans-serif" }}
+                      style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif" }}
                     >
                       {feature.title}
                     </h4>

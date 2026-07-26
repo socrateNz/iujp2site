@@ -16,13 +16,13 @@ const Admission = () => {
     return (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             <div className="lg:col-span-2">
-                <h2 className="text-3xl font-serif font-bold text-[#1B2A4A] mb-6">{"Admission et coûts"}</h2>
+                <h2 className="text-3xl font-bold text-[#1B2A4A] mb-6">{"Admission et coûts"}</h2>
                 <p className="text-gray-700 mb-8 text-lg leading-relaxed">
                     {"Le processus d'admission au Master en Relations Internationales est sélectif et vise à identifier les candidats ayant le potentiel pour réussir dans ce programme exigeant et s'épanouir dans une carrière internationale."}
                 </p>
 
                 <div className="mb-12">
-                    <h3 className="text-2xl font-serif font-bold text-[#1B2A4A] mb-6">{"Prérequis et conditions d'admission"}</h3>
+                    <h3 className="text-2xl font-bold text-[#1B2A4A] mb-6">{"Prérequis et conditions d'admission"}</h3>
                     <div className="bg-white rounded-lg shadow-md p-8 mb-8">
                         <h4 className="font-bold text-[#1B2A4A] mb-4">Prérequis académiques</h4>
                         <ul className="space-y-3 mb-6">
@@ -63,7 +63,7 @@ const Admission = () => {
                 {/* Etape de candidature */}
                 <EtapeCandidature />
                 <div className="mb-12">
-                    <h3 className="text-2xl font-serif font-bold text-[#1B2A4A] mb-6">Frais de scolarité 350 000 FCFA</h3>
+                    <h3 className="text-2xl font-bold text-[#1B2A4A] mb-6">Frais de scolarité 350 000 FCFA</h3>
                     <Link href="/catalogue.pdf" target="_blank" rel="noopener noreferrer">
                         <Button
                             className='bg-[#34773D] hover:bg-[#34773D]/80 text-white px-6 py-5 text-lg !rounded-button whitespace-nowrap'
@@ -80,7 +80,7 @@ const Admission = () => {
             <div className="lg:col-span-1">
                 <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-8">
                     <div className="p-6 bg-[#1B2A4A] text-white">
-                        <h3 className="text-xl font-serif font-bold mb-2">Prochaines étapes</h3>
+                        <h3 className="text-xl font-bold mb-2">Prochaines étapes</h3>
                         <p className="text-gray-200 text-sm">{"Calendrier d'admission 2025-2026"}</p>
                     </div>
                     <div className="p-6 space-y-6">
@@ -106,7 +106,7 @@ const Admission = () => {
 
                 <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-8">
                     <div className="p-6 bg-[#1B2A4A] text-white">
-                        <h3 className="text-xl font-serif font-bold mb-2">FAQ Admission</h3>
+                        <h3 className="text-xl font-bold mb-2">FAQ Admission</h3>
                         <p className="text-gray-200 text-sm">Questions fréquentes</p>
                     </div>
                     <div className="p-6">
@@ -127,7 +127,7 @@ const Admission = () => {
 
                 <div className="bg-white rounded-lg shadow-lg overflow-hidden">
                     <div className="p-6 bg-[#1B2A4A] text-white">
-                        <h3 className="text-xl font-serif font-bold mb-2">Contact admission</h3>
+                        <h3 className="text-xl font-bold mb-2">Contact admission</h3>
                         <p className="text-gray-200 text-sm">{"Besoin d'aide pour votre candidature ?"}</p>
                     </div>
                     <div className="p-6 space-y-4">

@@ -68,7 +68,7 @@ const StudentLifeSection = () => {
                     <div className="p-5">
                       <h3
                         className="font-bold text-[#2D2F2B] mb-2 uppercase text-sm leading-snug"
-                        style={{ fontFamily: "var(--font-montserrat), Montserrat, sans-serif", letterSpacing: "0.04em" }}
+                        style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif", letterSpacing: "0.04em" }}
                       >
                         {activity.title}
                       </h3>
@@ -95,7 +95,7 @@ const StudentLifeSection = () => {
           <div>
             <h3
               className="font-bold text-[#2D2F2B] mb-6 uppercase text-xl"
-              style={{ fontFamily: "var(--font-montserrat), Montserrat, sans-serif", letterSpacing: "0.05em" }}
+              style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif", letterSpacing: "0.05em" }}
             >
               Témoignages d'étudiants
             </h3>
@@ -130,7 +130,7 @@ const StudentLifeSection = () => {
                     <div>
                       <h4
                         className="font-bold text-[#2D2F2B] text-sm uppercase"
-                        style={{ fontFamily: "var(--font-montserrat), Montserrat, sans-serif" }}
+                        style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif" }}
                       >
                         {testimonial.name}
                       </h4>
@@ -177,7 +177,7 @@ const StudentLifeSection = () => {
               >
                 <h3
                   className="text-white font-bold uppercase mb-2 text-2xl"
-                  style={{ fontFamily: "var(--font-montserrat), Montserrat, sans-serif", letterSpacing: "0.04em" }}
+                  style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif", letterSpacing: "0.04em" }}
                 >
                   Notre campus
                 </h3>

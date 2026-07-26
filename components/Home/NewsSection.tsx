@@ -106,7 +106,7 @@ const NewsSection = ({ articles }: Article) => {
                     <h3
                       className="font-bold text-[#2D2F2B] mb-3 text-base leading-snug uppercase flex-1"
                       style={{
-                        fontFamily: "var(--font-montserrat), Montserrat, sans-serif",
+                        fontFamily: "var(--font-oswald), Oswald, sans-serif",
                         letterSpacing: "0.03em",
                       }}
                     >

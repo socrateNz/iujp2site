@@ -181,7 +181,7 @@ export default function HeroSection() {
               variants={itemVariants}
               className="text-white mb-4"
               style={{
-                fontFamily: "var(--font-montserrat), Montserrat, sans-serif",
+                fontFamily: "var(--font-oswald), Oswald, sans-serif",
                 fontWeight: 800,
                 fontSize: "clamp(2.5rem, 6vw, 5rem)",
                 lineHeight: 1.0,

@@ -9,13 +9,13 @@ const Debouches = () => {
     return (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             <div className="lg:col-span-2">
-                <h2 className="text-3xl font-serif font-bold text-[#1B2A4A] mb-6">Débouchés professionnels</h2>
+                <h2 className="text-3xl font-bold text-[#1B2A4A] mb-6">Débouchés professionnels</h2>
                 <p className="text-gray-700 mb-8 text-lg leading-relaxed">
                     {"Le Master en Relations Internationales ouvre la voie à une grande diversité de carrières dans des secteurs variés, tant au niveau national qu'international. Nos diplômés sont particulièrement recherchés pour leur expertise, leur capacité d'analyse et leur maîtrise des langues étrangères."}
                 </p>
 
                 <div className="mb-12">
-                    <h3 className="text-2xl font-serif font-bold text-[#1B2A4A] mb-6">{"Secteurs d'activité"}</h3>
+                    <h3 className="text-2xl font-bold text-[#1B2A4A] mb-6">{"Secteurs d'activité"}</h3>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         {[
                             {

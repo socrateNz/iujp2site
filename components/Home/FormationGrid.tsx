@@ -71,7 +71,7 @@ const FormationGrid = ({ formationsList }: Props) => {
                 {/* Titre */}
                 <h3
                   className="font-bold text-[#2D2F2B] mb-2 text-base leading-snug uppercase"
-                  style={{ fontFamily: "var(--font-montserrat), Montserrat, sans-serif", letterSpacing: "0.03em" }}
+                  style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif", letterSpacing: "0.03em" }}
                 >
                   {formation.title}
                 </h3>
