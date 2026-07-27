@@ -117,6 +117,8 @@ export interface AdminStats {
   todayVisits: number;
   weekVisits: number;
   monthVisits: number;
+  totalCandidatures?: number;
+  pendingCandidatures?: number;
 }
 
 // Types pour les filtres et pagination

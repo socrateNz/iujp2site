@@ -36,6 +36,8 @@ export async function GET() {
       todayVisits,
       weekVisits,
       monthVisits,
+      totalCandidatures,
+      pendingCandidatures,
     ] = await Promise.all([
       db.collection('users').countDocuments(),
       db.collection('articles').countDocuments(),
@@ -46,6 +48,8 @@ export async function GET() {
       db.collection('pageViews').countDocuments({ createdAt: { $gte: startOfToday } }),
       db.collection('pageViews').countDocuments({ createdAt: { $gte: startOfWeek } }),
       db.collection('pageViews').countDocuments({ createdAt: { $gte: startOfMonth } }),
+      db.collection('candidatures').countDocuments(),
+      db.collection('candidatures').countDocuments({ statut: 'en_attente' }),
     ]);
 
     const stats: AdminStats = {
@@ -59,6 +63,8 @@ export async function GET() {
       todayVisits,
       weekVisits,
       monthVisits,
+      totalCandidatures,
+      pendingCandidatures,
     };
 
     return NextResponse.json({
