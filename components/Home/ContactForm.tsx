@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/select"
 import { useState, useEffect } from 'react'
 import { Service } from '@/lib/types'
+import { Loader2 } from 'lucide-react'
 
 // 1. Schema Zod
 const formSchema = z.object({
@@ -63,6 +64,8 @@ export default function ContactForm() {
       privacy: false,
     },
   })
+
+  const { isSubmitting } = form.formState
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
@@ -207,9 +210,17 @@ export default function ContactForm() {
 
         <button
           type="submit"
-          className="btn-uijp w-full justify-center"
+          disabled={isSubmitting}
+          className="btn-uijp w-full justify-center flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Envoyer le message
+          {isSubmitting ? (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" />
+              <span>Envoi en cours...</span>
+            </>
+          ) : (
+            'Envoyer le message'
+          )}
         </button>
 
         {submitted && <p className="text-green-600 text-sm text-center">Message envoyé avec succès !</p>}
