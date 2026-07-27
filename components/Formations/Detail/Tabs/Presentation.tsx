@@ -24,12 +24,12 @@ const Presentation = ({ formation, ecole }: { formation: Filiere | undefined; ec
     return (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             <div className="lg:col-span-2">
-                <h2 className="text-3xl font-sans font-bold text-[#1B2A4A] mb-6">{"Vue d'ensemble du programme"}</h2>
+                <h2 className="text-3xl font-oswald uppercase tracking-wider font-bold text-[#1B2A4A] mb-6" style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif" }}>{"Vue d'ensemble du programme"}</h2>
 
                 <p className="text-xl mb-8 font-light">{formation?.description}</p>
 
                 <div className="bg-gray-50 p-8 rounded-lg mb-10">
-                    <h3 className="text-2xl font-bold text-[#1B2A4A] mb-6">Objectifs pédagogiques</h3>
+                    <h3 className="text-2xl font-oswald uppercase tracking-wider font-bold text-[#1B2A4A] mb-6" style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif" }}>Objectifs pédagogiques</h3>
                     {/* <ul className="space-y-4">
                         {[
                             "Maîtriser les théories et concepts fondamentaux des relations internationales",
@@ -55,7 +55,7 @@ const Presentation = ({ formation, ecole }: { formation: Filiere | undefined; ec
             <div className="lg:col-span-1">
                 <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-8 sticky top-24">
                     <div className="p-6 bg-[#1B2A4A] text-white">
-                        <h3 className="text-xl font-bold mb-2">Informations clés</h3>
+                        <h3 className="text-xl font-oswald uppercase tracking-wider font-bold mb-2" style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif" }}>Informations clés</h3>
                         <p className="text-gray-200 text-sm">Tout ce que vous devez savoir sur cette formation</p>
                     </div>
                     <div className="p-6 space-y-4">

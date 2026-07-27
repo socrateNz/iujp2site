@@ -82,9 +82,9 @@ const Details = ({ formation, ecole }: Props) => {
 
                     {/* Titre */}
                     <h1
-                        className="text-white font-black uppercase mb-6"
+                        className="text-white font-black uppercase mb-6 font-oswald"
                         style={{
-                            fontFamily: "var(--font-montserrat), Montserrat, sans-serif",
+                            fontFamily: "var(--font-oswald), Oswald, sans-serif",
                             fontSize: "clamp(2rem, 5vw, 3.5rem)",
                             lineHeight: 1.05,
                             letterSpacing: "0.03em",
