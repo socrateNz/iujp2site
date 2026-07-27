@@ -21,8 +21,13 @@ export async function GET() {
 
     const now = new Date();
     const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const startOfWeek = new Date(now);
-    startOfWeek.setDate(now.getDate() - 7);
+
+    // Début de la semaine en cours (Lundi à 00:00:00)
+    const dayOfWeek = now.getDay();
+    const distanceToMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+    const startOfWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() - distanceToMonday);
+
+    // Début du mois en cours (1er du mois à 00:00:00)
     const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 
     // Récupérer les statistiques en parallèle
