@@ -89,11 +89,11 @@ const Header = () => {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`relative px-3 py-2 text-xs font-bold uppercase tracking-widest transition-colors duration-200 ${isActive(link.href)
+                  className={`relative px-3 py-2 text-xs font-oswald font-bold uppercase tracking-widest transition-colors duration-200 ${isActive(link.href)
                     ? "text-[#205C03]"
                     : "text-[#2D2F2B] hover:text-[#205C03]"
                     }`}
-                  style={{ fontFamily: "var(--font-montserrat), Montserrat, sans-serif", letterSpacing: "0.12em" }}
+                  style={{ fontFamily: "var(--font-oswald), Oswald, sans-serif", letterSpacing: "0.12em" }}
                 >
                   {link.name}
                   {isActive(link.href) && (
@@ -117,7 +117,7 @@ const Header = () => {
                 <Download size={14} />
                 Brochure
               </Link>
-              <Link href="/contacts" className="btn-uijp">
+              <Link href="/candidature" className="btn-uijp">
                 Candidature
               </Link>
             </div>
@@ -162,7 +162,7 @@ const Header = () => {
                   <Link href="/catalogue.pdf" target="_blank" className="btn-uijp-outline-dark text-center justify-center">
                     <Download size={14} /> Brochure
                   </Link>
-                  <Link href="/contacts" className="btn-uijp text-center justify-center">
+                  <Link href="/candidature" className="btn-uijp text-center justify-center">
                     Candidature
                   </Link>
                 </div>

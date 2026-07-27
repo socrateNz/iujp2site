@@ -182,3 +182,29 @@ export interface Service {
   createdAt: Date;
   updatedAt: Date;
 }
+
+// Types pour les candidatures
+export interface Candidature {
+  _id?: ObjectId | string;
+  nom: string;
+  prenom: string;
+  sexe: 'M' | 'F' | string;
+  telephone: string;
+  email?: string;
+  region: string;
+  departement?: string;
+  communeQuartier?: string;
+  dernierDiplome: string;
+  anneeObtention: string;
+  etablissementObtention?: string;
+  filiere: string;
+  niveau: string;
+  status: 'new' | 'in_progress' | 'accepted' | 'rejected';
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface CandidatureFilters {
+  status?: 'new' | 'in_progress' | 'accepted' | 'rejected';
+  search?: string;
+}

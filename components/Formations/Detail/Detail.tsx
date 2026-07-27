@@ -98,8 +98,7 @@ const Details = ({ formation, ecole }: Props) => {
                     {/* CTA Buttons */}
                     <div className="flex flex-wrap gap-4">
                         <Link
-                            target='_blank'
-                            href="https://docs.google.com/forms/d/e/1FAIpQLScseIhBG54CVcHykTt43ErddcuebewPz2NLNDTd48EWsUeRag/viewform?usp=header"
+                            href={`/candidature?filiere=${encodeURIComponent(formation?.title || '')}`}
                             className="btn-uijp text-sm"
                         >
                             <Send size={14} />

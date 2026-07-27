@@ -17,6 +17,7 @@ import {
   Zap,
   Download,
   FileSpreadsheet,
+  GraduationCap,
 } from 'lucide-react';
 import Link from 'next/link';
 import { AdminStats } from '@/lib/types';
@@ -386,6 +387,12 @@ export default function AdminDashboard() {
               <button className="btn-eemi flex items-center gap-2 shadow-lg shadow-[#205C03]/30 hover:shadow-[#0B30BB]/40">
                 <Plus className="h-4 w-4" />
                 Nouvel article
+              </button>
+            </Link>
+            <Link href="/admin/candidatures">
+              <button className="btn-eemi flex items-center gap-2 shadow-lg shadow-[#205C03]/30 hover:shadow-[#0B30BB]/40">
+                <GraduationCap className="h-4 w-4" />
+                Candidatures
               </button>
             </Link>
             <Link href="/admin/contacts">

@@ -16,6 +16,7 @@ import {
   ChevronRight,
   Bell,
   Briefcase,
+  GraduationCap,
 } from 'lucide-react';
 import Link from 'next/link';
 import { SessionProvider } from "next-auth/react";
@@ -36,6 +37,7 @@ interface NavigationItem {
 
 const navigation: NavigationItem[] = [
   { name: 'Tableau de bord', href: '/admin', icon: Home, description: 'Vue générale' },
+  { name: 'Candidatures', href: '/admin/candidatures', icon: GraduationCap, description: 'Demandes d\'inscription' },
   { name: 'Utilisateurs', href: '/admin/users', icon: Users, description: 'Gérer les comptes' },
   { name: 'Articles', href: '/admin/articles', icon: FileText, description: 'Actualités & blog' },
   { name: 'Ecoles', href: '/admin/ecoles', icon: School, description: 'Établissements' },
@@ -332,6 +334,7 @@ function SidebarContent({
 function getPageTitle(pathname: string | null): string {
   if (!pathname) return 'Administration';
   if (pathname === '/admin') return 'Tableau de bord';
+  if (pathname.startsWith('/admin/candidatures')) return 'Candidatures';
   if (pathname.startsWith('/admin/users')) return 'Utilisateurs';
   if (pathname.startsWith('/admin/articles')) return 'Articles';
   if (pathname.startsWith('/admin/ecoles')) return 'Écoles';

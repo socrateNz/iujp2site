@@ -111,7 +111,7 @@ const Presentation = ({ formation, ecole }: { formation: Filiere | undefined; ec
                         </div>
                     </div>
                     <div className="p-6 bg-gray-50 space-y-4">
-                        <Link target='_blank' href="https://docs.google.com/forms/d/e/1FAIpQLScseIhBG54CVcHykTt43ErddcuebewPz2NLNDTd48EWsUeRag/viewform?usp=header">
+                        <Link href={`/candidature?filiere=${encodeURIComponent(formation?.title || '')}`}>
                             <Button className="w-full bg-[#34773D] hover:bg-[#34773D]/80 text-white !rounded-button whitespace-nowrap">
                                 Postuler maintenant
                                 <ArrowRight />

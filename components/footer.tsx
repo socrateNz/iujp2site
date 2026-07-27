@@ -229,7 +229,7 @@ const Footer = () => {
 
             {/* CTA Candidature */}
             <div className="mt-6">
-              <Link href="/contacts" className="btn-uijp text-sm w-full justify-center">
+              <Link href="/candidature" className="btn-uijp text-sm w-full justify-center">
                 Candidature
               </Link>
             </div>
