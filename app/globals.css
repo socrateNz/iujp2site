@@ -349,6 +349,16 @@
   line-height: 1.8;
   color: #334155;
   /* slate-700 */
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.article-content a,
+.ProseMirror a {
+  color: #2563eb;
+  text-decoration: underline;
+  overflow-wrap: anywhere;
+  word-break: break-all;
 }
 
 /* Base outline for editor */

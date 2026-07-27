@@ -103,11 +103,11 @@ const DetailNews = ({ article }: Article) => {
             <main className="max-w-7xl mx-auto px-4 md:px-8 py-12 flex flex-col lg:flex-row gap-8">
 
                 {/* Contenu principal */}
-                <div className="w-full lg:w-[68%] flex flex-col gap-6">
+                <div className="w-full lg:w-[68%] min-w-0 flex flex-col gap-6">
 
                     {/* Sommaire */}
                     <div
-                        className="bg-white p-6"
+                        className="bg-white p-6 break-words"
                         style={{
                             borderLeft: "4px solid #7B2FBE",
                             borderBottom: "4px solid #E91E8C",
@@ -122,7 +122,7 @@ const DetailNews = ({ article }: Article) => {
                             Sommaire
                         </h2>
                         <p
-                            className="text-gray-600 leading-relaxed"
+                            className="text-gray-600 leading-relaxed break-words"
                             style={{ fontFamily: "var(--font-inter), Inter, sans-serif" }}
                         >
                             {article.description}
@@ -131,7 +131,7 @@ const DetailNews = ({ article }: Article) => {
 
                     {/* Corps de l'article */}
                     <article
-                        className="bg-white p-8"
+                        className="bg-white p-8 min-w-0 overflow-hidden break-words"
                         style={{
                             borderLeft: "4px solid #E91E8C",
                             borderBottom: "4px solid #7B2FBE",
@@ -146,7 +146,7 @@ const DetailNews = ({ article }: Article) => {
                             Contenu de l'article
                         </h2>
                         <div
-                            className="article-content text-gray-700 leading-relaxed"
+                            className="article-content text-gray-700 leading-relaxed break-words [word-break:break-word]"
                             dangerouslySetInnerHTML={{ __html: processedContent }}
                         />
                     </article>
@@ -157,7 +157,7 @@ const DetailNews = ({ article }: Article) => {
 
                 {/* ── Sidebar contact ── */}
                 <aside
-                    className="hidden lg:flex flex-col gap-5 lg:w-[32%] sticky top-24 h-fit bg-white p-6"
+                    className="hidden lg:flex flex-col gap-5 lg:w-[32%] min-w-0 max-w-full overflow-hidden sticky top-24 h-fit bg-white p-6"
                     style={{
                         borderLeft: "4px solid #7B2FBE",
                         borderBottom: "4px solid #E91E8C",

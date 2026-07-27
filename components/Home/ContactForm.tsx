@@ -97,16 +97,16 @@ export default function ContactForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-full max-w-full">
+        <div className="grid grid-cols-1 gap-4">
           <FormField
             control={form.control}
             name="name"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="w-full">
                 <FormLabel>Nom complet</FormLabel>
                 <FormControl>
-                  <Input placeholder="Votre nom" {...field} />
+                  <Input placeholder="Votre nom" className="w-full" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -117,10 +117,10 @@ export default function ContactForm() {
             control={form.control}
             name="email"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="w-full">
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input type="email" placeholder="votre.email@exemple.com" {...field} />
+                  <Input type="email" placeholder="votre.email@exemple.com" className="w-full" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -128,15 +128,15 @@ export default function ContactForm() {
           />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-4">
           <FormField
             control={form.control}
             name="subject"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="w-full">
                 <FormLabel>Objet</FormLabel>
                 <FormControl>
-                  <Input placeholder="Objet de votre message" {...field} />
+                  <Input placeholder="Objet de votre message" className="w-full" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -147,11 +147,11 @@ export default function ContactForm() {
             control={form.control}
             name="serviceId"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="w-full">
                 <FormLabel>Service destinataire</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
                   <FormControl>
-                    <SelectTrigger>
+                    <SelectTrigger className="w-full">
                       <SelectValue placeholder={loadingServices ? "Chargement..." : "Sélectionner un service"} />
                     </SelectTrigger>
                   </FormControl>

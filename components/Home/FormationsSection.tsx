@@ -91,7 +91,7 @@ const FormationsSection = () => {
               <TabsTrigger
                 value="tous"
                 className="rounded-none border-2 border-[#2D2F2B] text-[#2D2F2B] font-bold text-xs uppercase tracking-widest px-5 py-2.5
-                  data-[state=active]:bg-[#205C03] data-[state=active]:text-black data-[state=active]:border-[#205C03]
+                  data-[state=active]:bg-[#205C03] data-[state=active]:text-white data-[state=active]:border-[#205C03]
                   data-[state=active]:shadow-none hover:border-[#205C03] hover:text-[#205C03] transition-all duration-200"
                 style={{
                   fontFamily: "var(--font-montserrat), Montserrat, sans-serif",
@@ -106,7 +106,7 @@ const FormationsSection = () => {
                     key={examen}
                     value={examen}
                     className="rounded-none border-2 border-[#2D2F2B] text-[#2D2F2B] font-bold text-xs uppercase tracking-widest px-5 py-2.5
-                      data-[state=active]:bg-[#205C03] data-[state=active]:text-black data-[state=active]:border-[#205C03]
+                      data-[state=active]:bg-[#205C03] data-[state=active]:text-white data-[state=active]:border-[#205C03]
                       data-[state=active]:shadow-none hover:border-[#205C03] hover:text-[#205C03] transition-all duration-200"
                     style={{
                       fontFamily: "var(--font-montserrat), Montserrat, sans-serif",
