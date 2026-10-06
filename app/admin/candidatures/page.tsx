@@ -26,6 +26,14 @@ import {
 import { Candidature } from '@/lib/types';
 import { toast } from 'sonner';
 
+// Ordre d'affichage : nouvelles en premier, rejetées en dernier
+const STATUS_ORDER: Record<string, number> = {
+  new: 0,
+  in_progress: 1,
+  accepted: 2,
+  rejected: 3,
+};
+
 export default function AdminCandidatures() {
   const [candidatures, setCandidatures] = useState<Candidature[]>([]);
   const [loading, setLoading] = useState(true);
@@ -154,7 +162,7 @@ export default function AdminCandidatures() {
     const matchesStatus = !filterStatus || c.status === filterStatus;
 
     return matchesSearch && matchesStatus;
-  });
+  }).sort((a, b) => (STATUS_ORDER[a.status] ?? 99) - (STATUS_ORDER[b.status] ?? 99));
 
   const totalPages = Math.ceil(filteredCandidatures.length / itemsPerPage);
   const paginatedCandidatures = filteredCandidatures.slice(
