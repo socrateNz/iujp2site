@@ -54,7 +54,7 @@ export async function GET() {
       db.collection('pageViews').countDocuments({ createdAt: { $gte: startOfWeek } }),
       db.collection('pageViews').countDocuments({ createdAt: { $gte: startOfMonth } }),
       db.collection('candidatures').countDocuments(),
-      db.collection('candidatures').countDocuments({ statut: 'en_attente' }),
+      db.collection('candidatures').countDocuments({ status: 'new' }),
     ]);
 
     const stats: AdminStats = {

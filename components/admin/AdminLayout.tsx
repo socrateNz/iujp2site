@@ -62,6 +62,7 @@ function AdminLayoutContent({ children }: AdminLayoutProps) {
   const [isClient, setIsClient] = useState(false);
   const [loading, setLoading] = useState(true);
   const [contacts, setContacts] = useState<ContactMessage[]>([]);
+  const [newCandidaturesCount, setNewCandidaturesCount] = useState(0);
 
   useEffect(() => {
     setIsClient(true);
@@ -86,11 +87,20 @@ function AdminLayoutContent({ children }: AdminLayoutProps) {
         }
       } catch (error) {
         console.error('Erreur récupération contacts:', error);
-      } finally {
-        setLoading(false);
       }
     };
-    fetchContacts();
+    const fetchNewCandidatures = async () => {
+      try {
+        const response = await fetch('/api/admin/candidatures?status=new');
+        const data = await response.json();
+        if (data.success) {
+          setNewCandidaturesCount((data.data.candidatures || []).length);
+        }
+      } catch (error) {
+        console.error('Erreur récupération candidatures:', error);
+      }
+    };
+    Promise.all([fetchContacts(), fetchNewCandidatures()]).finally(() => setLoading(false));
   }, []);
 
   const isActive = (href: string) => {
@@ -127,6 +137,7 @@ function AdminLayoutContent({ children }: AdminLayoutProps) {
         setSidebarOpen={setSidebarOpen}
         isActive={isActive}
         newMessagesCount={newMessagesCount}
+        newCandidaturesCount={newCandidaturesCount}
         handleSignOut={handleSignOut}
         userInitials={userInitials}
         userName={session.user.name}
@@ -136,6 +147,7 @@ function AdminLayoutContent({ children }: AdminLayoutProps) {
       <DesktopSidebar
         isActive={isActive}
         newMessagesCount={newMessagesCount}
+        newCandidaturesCount={newCandidaturesCount}
         handleSignOut={handleSignOut}
         userInitials={userInitials}
         userName={session.user.name}
@@ -148,6 +160,7 @@ function AdminLayoutContent({ children }: AdminLayoutProps) {
           userName={session.user.name}
           userInitials={userInitials}
           newMessagesCount={newMessagesCount}
+          newCandidaturesCount={newCandidaturesCount}
           handleSignOut={handleSignOut}
           pathname={pathname}
         />
@@ -163,12 +176,13 @@ function AdminLayoutContent({ children }: AdminLayoutProps) {
 
 // ── Mobile Sidebar ────────────────────────────────────────────────────────────
 function MobileSidebar({
-  sidebarOpen, setSidebarOpen, isActive, newMessagesCount, handleSignOut, userInitials, userName
+  sidebarOpen, setSidebarOpen, isActive, newMessagesCount, newCandidaturesCount, handleSignOut, userInitials, userName
 }: {
   sidebarOpen: boolean;
   setSidebarOpen: (open: boolean) => void;
   isActive: (href: string) => boolean;
   newMessagesCount: number;
+  newCandidaturesCount: number;
   handleSignOut: () => void;
   userInitials: string;
   userName: string;
@@ -184,6 +198,7 @@ function MobileSidebar({
         <SidebarContent
           isActive={isActive}
           newMessagesCount={newMessagesCount}
+          newCandidaturesCount={newCandidaturesCount}
           handleSignOut={handleSignOut}
           userInitials={userInitials}
           userName={userName}
@@ -196,10 +211,11 @@ function MobileSidebar({
 
 // ── Desktop Sidebar ───────────────────────────────────────────────────────────
 function DesktopSidebar({
-  isActive, newMessagesCount, handleSignOut, userInitials, userName
+  isActive, newMessagesCount, newCandidaturesCount, handleSignOut, userInitials, userName
 }: {
   isActive: (href: string) => boolean;
   newMessagesCount: number;
+  newCandidaturesCount: number;
   handleSignOut: () => void;
   userInitials: string;
   userName: string;
@@ -210,6 +226,7 @@ function DesktopSidebar({
         <SidebarContent
           isActive={isActive}
           newMessagesCount={newMessagesCount}
+          newCandidaturesCount={newCandidaturesCount}
           handleSignOut={handleSignOut}
           userInitials={userInitials}
           userName={userName}
@@ -221,10 +238,11 @@ function DesktopSidebar({
 
 // ── Shared Sidebar Content ────────────────────────────────────────────────────
 function SidebarContent({
-  isActive, newMessagesCount, handleSignOut, userInitials, userName, onClose
+  isActive, newMessagesCount, newCandidaturesCount, handleSignOut, userInitials, userName, onClose
 }: {
   isActive: (href: string) => boolean;
   newMessagesCount: number;
+  newCandidaturesCount: number;
   handleSignOut: () => void;
   userInitials: string;
   userName: string;
@@ -283,6 +301,11 @@ function SidebarContent({
                   {item.name === 'Messages' && newMessagesCount > 0 && (
                     <span className="flex h-5 min-w-5 items-center justify-center rounded-[2px] bg-red-500 text-[10px] text-white font-bold px-1 shadow-sm">
                       {newMessagesCount}
+                    </span>
+                  )}
+                  {item.name === 'Candidatures' && newCandidaturesCount > 0 && (
+                    <span className="flex h-5 min-w-5 items-center justify-center rounded-[2px] bg-red-500 text-[10px] text-white font-bold px-1 shadow-sm">
+                      {newCandidaturesCount}
                     </span>
                   )}
                   {!active && <ChevronRight className="h-3.5 w-3.5 text-slate-600 group-hover:text-slate-400 transition-colors" />}
@@ -346,12 +369,13 @@ function getPageTitle(pathname: string | null): string {
 }
 
 function TopBar({
-  setSidebarOpen, userName, userInitials, newMessagesCount, handleSignOut, pathname
+  setSidebarOpen, userName, userInitials, newMessagesCount, newCandidaturesCount, handleSignOut, pathname
 }: {
   setSidebarOpen: (open: boolean) => void;
   userName: string;
   userInitials: string;
   newMessagesCount: number;
+  newCandidaturesCount: number;
   handleSignOut: () => void;
   pathname: string | null;
 }) {
@@ -374,6 +398,18 @@ function TopBar({
         </div>
 
         <div className="flex items-center gap-3">
+          {/* Nouvelles candidatures */}
+          <Link href="/admin/candidatures" title="Nouvelles candidatures">
+            <div className="relative rounded-xl p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-colors cursor-pointer">
+              <GraduationCap className="h-5 w-5" />
+              {newCandidaturesCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[9px] font-bold text-white border-2 border-white">
+                  {newCandidaturesCount > 9 ? '9+' : newCandidaturesCount}
+                </span>
+              )}
+            </div>
+          </Link>
+
           {/* Notifications */}
           <Link href="/admin/contacts">
             <div className="relative rounded-xl p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-colors cursor-pointer">

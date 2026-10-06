@@ -545,6 +545,11 @@ export default function AdminDashboard() {
               <button className="btn-eemi flex items-center gap-2 shadow-lg shadow-[#205C03]/30 hover:shadow-[#0B30BB]/40">
                 <GraduationCap className="h-4 w-4" />
                 Candidatures
+                {(stats?.pendingCandidatures ?? 0) > 0 && (
+                  <span className="ml-1 flex h-5 w-5 items-center justify-center rounded-[2px] bg-red-500 text-[10px] font-bold">
+                    {stats?.pendingCandidatures}
+                  </span>
+                )}
               </button>
             </Link>
             <Link href="/admin/contacts">
